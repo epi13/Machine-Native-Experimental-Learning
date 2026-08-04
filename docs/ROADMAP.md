@@ -8,6 +8,9 @@
 - independent hard-gate evaluator;
 - causal attribution and VED proposals;
 - provider-neutral integration records;
+- diagnostic-only learned micro-provider declaration registry;
+- deterministic compatibility matching and diversity selection;
+- learned-provider schema, architecture catalog, CLI inspection, and negative tests;
 - schema, reference study, tests, CI, and documentation.
 
 ## 0.2 — local investigator harness
@@ -27,15 +30,24 @@
 - counterfactual and mutation probe support;
 - independent-probe comparison;
 - verifier health and coverage records;
-- skeptic-driven omitted-question discovery.
+- skeptic-driven omitted-question discovery;
+- identity-bound graph, trace, transition, tabular, pair, and composite diagnostic
+  snapshots suitable for both deterministic probes and learned micro-providers;
+- learned observations normalized as diagnostic events without verifier status.
 
-## 0.4 — verified distillation studies
+## 0.4 — verified distillation and learned-provider studies
 
 - semantic clustering without source deletion;
 - attribution and transfer workflows;
 - success- and negative-memory ablations;
 - shuffled-attribution and aggregate-only controls;
 - strategy retrieval and calibration metrics;
+- train and calibrate the initial heterogeneous learned-provider portfolio;
+- compare every learned provider against deterministic and classical baselines;
+- random, heuristic, single-provider, and diversity-routed controls;
+- correlated-error, disagreement, abstention, and out-of-distribution studies;
+- useful confirmed probes per operation, latency, memory, energy, and cold-start metrics;
+- hidden-transfer admission, quarantine, retirement, and rollback workflows;
 - optional small proposer-model distillation from verified traces.
 
 ## 0.5 — MNCS Fabric execution
@@ -45,7 +57,8 @@
 - capability-aware dispatch;
 - replicated and sharded trial matrices;
 - node-loss, stale-result, duplicate, and replay handling;
-- deterministic reconciliation and scaling measurements.
+- deterministic reconciliation and scaling measurements;
+- heterogeneous learned-provider placement by snapshot locality and node capability.
 
 ## 0.6 — RAVEL integration study
 
@@ -54,7 +67,8 @@
 - retention, transition, planning, resource, and rollback gates;
 - lineage-aware delayed credit;
 - hidden transfer provider;
-- equal-budget investigator and recursion controls.
+- equal-budget investigator and recursion controls;
+- learned-provider disagreement and utility as candidate-generation context only.
 
 ## Later assurance
 

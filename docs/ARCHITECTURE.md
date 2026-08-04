@@ -15,6 +15,10 @@ investigator portfolio
   investigator / skeptic / replicator / synthesizer / auditor
           |
           v
+learned micro-provider registry
+  discrepancy / anomaly / similarity / disagreement
+          |
+          v
 preregistered hypotheses, predictions, interventions, and budgets
           |
           v
@@ -47,11 +51,27 @@ Local models inspect only records eligible for their role and visibility. They m
 propose hypotheses, probes, interventions, principles, or strategies. Their output is
 untrusted and never becomes a verdict merely because it is coherent.
 
+### Learned diagnostic plane
+
+The learned micro-provider registry exposes small, heterogeneous models through typed,
+identity-bearing declarations. Providers locate surprise, disagreement, similarity,
+likely omitted questions, and candidate regions worth probing. Deterministic matching
+filters providers by uncertainty class, artifact and snapshot compatibility, output
+kind, cost, and declared limitations before any future runtime executes them.
+
+Learned-provider observations are development context with `diagnostic-only` authority.
+They have no `PASS`, `FAIL`, or evaluator-eligibility semantics. Agreement among learned
+providers remains agreement among proposals; disagreement is preserved as a potentially
+useful diagnostic event. An investigator or skeptic must translate an observation into
+a falsifiable hypothesis, and Forge must answer bounded claims through its normal
+verifier boundary.
+
 ### Probe plane
 
 Forge supplies small, identity-bearing questions and witnesses. The stable interface is
 the bounded question, inputs, outputs, resource budget, and verifier identity—not a
-specific analyzer brand.
+specific analyzer brand. Learned-provider output may prioritize probes but cannot
+replace their witnesses or verdicts.
 
 ### Execution plane
 
@@ -62,12 +82,15 @@ not semantic acceptance.
 ### Evaluation plane
 
 An immutable evaluator derives every hard gate. Failed gates cannot be compensated by a
-weighted aggregate. Missing or incomparable evidence remains `UNKNOWN`.
+weighted aggregate. Missing or incomparable evidence remains `UNKNOWN`. Learned models
+are not evaluator providers in this architecture.
 
 ### Experience plane
 
 The append-only ledger retains successful, erroneous, neutral, abstaining, rejected,
 and inconclusive experience. Records are content-identified and chained in order.
+Learned observations retain declaration, weight, feature, query, snapshot, calibration,
+and limitation identities before they are eligible for later study.
 
 ### Distillation plane
 
@@ -79,6 +102,8 @@ deletes the underlying episodes.
 
 The recursion governor checks evaluator, threshold, partition, resource-policy,
 visibility, budget, lineage, stopping, and rollback invariants. It is not an optimizer.
+A learned router may eventually rank already-compatible providers, but it cannot expand
+capability, authority, disclosure, partition access, or cost ceilings.
 
 ## Concurrency
 
@@ -87,6 +112,8 @@ Parallel workers must never mutate a shared active candidate in place. Each job 
 - parent candidate digest;
 - eligible experience snapshot digest;
 - investigator and model/runtime identity;
+- learned-provider declaration, weights, feature extractor, calibration, and snapshot
+  identities when used;
 - probe, executor, evaluator, and governor identities;
 - preregistered predictions and hard gates;
 - operation and wall-time budget; and
@@ -97,7 +124,12 @@ children remain available as negative memory.
 
 ## Model independence
 
-MNEL is designed so Gemma, Qwen, a multimodal 4M worker, or another model can act as an
-investigator without becoming the durable knowledge store. Persistent learning resides
-in identified episodes, attributions, principles, strategies, and RAVEL candidate
-lineage.
+MNEL is designed so Gemma, Qwen, a multimodal worker, a JEPA-derived predictor, a graph
+network, a state-space model, a classical learned baseline, or another model can perform
+its declared role without becoming the durable knowledge store. Persistent learning
+resides in identified episodes, observations, attributions, principles, strategies, and
+RAVEL candidate lineage.
+
+See [Learned micro-provider registry](LEARNED_MICRO_PROVIDERS.md) for the initial
+architecture portfolio, matching contract, training admission requirements, and current
+implementation boundary.

@@ -12,6 +12,12 @@ from pathlib import Path
 from . import __version__
 from .core import EvidenceLedger, run_reference_study
 from .investigators import DEFAULT_ROLE_CONTRACTS
+from .learned_providers import (
+    DEFAULT_LEARNED_PROVIDER_REGISTRY,
+    CostClass,
+    LearnedProviderQuery,
+    OutputKind,
+)
 
 
 def parser() -> argparse.ArgumentParser:
@@ -22,6 +28,29 @@ def parser() -> argparse.ArgumentParser:
     doctor.add_argument("--workspace", default=".")
     investigator = commands.add_parser("investigator")
     investigator.add_subparsers(dest="subcommand", required=True).add_parser("list")
+
+    learned_provider = commands.add_parser(
+        "learned-provider", description="Inspect diagnostic-only learned micro-provider declarations"
+    )
+    learned_commands = learned_provider.add_subparsers(dest="subcommand", required=True)
+    learned_commands.add_parser("list")
+    learned_describe = learned_commands.add_parser("describe")
+    learned_describe.add_argument("provider_id")
+    learned_match = learned_commands.add_parser("match")
+    learned_match.add_argument("--uncertainty", action="append", required=True)
+    learned_match.add_argument("--artifact", action="append", default=[])
+    learned_match.add_argument("--snapshot", action="append", default=[])
+    learned_match.add_argument(
+        "--output-kind", action="append", default=[], choices=[item.value for item in OutputKind]
+    )
+    learned_match.add_argument("--prefer-family", action="append", default=[])
+    learned_match.add_argument("--exclude", action="append", default=[])
+    learned_match.add_argument(
+        "--max-cost", choices=[item.value for item in CostClass], default=CostClass.HIGH.value
+    )
+    learned_match.add_argument("--limit", type=int, default=10)
+    learned_match.add_argument("--diverse", action="store_true")
+
     ledger = commands.add_parser("ledger")
     ledger_commands = ledger.add_subparsers(dest="subcommand", required=True)
     for name in ("verify", "summarize"):
@@ -47,6 +76,36 @@ def main(argv: list[str] | None = None) -> int:
         return 0 if result["python_supported"] else 1
     if args.command == "investigator":
         print(json.dumps([item.to_dict() for item in DEFAULT_ROLE_CONTRACTS], indent=2))
+        return 0
+    if args.command == "learned-provider":
+        if args.subcommand == "list":
+            payload = [item.to_dict() for item in DEFAULT_LEARNED_PROVIDER_REGISTRY.list()]
+        elif args.subcommand == "describe":
+            try:
+                payload = DEFAULT_LEARNED_PROVIDER_REGISTRY.describe(args.provider_id).to_dict()
+            except KeyError as error:
+                print(json.dumps({"error": str(error)}, indent=2), file=sys.stderr)
+                return 2
+        else:
+            if args.limit < 1:
+                print(json.dumps({"error": "--limit must be positive"}, indent=2), file=sys.stderr)
+                return 2
+            query = LearnedProviderQuery(
+                uncertainty_classes=tuple(args.uncertainty),
+                artifact_types=tuple(args.artifact),
+                available_snapshot_types=tuple(args.snapshot),
+                required_output_kinds=tuple(OutputKind(value) for value in args.output_kind),
+                preferred_architecture_families=tuple(args.prefer_family),
+                excluded_provider_ids=tuple(args.exclude),
+                max_cost=CostClass(args.max_cost),
+            )
+            matches = (
+                DEFAULT_LEARNED_PROVIDER_REGISTRY.select_diverse(query, args.limit)
+                if args.diverse
+                else DEFAULT_LEARNED_PROVIDER_REGISTRY.match(query)[: args.limit]
+            )
+            payload = [item.to_dict() for item in matches]
+        print(json.dumps(payload, indent=2, sort_keys=True))
         return 0
     if args.command == "ledger":
         ledger = EvidenceLedger(args.path)

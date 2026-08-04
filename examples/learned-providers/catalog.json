@@ -1,0 +1,86 @@
+[
+  {
+    "provider_id": "anomaly.deep-svdd",
+    "architecture_family": "deep-svdd",
+    "objective_family": "one-class-anomaly",
+    "why": "Compact out-of-distribution detection when verified failures are sparse.",
+    "primary_limitation": "Normal-data contamination and weak localization can distort scores."
+  },
+  {
+    "provider_id": "anomaly.denoising-autoencoder",
+    "architecture_family": "denoising-autoencoder",
+    "objective_family": "reconstruction",
+    "why": "Cross-view reconstruction residuals can expose missing evidence and observability loss.",
+    "primary_limitation": "Reconstruction quality is not semantic correctness."
+  },
+  {
+    "provider_id": "graph.message-passing-gnn",
+    "architecture_family": "message-passing-gnn",
+    "objective_family": "supervised-graph-prediction",
+    "why": "Typed relation propagation suits ownership, dependency, reachability, and contract questions.",
+    "primary_limitation": "Bounded neighborhoods can miss long paths."
+  },
+  {
+    "provider_id": "interaction.tiny-transformer",
+    "architecture_family": "tiny-transformer",
+    "objective_family": "masked-and-supervised-interaction",
+    "why": "Bounded attention captures sparse nonlocal interactions among heterogeneous evidence items.",
+    "primary_limitation": "It is the highest-cost initial expert and can overfit limited data."
+  },
+  {
+    "provider_id": "latent.graph-jepa",
+    "architecture_family": "graph-jepa",
+    "objective_family": "latent-prediction",
+    "why": "Masked subgraph prediction can reveal missing structural relationships without reconstructing source tokens.",
+    "primary_limitation": "Graph extraction and feature identity may dominate cost."
+  },
+  {
+    "provider_id": "latent.transition-jepa",
+    "architecture_family": "transition-jepa",
+    "objective_family": "latent-prediction",
+    "why": "Directly models the MNEL parent-plus-intervention-to-result transition.",
+    "primary_limitation": "It can learn unseen failure patterns as normal."
+  },
+  {
+    "provider_id": "pair.contrastive-siamese",
+    "architecture_family": "contrastive-siamese",
+    "objective_family": "metric-learning",
+    "why": "Shared encoders naturally compare candidate/reference, before/after, and mutation pairs.",
+    "primary_limitation": "Similarity is not an equivalence proof."
+  },
+  {
+    "provider_id": "sequence.dilated-temporal-conv",
+    "architecture_family": "dilated-temporal-convolution",
+    "objective_family": "sequence-prediction",
+    "why": "Fast CPU inference and multi-scale receptive fields suit trace motifs and metric windows.",
+    "primary_limitation": "Fixed receptive fields can miss sparse long-range effects."
+  },
+  {
+    "provider_id": "sequence.reservoir-computer",
+    "architecture_family": "reservoir-computing",
+    "objective_family": "fixed-dynamics-sequence-learning",
+    "why": "Only the readout is trained, providing an inexpensive temporal control for local hardware.",
+    "primary_limitation": "Reservoir hyperparameters are brittle and adaptation is limited."
+  },
+  {
+    "provider_id": "sequence.selective-state-space",
+    "architecture_family": "selective-state-space",
+    "objective_family": "sequence-prediction",
+    "why": "Selective recurrent state can retain relevant information across long ordered traces with bounded memory.",
+    "primary_limitation": "Internal state is difficult to attribute."
+  },
+  {
+    "provider_id": "state.hidden-markov-model",
+    "architecture_family": "hidden-markov-model",
+    "objective_family": "probabilistic-state-modeling",
+    "why": "Explicit transition probabilities suit skipped phases, stale states, and protocol drift.",
+    "primary_limitation": "Markov assumptions and state-count choices are restrictive."
+  },
+  {
+    "provider_id": "tabular.gradient-boosted-trees",
+    "architecture_family": "gradient-boosted-trees",
+    "objective_family": "supervised-tabular",
+    "why": "A strong interpretable small-data baseline prevents neural architectures from receiving automatic credit.",
+    "primary_limitation": "It cannot directly consume raw graphs or long sequences."
+  }
+]

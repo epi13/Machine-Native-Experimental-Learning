@@ -11,6 +11,9 @@ MNEL does not treat model output as knowledge or authority.
 investigators propose
         |
         v
+learned micro-providers locate surprise and omitted-question candidates
+        |
+        v
 Forge-compatible probes interrogate bounded claims
         |
         v
@@ -36,25 +39,27 @@ conventional neural-weight training.
 
 > **Current status:** functional `0.1.0a0` foundation. The repository implements the
 > core local lifecycle, deterministic evidence ledger, hard-gate evaluator, recursion
-> governor, investigator contracts, distillation proposal checks, reference adapters,
-> command-line interface, schemas, tests, and CI. It does not yet provide unattended
-> model execution, distributed scheduling, protected final custody, formal MNCS/MNCDS
-> conformance, or automatic RAVEL promotion.
+> governor, investigator contracts, a diagnostic-only learned micro-provider registry,
+> distillation proposal checks, reference adapters, command-line interface, schemas,
+> tests, and CI. It does not yet train or execute learned micro-providers, provide
+> unattended model execution, distributed scheduling, protected final custody, formal
+> MNCS/MNCDS conformance, or automatic RAVEL promotion.
 
 ## Core rule
 
-**Investigators may propose knowledge. They may not declare it true.**
+**Investigators and learned providers may propose knowledge. They may not declare it true.**
 
 The model or agent that creates a hypothesis must not also become the authority that
 accepts the resulting lesson. Evaluator identity, hard gates, partitions, resource
-ceilings, custody, and promotion remain outside the investigator surface.
+ceilings, custody, and promotion remain outside the investigator and learned-provider
+surfaces.
 
 ## Relationship to the project family
 
 | Project | MNEL role |
 |---|---|
 | `epi13-local-harness` | Routes work across local models and exposes bounded tools to investigator roles |
-| MNCS Forge | Supplies provider-neutral micro-verifiers, diagnostic probes, and counterfactual witnesses |
+| MNCS Forge | Supplies provider-neutral micro-verifiers, diagnostic probes, snapshots, and counterfactual witnesses |
 | MNCS Fabric | Executes and reconciles content-addressed experiments across machines |
 | RAVEL | Supplies the adaptive mechanism and consumes governed experience or candidate proposals |
 | MNCDS | Records candidate generation, evidence eligibility, feedback boundaries, and lineage |
@@ -76,7 +81,10 @@ copy their authority or silently create substitute implementations.
 - Verified Experience Distillation (VED) principle and strategy proposals;
 - transfer gating, source lineage, falsifiers, counterexamples, and negative memory;
 - provider-neutral adapters for the local harness, Forge, MNCS Fabric, and RAVEL;
-- deterministic reference workflow, JSON schema, mutation-oriented tests, and CI.
+- typed learned micro-provider declarations and diagnostic observations;
+- deterministic capability matching, cost filtering, and diversity-aware selection;
+- an initial 12-family architecture catalog with declared advantages and limitations;
+- deterministic reference workflow, JSON schemas, mutation-oriented tests, and CI.
 
 ## Install
 
@@ -97,6 +105,32 @@ Inspect the environment and built-in role contracts:
 mnel doctor
 mnel investigator list
 ```
+
+Inspect the learned micro-provider catalog:
+
+```bash
+mnel learned-provider list
+mnel learned-provider describe latent.transition-jepa
+mnel learned-provider match \
+  --uncertainty unexpected-transition \
+  --artifact candidate-transition \
+  --snapshot transition-feature-snapshot \
+  --max-cost low
+```
+
+Request a heterogeneous panel rather than the highest-scoring correlated providers:
+
+```bash
+mnel learned-provider match \
+  --uncertainty temporal-anomaly \
+  --uncertainty unexpected-transition \
+  --uncertainty metric-inconsistency \
+  --diverse \
+  --limit 4
+```
+
+These commands inspect declarations and matching only. They do not download, train, or
+execute any model.
 
 Run the deterministic reference lifecycle:
 
@@ -133,6 +167,20 @@ not establish causal understanding, transfer, conformance, independence, or prom
 Each material record binds its source identities, visibility, experiment identity,
 parent or candidate identity where applicable, and the authority that produced it.
 
+## Learned micro-providers
+
+The registry starts with transition and graph JEPA variants, a message-passing GNN,
+selective state-space and temporal convolution sequence models, a contrastive Siamese
+encoder, Deep SVDD, a denoising autoencoder, a tiny transformer, gradient-boosted trees,
+a hidden Markov model, and reservoir computing.
+
+The portfolio is intentionally heterogeneous. Each architecture has a declared input
+view, purpose, objective, cost, size range, strengths, and limitations. Learned outputs
+remain `diagnostic-only`, carry `verdict_semantics: not-a-verdict`, and can only help an
+investigator decide which bounded Forge question to ask next.
+
+See [Learned micro-provider registry](docs/LEARNED_MICRO_PROVIDERS.md).
+
 ## Investigator roles
 
 - **Investigator** — proposes falsifiable hypotheses and bounded interventions.
@@ -168,12 +216,13 @@ state, and failure modes.
 ## Repository map
 
 ```text
-src/mnel/                 executable standard-library foundation
-schemas/                  machine-readable record vocabulary
-docs/                     architecture, method, boundaries, and roadmap
-examples/reference-study/ deterministic lifecycle example
-tests/                    lifecycle, integrity, and negative tests
-.github/workflows/        continuous verification
+src/mnel/                          executable standard-library foundation
+schemas/                           machine-readable record vocabulary
+docs/                              architecture, method, boundaries, and roadmap
+examples/reference-study/          deterministic lifecycle example
+examples/learned-providers/        initial architecture catalog summary
+tests/                             lifecycle, integrity, registry, and negative tests
+.github/workflows/                 continuous verification
 ```
 
 ## Run the checks
@@ -181,6 +230,7 @@ tests/                    lifecycle, integrity, and negative tests
 ```bash
 python -m compileall -q src tests
 python -m unittest discover -s tests -v
+python -m mnel learned-provider list
 python -m mnel demo --workspace build/demo
 python -m mnel ledger verify build/demo/evidence.jsonl
 ```
@@ -192,9 +242,11 @@ operating-system sandbox. Untrusted experiment execution belongs in a hardened r
 with network restrictions, resource controls, immutable verifiers, and disposable
 workspaces.
 
-A local MNEL result can describe a bounded experiment lifecycle. It cannot by itself
-establish independent evaluation, protected custody, real-world safety, general
-recursive self-improvement, formal MNCS/MNCDS status, certification, or promotion.
+A local MNEL result or learned-provider observation can describe bounded development
+context. It cannot by itself establish independent evaluation, protected custody,
+real-world safety, general recursive self-improvement, formal MNCS/MNCDS status,
+certification, or promotion.
 
 See [Architecture](docs/ARCHITECTURE.md), [Learning model](docs/LEARNING_MODEL.md),
+[Learned micro-providers](docs/LEARNED_MICRO_PROVIDERS.md),
 [Threat model](docs/THREAT_MODEL.md), and [Roadmap](docs/ROADMAP.md).
