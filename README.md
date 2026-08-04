@@ -40,10 +40,9 @@ conventional neural-weight training.
 > **Current status:** functional `0.1.0a0` foundation. The repository implements the
 > core local lifecycle, deterministic evidence ledger, hard-gate evaluator, recursion
 > governor, investigator contracts, a diagnostic-only learned micro-provider registry,
-> distillation proposal checks, reference adapters, command-line interface, schemas,
-> tests, and CI. It does not yet train or execute learned micro-providers, provide
-> unattended model execution, distributed scheduling, protected final custody, formal
-> MNCS/MNCDS conformance, or automatic RAVEL promotion.
+> and a testable Rust-first provider runtime contract. It does not yet train or execute
+> learned micro-providers, provide unattended model execution, distributed scheduling,
+> protected final custody, formal MNCS/MNCDS conformance, or automatic RAVEL promotion.
 
 ## Core rule
 
@@ -84,6 +83,9 @@ copy their authority or silently create substitute implementations.
 - typed learned micro-provider declarations and diagnostic observations;
 - deterministic capability matching, cost filtering, and diversity-aware selection;
 - an initial 12-family architecture catalog with declared advantages and limitations;
+- accepted Rust-first runtime architecture decision and versioned C ABI;
+- safe Rust provider SDK, host admission policy, reusable snapshot cache, and runtime
+  manifest validation;
 - deterministic reference workflow, JSON schemas, mutation-oriented tests, and CI.
 
 ## Install
@@ -94,8 +96,9 @@ source .venv/bin/activate
 python -m pip install -e .
 ```
 
-MNEL currently requires Python 3.11 or newer and has no runtime dependencies outside
-the standard library.
+MNEL currently requires Python 3.11 or newer and has no Python runtime dependencies
+outside the standard library. Building the provider runtime contracts additionally
+requires Rust 1.79 or newer.
 
 ## Quick start
 
@@ -181,6 +184,23 @@ investigator decide which bounded Forge question to ask next.
 
 See [Learned micro-provider registry](docs/LEARNED_MICRO_PROVIDERS.md).
 
+## Provider runtime implementation policy
+
+Rust is the reference and default production language for the persistent provider host,
+provider SDK, dispatch, budget enforcement, snapshot reuse, and CPU-first provider
+implementations. Python remains the training, calibration, experimentation, export, and
+high-level orchestration language.
+
+The stable cross-language boundary is `mnel-provider-c-abi/1`. Native-trusted providers
+must be Rust unless an identified benchmark and threat review justify a specialized
+non-Rust implementation. WASM is reserved as a quarantine and portability tier.
+Admitted providers are persistent, weight-resident, and consume identity-bound compact
+binary snapshot views; process startup and JSON parsing are not part of the normal hot
+path.
+
+See [ADR 0001](docs/decisions/0001-rust-provider-runtime.md) and the
+[learned-provider runtime contract](docs/LEARNED_PROVIDER_RUNTIME.md).
+
 ## Investigator roles
 
 - **Investigator** — proposes falsifiable hypotheses and bounded interventions.
@@ -216,13 +236,17 @@ state, and failure modes.
 ## Repository map
 
 ```text
-src/mnel/                          executable standard-library foundation
+src/mnel/                          Python control plane and executable foundation
+crates/mnel-provider-api/          versioned provider ABI vocabulary
+crates/mnel-provider-sdk/          safe Rust provider authoring surface
+crates/mnel-provider-host/         admission policy and reusable snapshot storage
+include/                           language-neutral provider ABI header
 schemas/                           machine-readable record vocabulary
-docs/                              architecture, method, boundaries, and roadmap
+docs/                              architecture, decisions, method, boundaries, roadmap
 examples/reference-study/          deterministic lifecycle example
-examples/learned-providers/        initial architecture catalog summary
-tests/                             lifecycle, integrity, registry, and negative tests
-.github/workflows/                 continuous verification
+examples/learned-providers/        architecture catalog and runtime manifest example
+tests/                             lifecycle, integrity, registry, runtime, negative tests
+.github/workflows/                 Python and Rust continuous verification
 ```
 
 ## Run the checks
@@ -233,6 +257,9 @@ python -m unittest discover -s tests -v
 python -m mnel learned-provider list
 python -m mnel demo --workspace build/demo
 python -m mnel ledger verify build/demo/evidence.jsonl
+cargo fmt --all --check
+cargo clippy --workspace --all-targets -- -D warnings
+cargo test --workspace
 ```
 
 ## Safety and claim boundary
@@ -242,6 +269,9 @@ operating-system sandbox. Untrusted experiment execution belongs in a hardened r
 with network restrictions, resource controls, immutable verifiers, and disposable
 workspaces.
 
+The provider runtime crates establish contracts and admission policy; they do not yet
+implement a hardened dynamic loader or operating-system sandbox.
+
 A local MNEL result or learned-provider observation can describe bounded development
 context. It cannot by itself establish independent evaluation, protected custody,
 real-world safety, general recursive self-improvement, formal MNCS/MNCDS status,
@@ -249,4 +279,5 @@ certification, or promotion.
 
 See [Architecture](docs/ARCHITECTURE.md), [Learning model](docs/LEARNING_MODEL.md),
 [Learned micro-providers](docs/LEARNED_MICRO_PROVIDERS.md),
+[learned-provider runtime](docs/LEARNED_PROVIDER_RUNTIME.md),
 [Threat model](docs/THREAT_MODEL.md), and [Roadmap](docs/ROADMAP.md).

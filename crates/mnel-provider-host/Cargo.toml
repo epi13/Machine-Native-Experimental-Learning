@@ -1,0 +1,14 @@
+[package]
+name = "mnel-provider-host"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Persistent policy host for MNEL learned micro-providers"
+
+[dependencies]
+mnel-provider-api = { path = "../mnel-provider-api" }
+
+[lints]
+workspace = true

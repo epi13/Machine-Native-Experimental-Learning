@@ -1,0 +1,17 @@
+{
+  "schema": "mnel-learned-provider-runtime-manifest/0.1",
+  "provider_id": "state.hidden-markov-model",
+  "provider_version": "0.1.0",
+  "declaration_identity": "sha256:bind-to-canonical-declaration-before-admission",
+  "artifact_identity": "sha256:bind-to-built-provider-artifact-before-admission",
+  "runtime": {
+    "implementation_language": "rust",
+    "execution_tier": "native-trusted",
+    "abi": "mnel-provider-c-abi/1",
+    "persistent_host": true,
+    "snapshot_transport": "identity-bound-compact-binary",
+    "weight_residency": "resident-on-admission"
+  },
+  "authority": "diagnostic-only",
+  "verdict_semantics": "not-a-verdict"
+}

@@ -1,0 +1,27 @@
+[workspace]
+members = [
+  "crates/mnel-provider-api",
+  "crates/mnel-provider-sdk",
+  "crates/mnel-provider-host",
+]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0-alpha.0"
+edition = "2021"
+rust-version = "1.79"
+license = "Apache-2.0"
+repository = "https://github.com/epi13/Machine-Native-Experimental-Learning"
+
+[workspace.lints.rust]
+unsafe_code = "deny"
+
+[workspace.lints.clippy]
+expect_used = "deny"
+unwrap_used = "deny"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = "symbols"
+panic = "abort"
