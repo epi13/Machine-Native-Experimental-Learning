@@ -1,0 +1,9 @@
+{
+  "experiment_id": "reference-routing-probe-001",
+  "question": "Does transition-aware routing improve exact target recovery without regression?",
+  "visibility": "development-visible",
+  "claim_boundary": "deterministic process fixture only",
+  "expected_evaluation": "PASS",
+  "expected_principle_maturity": "provisional",
+  "promotion_authorized": false
+}

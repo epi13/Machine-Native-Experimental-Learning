@@ -1,0 +1,167 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mnel.example/schemas/mnel-records.schema.json",
+  "title": "Machine-Native Experimental Learning records",
+  "$defs": {
+    "visibility": {
+      "enum": [
+        "development-visible",
+        "selection-observed-not-repairable",
+        "transfer-hidden",
+        "future-final-inaccessible"
+      ]
+    },
+    "verdict": {"enum": ["PASS", "FAIL", "UNKNOWN"]},
+    "outcome": {"enum": ["success", "error", "neutral", "abstention"]},
+    "transferStatus": {"enum": ["untested", "failed", "partial", "supported"]},
+    "hypothesis": {
+      "type": "object",
+      "required": [
+        "hypothesis_id",
+        "statement",
+        "supporting_episode_ids",
+        "competing_hypothesis_ids",
+        "falsifier",
+        "created_before_intervention"
+      ],
+      "properties": {
+        "hypothesis_id": {"type": "string", "minLength": 1},
+        "statement": {"type": "string", "minLength": 1},
+        "supporting_episode_ids": {"type": "array", "items": {"type": "string"}},
+        "competing_hypothesis_ids": {"type": "array", "items": {"type": "string"}},
+        "falsifier": {"type": "string", "minLength": 1},
+        "created_before_intervention": {"const": true}
+      },
+      "additionalProperties": false
+    },
+    "episode": {
+      "type": "object",
+      "required": [
+        "observation_id",
+        "experiment_id",
+        "outcome_class",
+        "metrics",
+        "operation_count",
+        "wall_seconds",
+        "provider_identity"
+      ],
+      "properties": {
+        "observation_id": {"type": "string", "minLength": 1},
+        "experiment_id": {"type": "string", "minLength": 1},
+        "outcome_class": {"$ref": "#/$defs/outcome"},
+        "metrics": {"type": "object"},
+        "operation_count": {"type": "integer", "minimum": 0},
+        "wall_seconds": {"type": "number", "minimum": 0},
+        "provider_identity": {"type": "string", "minLength": 1},
+        "artifact_identities": {"type": "object", "additionalProperties": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "attribution": {
+      "type": "object",
+      "required": [
+        "attribution_id",
+        "experiment_id",
+        "intervention_id",
+        "evaluation_id",
+        "disposition",
+        "credit_classes",
+        "supporting_observation_ids",
+        "viable_alternatives",
+        "source_record_ids"
+      ],
+      "properties": {
+        "attribution_id": {"type": "string"},
+        "experiment_id": {"type": "string"},
+        "intervention_id": {"type": "string"},
+        "evaluation_id": {"type": "string"},
+        "disposition": {
+          "enum": ["supported", "supported-with-alternatives", "challenged", "rejected", "inconclusive"]
+        },
+        "credit_classes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "enum": ["immediate", "enabling", "delayed-descendant", "transfer", "retention", "negative-downstream"]
+          }
+        },
+        "supporting_observation_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "viable_alternatives": {"type": "array", "items": {"type": "string"}},
+        "source_record_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "principle": {
+      "type": "object",
+      "required": [
+        "principle_id",
+        "statement",
+        "scope",
+        "supporting_attribution_ids",
+        "source_record_ids",
+        "counterexample_episode_ids",
+        "falsifier",
+        "transfer_status",
+        "maturity"
+      ],
+      "properties": {
+        "principle_id": {"type": "string", "minLength": 1},
+        "statement": {"type": "string", "minLength": 1},
+        "scope": {"type": "object", "minProperties": 1},
+        "supporting_attribution_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "source_record_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "counterexample_episode_ids": {"type": "array", "items": {"type": "string"}},
+        "falsifier": {"type": "string", "minLength": 1},
+        "transfer_status": {"$ref": "#/$defs/transferStatus"},
+        "maturity": {"enum": ["provisional", "supported", "challenged", "rejected", "retired"]}
+      },
+      "additionalProperties": false
+    },
+    "negativeMemory": {
+      "type": "object",
+      "required": [
+        "memory_id",
+        "memory_type",
+        "statement",
+        "source_record_ids",
+        "prohibited_contexts",
+        "reconsideration_condition"
+      ],
+      "properties": {
+        "memory_id": {"type": "string", "minLength": 1},
+        "memory_type": {
+          "enum": ["failed-intervention", "rejected-hypothesis", "regression", "counterexample", "prohibited-reuse"]
+        },
+        "statement": {"type": "string", "minLength": 1},
+        "source_record_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "prohibited_contexts": {"type": "array", "items": {"type": "string"}},
+        "reconsideration_condition": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "ledgerRecord": {
+      "type": "object",
+      "required": [
+        "schema",
+        "sequence",
+        "timestamp",
+        "record_type",
+        "actor",
+        "previous_digest",
+        "payload",
+        "record_digest"
+      ],
+      "properties": {
+        "schema": {"const": "mnel-ledger-record/0.1"},
+        "sequence": {"type": "integer", "minimum": 1},
+        "timestamp": {"type": "string"},
+        "record_type": {"type": "string", "minLength": 1},
+        "actor": {"type": "string", "minLength": 1},
+        "previous_digest": {"type": "string", "minLength": 1},
+        "payload": {"type": "object"},
+        "record_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+      },
+      "additionalProperties": false
+    }
+  }
+}
