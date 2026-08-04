@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/epi13/Machine-Native-Experimental-Learning/schemas/learned-provider-runtime-manifest.schema.json",
+  "title": "MNEL learned-provider runtime manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "provider_id",
+    "provider_version",
+    "declaration_identity",
+    "artifact_identity",
+    "runtime",
+    "authority",
+    "verdict_semantics"
+  ],
+  "properties": {
+    "schema": {"const": "mnel-learned-provider-runtime-manifest/0.1"},
+    "provider_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:[.-][a-z0-9]+)*$"
+    },
+    "provider_version": {"type": "string", "minLength": 1},
+    "declaration_identity": {"type": "string", "minLength": 1},
+    "artifact_identity": {"type": "string", "minLength": 1},
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "implementation_language",
+        "execution_tier",
+        "abi",
+        "persistent_host",
+        "snapshot_transport",
+        "weight_residency"
+      ],
+      "properties": {
+        "implementation_language": {
+          "enum": ["rust", "c", "cpp", "zig", "wasm", "python", "other"]
+        },
+        "execution_tier": {
+          "enum": ["native-trusted", "wasm-quarantined", "external-experimental"]
+        },
+        "abi": {"const": "mnel-provider-c-abi/1"},
+        "persistent_host": {"const": true},
+        "snapshot_transport": {"const": "identity-bound-compact-binary"},
+        "weight_residency": {"const": "resident-on-admission"}
+      }
+    },
+    "language_exception": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rationale", "benchmark_evidence_ids", "threat_review_id"],
+      "properties": {
+        "rationale": {"type": "string", "minLength": 1},
+        "benchmark_evidence_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "threat_review_id": {"type": "string", "minLength": 1}
+      }
+    },
+    "authority": {"const": "diagnostic-only"},
+    "verdict_semantics": {"const": "not-a-verdict"}
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "runtime": {
+            "properties": {
+              "execution_tier": {"const": "native-trusted"},
+              "implementation_language": {"not": {"const": "rust"}}
+            },
+            "required": ["execution_tier", "implementation_language"]
+          }
+        }
+      },
+      "then": {"required": ["language_exception"]}
+    },
+    {
+      "if": {
+        "properties": {
+          "runtime": {
+            "properties": {"execution_tier": {"const": "wasm-quarantined"}},
+            "required": ["execution_tier"]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "runtime": {
+            "properties": {"implementation_language": {"const": "wasm"}}
+          }
+        }
+      }
+    }
+  ]
+}
