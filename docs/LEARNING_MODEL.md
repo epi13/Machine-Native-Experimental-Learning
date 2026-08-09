@@ -67,3 +67,19 @@ A credible MNEL study should include:
 - hidden transfer evaluation.
 
 A better final candidate alone does not prove the learning process caused the gain.
+
+## Executable 0.4 foundation
+
+The current deterministic study path preserves raw development episodes and builds
+identity-bound feature groups, attribution-linked provisional strategies, and explicit
+negative memory. Retrieval keeps episodic, causal, semantic, procedural, and negative
+records as separate classes; a negative-memory conflict can demote a strategy without
+deleting its positive lineage. Transfer predictions are frozen before hidden evaluation,
+and hidden results cannot repair the same candidate.
+
+`mnel distill-reference` exercises A0, A4, and A5 declarations plus aggregate-only,
+shuffled-attribution, random, success-memory, negative-memory, fixed-policy,
+equal-budget, and hidden-transfer controls. It computes retrieval and calibration
+measurements and trains a tiny transition-frequency diagnostic provider that serializes
+and reloads deterministically. These are measurements from a bounded synthetic fixture,
+not evidence of general learning improvement or evaluator authority.

@@ -163,6 +163,15 @@ the same identified payload can be reused by a deterministic micro-verifier and 
 learned provider without reparsing ad hoc JSON. Composite snapshots reference component
 identities rather than duplicating their payloads.
 
+The 0.4 reference study also demonstrates the control-plane side of a small learned
+provider in `mnel.reference_provider`: a transition-frequency artifact is trained only
+from a development access view, binds its dataset/record/feature/training/calibration
+identities, serializes with an artifact digest, reloads deterministically, and emits a
+bounded observation with abstention/OOD flags. This is an `external-experimental`
+diagnostic provider. It is not a verifier and is not exported through ABI v1; native
+export remains a later task once the artifact contract has a measured compatible runtime
+boundary.
+
 ## Native-language exceptions
 
 A non-Rust provider may enter `native-trusted` only when its manifest includes:

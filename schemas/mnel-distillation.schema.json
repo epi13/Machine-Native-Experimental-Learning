@@ -1,0 +1,345 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/epi13/Machine-Native-Experimental-Learning/schemas/mnel-distillation.schema.json",
+  "title": "MNEL evidence-preserving distillation and study records",
+  "$defs": {
+    "nonEmpty": {"type": "string", "minLength": 1},
+    "identity": {"type": "string", "minLength": 1},
+    "object": {"type": "object"},
+    "sourceIds": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/identity"}},
+    "diagnosticAuthority": {"const": "diagnostic-only"},
+    "proposalAuthority": {"const": "proposal-only"},
+    "sourceRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "record_type", "record_identity", "payload", "visibility", "epoch", "authority", "semantics"],
+      "properties": {
+        "schema": {"const": "mnel-study-source-record/0.4"},
+        "record_type": {"$ref": "#/$defs/nonEmpty"},
+        "record_identity": {"$ref": "#/$defs/identity"},
+        "payload": {"type": "object"},
+        "visibility": {"enum": ["development-visible", "selection-observed-not-repairable", "transfer-hidden", "future-final-inaccessible"]},
+        "epoch": {"type": "integer", "minimum": 0},
+        "authority": {"const": "evidence-record"},
+        "semantics": {"const": "source-evidence; not-a-verdict"}
+      }
+    },
+    "group": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "source_record_ids", "feature_extractor_identity", "clustering_method_identity", "parameters", "representative_record_ids", "scope", "creation_epoch", "limitations", "group_identity", "authority", "semantics"],
+      "properties": {
+        "schema": {"const": "mnel-semantic-group/0.4"},
+        "source_record_ids": {"$ref": "#/$defs/sourceIds"},
+        "feature_extractor_identity": {"$ref": "#/$defs/identity"},
+        "clustering_method_identity": {"$ref": "#/$defs/identity"},
+        "parameters": {"type": "object"},
+        "representative_record_ids": {"$ref": "#/$defs/sourceIds"},
+        "scope": {"type": "object"},
+        "creation_epoch": {"type": "integer", "minimum": 0},
+        "limitations": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/nonEmpty"}},
+        "group_identity": {"$ref": "#/$defs/identity"},
+        "authority": {"$ref": "#/$defs/diagnosticAuthority"},
+        "semantics": {"const": "source-preserving-retrieval-group; not-a-verdict"}
+      }
+    },
+    "principle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "statement", "scope", "attribution_ids", "source_record_ids", "counterexample_record_ids", "falsifier", "transfer_status", "maturity", "limitations", "principle_identity", "authority", "semantics"],
+      "properties": {
+        "schema": {"const": "mnel-distilled-principle/0.4"},
+        "statement": {"$ref": "#/$defs/nonEmpty"},
+        "scope": {"type": "object"},
+        "attribution_ids": {"$ref": "#/$defs/sourceIds"},
+        "source_record_ids": {"$ref": "#/$defs/sourceIds"},
+        "counterexample_record_ids": {"type": "array", "items": {"$ref": "#/$defs/identity"}},
+        "falsifier": {"$ref": "#/$defs/nonEmpty"},
+        "transfer_status": {"enum": ["untested", "failed", "partial", "supported"]},
+        "maturity": {"$ref": "#/$defs/nonEmpty"},
+        "limitations": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/nonEmpty"}},
+        "principle_identity": {"$ref": "#/$defs/identity"},
+        "authority": {"$ref": "#/$defs/proposalAuthority"},
+        "semantics": {"const": "provisional-distillation; not-a-verdict"}
+      }
+    },
+    "negativeMemory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "memory_type", "statement", "source_record_ids", "prohibited_contexts", "reconsideration_condition", "scope", "outcome_identity", "memory_identity", "authority", "semantics"],
+      "properties": {
+        "schema": {"const": "mnel-negative-memory/0.4"},
+        "memory_type": {"$ref": "#/$defs/nonEmpty"},
+        "statement": {"$ref": "#/$defs/nonEmpty"},
+        "source_record_ids": {"$ref": "#/$defs/sourceIds"},
+        "prohibited_contexts": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/nonEmpty"}},
+        "reconsideration_condition": {"$ref": "#/$defs/nonEmpty"},
+        "scope": {"type": "object"},
+        "outcome_identity": {"$ref": "#/$defs/identity"},
+        "memory_identity": {"$ref": "#/$defs/identity"},
+        "authority": {"$ref": "#/$defs/diagnosticAuthority"},
+        "semantics": {"const": "negative-evidence; not-a-verdict"}
+      }
+    },
+    "strategy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "trigger_conditions", "preconditions", "expected_effect", "known_failure_modes", "negative_memory_ids", "counterexample_record_ids", "causal_attribution_ids", "supporting_source_record_ids", "transfer_evidence_ids", "scope", "calibration_metadata", "rollback_lineage", "transfer_status", "strategy_identity", "authority", "semantics"],
+      "properties": {
+        "schema": {"const": "mnel-distilled-strategy/0.4"},
+        "trigger_conditions": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/nonEmpty"}},
+        "preconditions": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/nonEmpty"}},
+        "expected_effect": {"type": "object"},
+        "known_failure_modes": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/nonEmpty"}},
+        "negative_memory_ids": {"type": "array", "items": {"$ref": "#/$defs/identity"}},
+        "counterexample_record_ids": {"type": "array", "items": {"$ref": "#/$defs/identity"}},
+        "causal_attribution_ids": {"$ref": "#/$defs/sourceIds"},
+        "supporting_source_record_ids": {"$ref": "#/$defs/sourceIds"},
+        "transfer_evidence_ids": {"type": "array", "items": {"$ref": "#/$defs/identity"}},
+        "scope": {"type": "object"},
+        "calibration_metadata": {"type": "object"},
+        "rollback_lineage": {"type": "array", "items": {"$ref": "#/$defs/identity"}},
+        "transfer_status": {"enum": ["untested", "failed", "partial", "supported"]},
+        "strategy_identity": {"$ref": "#/$defs/identity"},
+        "authority": {"$ref": "#/$defs/proposalAuthority"},
+        "semantics": {"const": "reusable-proposal; not-a-verdict"}
+      }
+    },
+    "transferPrediction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "strategy_identity", "source_development_identities", "transfer_environment_identity", "predicted_effect", "prediction_identity", "authority", "semantics"],
+      "properties": {
+        "schema": {"const": "mnel-transfer-prediction/0.4"},
+        "strategy_identity": {"$ref": "#/$defs/identity"},
+        "source_development_identities": {"$ref": "#/$defs/sourceIds"},
+        "transfer_environment_identity": {"$ref": "#/$defs/identity"},
+        "predicted_effect": {"type": "object"},
+        "prediction_identity": {"$ref": "#/$defs/identity"},
+        "authority": {"$ref": "#/$defs/proposalAuthority"},
+        "semantics": {"const": "frozen-before-transfer-observation; not-a-verdict"}
+      }
+    },
+    "transferEvaluation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "prediction_identity", "observed_outcome_identity", "evaluator_evidence_identity", "status", "rollback_lineage", "evaluation_identity", "authority", "semantics"],
+      "properties": {
+        "schema": {"const": "mnel-transfer-evaluation/0.4"},
+        "prediction_identity": {"$ref": "#/$defs/identity"},
+        "observed_outcome_identity": {"$ref": "#/$defs/identity"},
+        "evaluator_evidence_identity": {"$ref": "#/$defs/identity"},
+        "status": {"enum": ["untested", "failed", "partial", "supported"]},
+        "rollback_lineage": {"type": "array", "items": {"$ref": "#/$defs/identity"}},
+        "evaluation_identity": {"$ref": "#/$defs/identity"},
+        "authority": {"$ref": "#/$defs/diagnosticAuthority"},
+        "semantics": {"const": "transfer-evidence; not-a-verdict"}
+      }
+    },
+    "studySpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "study_id", "development_dataset_identity", "hidden_transfer_dataset_identity", "arms", "ablations", "equal_budget", "study_identity", "authority", "semantics"],
+      "properties": {
+        "schema": {"const": "mnel-distillation-study-spec/0.4"},
+        "study_id": {"$ref": "#/$defs/nonEmpty"},
+        "development_dataset_identity": {"$ref": "#/$defs/identity"},
+        "hidden_transfer_dataset_identity": {"$ref": "#/$defs/identity"},
+        "arms": {"type": "array", "minItems": 1, "items": {"type": "object"}},
+        "ablations": {"type": "array", "items": {"type": "object"}},
+        "equal_budget": {"type": "object"},
+        "study_identity": {"$ref": "#/$defs/identity"},
+        "authority": {"$ref": "#/$defs/proposalAuthority"},
+        "semantics": {"const": "study-specification; not-a-verdict"}
+      }
+    },
+    "studyArm": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "arm_id", "kind", "allowed_information", "forbidden_information", "retrieval_mode", "memory_availability", "attribution_available", "strategy_available", "recursion_allowance", "budget", "authority", "semantics", "arm_identity"],
+      "properties": {
+        "schema": {"const": "mnel-study-arm/0.4"},
+        "arm_id": {"$ref": "#/$defs/nonEmpty"},
+        "kind": {"enum": ["A0-random-bounded", "A1-aggregate-only", "A2-complete-episodes", "A3-competing-hypotheses-probes", "A4-attribution-principles", "A5-transfer-gated", "A6-bounded-policy-recursion"]},
+        "allowed_information": {"type": "array", "items": {"$ref": "#/$defs/nonEmpty"}},
+        "forbidden_information": {"type": "array", "items": {"$ref": "#/$defs/nonEmpty"}},
+        "retrieval_mode": {"$ref": "#/$defs/nonEmpty"},
+        "memory_availability": {"type": "array", "items": {"$ref": "#/$defs/nonEmpty"}},
+        "attribution_available": {"type": "boolean"},
+        "strategy_available": {"type": "boolean"},
+        "recursion_allowance": {"type": "integer", "minimum": 0},
+        "budget": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 1}},
+        "authority": {"$ref": "#/$defs/proposalAuthority"},
+        "semantics": {"const": "study-arm-contract; not-a-verdict"},
+        "arm_identity": {"$ref": "#/$defs/identity"}
+      }
+    },
+    "ablation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "ablation_id", "kind", "source_arm_identity", "seed", "parameters", "authority", "semantics", "ablation_identity"],
+      "properties": {
+        "schema": {"const": "mnel-ablation-spec/0.4"},
+        "ablation_id": {"$ref": "#/$defs/nonEmpty"},
+        "kind": {"enum": ["aggregate-only", "shuffled-attribution", "random-proposal", "success-memory-ablation", "negative-memory-ablation", "fixed-policy", "equal-budget", "hidden-transfer"]},
+        "source_arm_identity": {"$ref": "#/$defs/identity"},
+        "seed": {"type": "integer", "minimum": 0},
+        "parameters": {"type": "object"},
+        "authority": {"$ref": "#/$defs/proposalAuthority"},
+        "semantics": {"const": "controlled-study-transformation; not-a-verdict"},
+        "ablation_identity": {"$ref": "#/$defs/identity"}
+      }
+    },
+    "retrievalResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "query_identity", "hits", "negative_conflict_ids", "method_identity", "authority", "semantics", "result_identity"],
+      "properties": {
+        "schema": {"const": "mnel-retrieval-result/0.4"},
+        "query_identity": {"$ref": "#/$defs/identity"},
+        "hits": {"type": "array", "items": {"type": "object"}},
+        "negative_conflict_ids": {"type": "array", "items": {"$ref": "#/$defs/identity"}},
+        "method_identity": {"$ref": "#/$defs/identity"},
+        "authority": {"$ref": "#/$defs/diagnosticAuthority"},
+        "semantics": {"const": "heuristic-retrieval; not-a-verdict"},
+        "result_identity": {"$ref": "#/$defs/identity"}
+      }
+    },
+    "retrievalMetrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "query_identity", "k", "relevant_count", "precision_at_k", "recall_at_k", "hit_rate", "reciprocal_rank", "duplicate_retrieval_rate", "evidence_reuse_depth", "source_diversity", "positive_negative_balance", "transfer_supported_strategy_rate", "unsupported_strategy_rate", "authority", "semantics", "metric_identity"],
+      "properties": {
+        "schema": {"const": "mnel-retrieval-metrics/0.4"},
+        "query_identity": {"$ref": "#/$defs/identity"},
+        "k": {"type": "integer", "minimum": 0},
+        "relevant_count": {"type": "integer", "minimum": 0},
+        "precision_at_k": {"type": "number"},
+        "recall_at_k": {"type": "number"},
+        "hit_rate": {"type": "number"},
+        "reciprocal_rank": {"type": "number"},
+        "duplicate_retrieval_rate": {"type": "number"},
+        "evidence_reuse_depth": {"type": "integer", "minimum": 0},
+        "source_diversity": {"type": "integer", "minimum": 0},
+        "positive_negative_balance": {"type": "number"},
+        "transfer_supported_strategy_rate": {"type": "number"},
+        "unsupported_strategy_rate": {"type": "number"},
+        "authority": {"$ref": "#/$defs/diagnosticAuthority"},
+        "semantics": {"const": "retrieval-measurement; not-a-verdict"},
+        "metric_identity": {"$ref": "#/$defs/identity"}
+      }
+    },
+    "calibrationMetrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "dataset_identity", "model_identity", "calibration_method_identity", "count", "brier_score", "log_loss", "expected_calibration_error", "coverage", "abstention_rate", "out_of_distribution_rate", "authority", "semantics", "metric_identity"],
+      "properties": {
+        "schema": {"const": "mnel-calibration-metrics/0.4"},
+        "dataset_identity": {"$ref": "#/$defs/identity"},
+        "model_identity": {"$ref": "#/$defs/identity"},
+        "calibration_method_identity": {"$ref": "#/$defs/identity"},
+        "count": {"type": "integer", "minimum": 1},
+        "brier_score": {"type": "number"},
+        "log_loss": {"type": "number"},
+        "expected_calibration_error": {"type": "number"},
+        "coverage": {"type": "number"},
+        "abstention_rate": {"type": "number"},
+        "out_of_distribution_rate": {"type": "number"},
+        "authority": {"$ref": "#/$defs/diagnosticAuthority"},
+        "semantics": {"const": "calibration-measurement; not-a-verdict"},
+        "metric_identity": {"$ref": "#/$defs/identity"}
+      }
+    },
+    "providerObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "record_type", "provider_id", "model_identity", "snapshot_identity", "score", "abstained", "out_of_distribution", "calibration_identity", "authority", "semantics", "observation_identity"],
+      "properties": {
+        "schema": {"const": "mnel-learned-provider-observation/0.4"},
+        "record_type": {"const": "learned-provider-observation"},
+        "provider_id": {"$ref": "#/$defs/nonEmpty"},
+        "model_identity": {"$ref": "#/$defs/identity"},
+        "snapshot_identity": {"$ref": "#/$defs/identity"},
+        "score": {"type": "number", "minimum": 0, "maximum": 1},
+        "abstained": {"type": "boolean"},
+        "out_of_distribution": {"type": "boolean"},
+        "calibration_identity": {"$ref": "#/$defs/identity"},
+        "authority": {"$ref": "#/$defs/diagnosticAuthority"},
+        "semantics": {"const": "learned-diagnostic-observation; not-a-verdict"},
+        "observation_identity": {"$ref": "#/$defs/identity"}
+      }
+    },
+    "providerArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "provider_id", "training_dataset_identity", "training_record_ids", "feature_extractor_identity", "training_code_identity", "calibration_identity", "transition_counts", "total_count", "model_identity", "authority", "semantics"],
+      "properties": {
+        "schema": {"const": "mnel-learned-provider-artifact/0.4"},
+        "provider_id": {"$ref": "#/$defs/nonEmpty"},
+        "training_dataset_identity": {"$ref": "#/$defs/identity"},
+        "training_record_ids": {"$ref": "#/$defs/sourceIds"},
+        "feature_extractor_identity": {"$ref": "#/$defs/identity"},
+        "training_code_identity": {"$ref": "#/$defs/identity"},
+        "calibration_identity": {"$ref": "#/$defs/identity"},
+        "transition_counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 1}},
+        "total_count": {"type": "integer", "minimum": 1},
+        "model_identity": {"$ref": "#/$defs/identity"},
+        "authority": {"$ref": "#/$defs/diagnosticAuthority"},
+        "semantics": {"const": "learned-provider-artifact; diagnostic-only; not-a-verdict"}
+      }
+    },
+    "studyReport": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "study_identity", "study_specification_identity", "development_dataset_identity", "hidden_transfer_dataset_identity", "group_count", "candidate_count", "retrieval_metrics", "calibration_metrics", "transfer_status", "transfer_prediction_frozen_before_evaluation", "negative_memory_conflicts", "negative_memory_demoted_strategy", "negative_memory_ablation_strategy_score", "shuffled_attribution_control_identity", "arm_identities", "ablation_identities", "source_record_count", "authority_violation_attempts", "limitations", "authority", "semantics"],
+      "properties": {
+        "schema": {"const": "mnel-distillation-study-report/0.4"},
+        "study_identity": {"$ref": "#/$defs/identity"},
+        "study_specification_identity": {"$ref": "#/$defs/identity"},
+        "development_dataset_identity": {"$ref": "#/$defs/identity"},
+        "hidden_transfer_dataset_identity": {"$ref": "#/$defs/identity"},
+        "group_count": {"type": "integer", "minimum": 0},
+        "candidate_count": {"type": "integer", "minimum": 0},
+        "retrieval_metrics": {"type": "object"},
+        "calibration_metrics": {"type": "object"},
+        "transfer_status": {"enum": ["untested", "failed", "partial", "supported"]},
+        "transfer_prediction_frozen_before_evaluation": {"const": true},
+        "negative_memory_conflicts": {"type": "array", "items": {"$ref": "#/$defs/identity"}},
+        "negative_memory_demoted_strategy": {"type": "boolean"},
+        "negative_memory_ablation_strategy_score": {"type": ["number", "null"]},
+        "shuffled_attribution_control_identity": {"$ref": "#/$defs/identity"},
+        "arm_identities": {"$ref": "#/$defs/sourceIds"},
+        "ablation_identities": {"$ref": "#/$defs/sourceIds"},
+        "learned_provider_model_identity": {"$ref": "#/$defs/identity"},
+        "learned_provider_artifact_identity": {"$ref": "#/$defs/identity"},
+        "learned_provider_model_size_bytes": {"type": "integer", "minimum": 1},
+        "learned_provider_reload_reproduced": {"type": "boolean"},
+        "provider_baseline_comparison": {"type": "object"},
+        "ledger": {"type": "object"},
+        "source_record_count": {"type": "integer", "minimum": 0},
+        "authority_violation_attempts": {"type": "integer", "minimum": 0},
+        "limitations": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/nonEmpty"}},
+        "authority": {"$ref": "#/$defs/diagnosticAuthority"},
+        "semantics": {"const": "measurement-report; not-a-verdict"}
+      }
+    }
+  },
+  "oneOf": [
+    {"$ref": "#/$defs/sourceRecord"},
+    {"$ref": "#/$defs/group"},
+    {"$ref": "#/$defs/principle"},
+    {"$ref": "#/$defs/negativeMemory"},
+    {"$ref": "#/$defs/strategy"},
+    {"$ref": "#/$defs/transferPrediction"},
+    {"$ref": "#/$defs/transferEvaluation"},
+    {"$ref": "#/$defs/studySpec"},
+    {"$ref": "#/$defs/providerArtifact"},
+    {"$ref": "#/$defs/studyArm"},
+    {"$ref": "#/$defs/ablation"},
+    {"$ref": "#/$defs/retrievalResult"},
+    {"$ref": "#/$defs/retrievalMetrics"},
+    {"$ref": "#/$defs/calibrationMetrics"},
+    {"$ref": "#/$defs/providerObservation"},
+    {"$ref": "#/$defs/studyReport"}
+  ]
+}

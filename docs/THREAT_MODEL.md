@@ -71,6 +71,16 @@ callbacks and in-place authoritative snapshot mutation are not accepted. Learned
 provider observations and verifier witnesses remain distinct diagnostic records, and
 neither can authorize conformance or promotion.
 
+The 0.4 study layer adds an explicit visibility gate: development access rejects hidden
+transfer and future-final records, clustering/training/retrieval operate on an eligible
+view, and transfer prediction is frozen before a separate transfer-evaluator view can
+read the held-out result. Same-candidate repair from that result is rejected. Shuffled
+attribution and memory ablations create new study identities while preserving their
+source records. Deterministic feature grouping is bounded and explicitly labeled as a
+heuristic limitation, so it cannot masquerade as semantic understanding. Distillation,
+retrieval, calibration, and learned-provider observations remain proposal or diagnostic
+records; none includes evaluator verdict authority.
+
 ### Apparent independence
 
 Multiple local machines run the same operator-controlled stack. This is replication,
