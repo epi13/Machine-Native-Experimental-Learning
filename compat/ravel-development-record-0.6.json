@@ -1,0 +1,7 @@
+{
+  "schema": "ravel-development-record/0.6-preregistration",
+  "candidate": {"candidate_id": "ravel-0.6-candidate-001", "parent_identity": "sha256:ravel-parent-fixture"},
+  "authority": {"promotion_authorized": false},
+  "formal_status": {"selection": "UNKNOWN", "promotion": "UNKNOWN"},
+  "limitations": ["pinned MNEL compatibility fixture"]
+}

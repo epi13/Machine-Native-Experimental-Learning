@@ -1,0 +1,14 @@
+{
+  "schema": "mnel-family-compatibility/0.1",
+  "snapshot_version": "2026-08-08",
+  "projects": [
+    {"repository": "mncs-forge-mcp", "commit": "7710ea606bd592e0be95957c96132e8732fbb955", "public_contract": {"version": "Provider Protocol 0.1", "types": ["capabilities", "analysis_request", "analysis_response"]}},
+    {"repository": "mncs-fabric", "commit": "fd6a1e1fe617b77402a3d40c278776dd8f159fb0", "public_contract": {"version": "mncs-fabric public service 0.1", "types": ["FabricService", "job-plan", "execution-record", "reconcile"]}},
+    {"repository": "machine-native-complexity-standard", "commit": "1f0a1f903379d740eeeb59fe8689aed398bfb47c", "public_contract": {"version": "execution receipt 0.1-experimental", "types": ["mncs-execution-receipt", "claim_boundary"]}},
+    {"repository": "MNCS-Commons", "commit": "5afff351efd3563febb7b3149d7de711d3342a44", "public_contract": {"version": "commons.mncs.dev/v0alpha1", "types": ["Observation", "Replication", "Advisory", "commons-bundle/v0alpha1"]}},
+    {"repository": "mncs-language", "commit": "26cd7f015cb857abe3f0601780de096e04dea7b4", "public_contract": {"version": "semantic identity boundary", "types": ["opaque semantic identity", "HIR identity"]}},
+    {"repository": "RAVEL", "commit": "4b7c3c5503ec6bd11a7ffb96cbb32599cd1f342c", "public_contract": {"version": "ravel-development-record/0.6-preregistration", "types": ["candidate", "development record"], "promotion_authorized": false}}
+  ],
+  "authority": "diagnostic-only",
+  "limitations": ["Pinned shapes are compatibility evidence, not live conformance claims."]
+}

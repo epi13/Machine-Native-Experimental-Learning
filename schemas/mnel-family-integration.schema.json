@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mnel.dev/schemas/mnel-family-integration.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "study_identity", "identity_binding", "compatibility", "forge", "fabric", "availability", "authority", "semantics"],
+  "properties": {
+    "schema": {"const": "mnel-family-integration-report/0.1"},
+    "study_identity": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "identity_binding": {"type": "object"},
+    "compatibility": {"type": "object"},
+    "forge": {"type": "object"},
+    "fabric": {"type": "object"},
+    "commons": {},
+    "ravel": {},
+    "language": {"type": "object"},
+    "availability": {"type": "object"},
+    "limitations": {"type": "array", "items": {"type": "string"}},
+    "authority": {"const": "diagnostic-only"},
+    "semantics": {"const": "family integration evidence; not-a-verdict"},
+    "report_identity": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "ledger": {"type": "object"}
+  }
+}

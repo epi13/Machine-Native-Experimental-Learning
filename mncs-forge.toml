@@ -1,0 +1,81 @@
+version = 1
+environment_allowlist = ["PATH", "LANG", "LC_ALL"]
+
+[project]
+name = "MNEL family integration"
+identity = "mnel-family-integration-v1"
+root = "."
+
+[paths]
+candidates = ["src"]
+generated = ["build"]
+contracts = ["docs"]
+references = ["docs"]
+evaluators = ["tests"]
+acceptance_policies = ["README.md"]
+development_evidence = ["build"]
+protected = []
+outputs = ["build"]
+
+[limits]
+timeout_seconds = 30
+output_bytes = 131072
+
+[verifier_limits]
+max_batch = 4
+request_bytes = 65536
+batch_timeout_seconds = 30
+witness_bytes = 16384
+stderr_bytes = 4096
+result_bytes = 131072
+max_changed_paths = 32
+max_dependency_identities = 32
+max_question_parameters = 16
+
+[authority.development]
+may_write_candidates = true
+may_write_generated = true
+may_run_providers = true
+
+[authority.evaluator]
+candidate_read_only = true
+authority_read_only = true
+require_frozen_identities = true
+withhold_repair_feedback = true
+
+[policies]
+selection = "README.md"
+useful_benefit_objective = "README.md"
+
+[[providers]]
+id = "mnel-family-provider"
+name = "MNEL family diagnostic provider"
+identity = "mnel-family-provider-protocol-v1"
+version = "0.1"
+command = ["python", "-m", "mnel.forge_provider"]
+transport = "stdio-jsonl"
+required = false
+capabilities = ["evidence_derivation", "mncs_bundle_validation", "provider_study_summary"]
+supported_constructs = ["identified-study-summary", "provider-artifact-binding", "execution-receipt-binding"]
+unsupported_constructs = ["hidden-transfer-content", "future-final-content", "evaluator-verdict", "ravel-promotion"]
+limitations = ["diagnostic-only provider; no external evaluator authority"]
+
+[[workflows]]
+name = "mnel-family-compatibility"
+category = "mncs_bundle_validation"
+mode = "development"
+command = ["python", "-m", "mnel.forge_provider"]
+provider_protocol = true
+provider_id = "mnel-family-provider"
+subject = "project"
+disclosure = "compact"
+
+[[workflows]]
+name = "mnel-provider-study-summary"
+category = "evidence_derivation"
+mode = "development"
+command = ["python", "-m", "mnel.forge_provider"]
+provider_protocol = true
+provider_id = "mnel-family-provider"
+subject = "candidate"
+disclosure = "compact"

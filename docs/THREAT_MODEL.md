@@ -96,6 +96,17 @@ native export remains outside this iteration rather than weakening the ABI bound
 Multiple local machines run the same operator-controlled stack. This is replication,
 not independent evaluation or protected custody.
 
+### MNCS-family boundaries
+
+The family integration layer pins public sibling shapes and fails closed on unsupported
+protocol drift. A sibling checkout, CLI, or binary is not trusted merely because it is
+available: live commit identity is reported, provider identity and artifact identities are
+bound, and external records remain opaque observations. Fabric duplicate/replay behavior is
+preserved rather than converted into success. Receipt `claim_boundary` fields remain
+unasserted. Commons records are inert and unpublished; RAVEL material is proposal context
+only. Forge configuration and local sibling checkouts remain operator-controlled inputs and
+must be reviewed for substitution or drift.
+
 ## Current residual risks
 
 The foundation now validates and loads identified native provider libraries through a
