@@ -27,6 +27,16 @@ subject identities, expected witness type, resource budget, mutation prohibition
 provider identity. Large prose scans should be decomposed into bounded witnesses where
 possible.
 
+MNEL now includes a small local reference surface in `mnel.forge_lifecycle`. It is used
+for deterministic tests and the `mnel forge-reference` command: it provides explicit
+verifier declarations, bounded snapshot views, preconditions, witnesses, registered
+mutations, independent comparison, health, and coverage. It is an adapter/test surface,
+not a substitute Forge implementation and does not claim MNCS/MNCDS conformance.
+
+The external `mncs-forge-mcp` checkout is optional. The MNEL adapter contract is
+identity-bound and provider-neutral; no developer-local Forge path is a runtime
+dependency, and no hidden network or model service is invoked by the reference study.
+
 ## MNCS Fabric
 
 Fabric distributes identified experiment bundles, captures node capabilities, and

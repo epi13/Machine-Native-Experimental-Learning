@@ -37,13 +37,15 @@ experience, negative memory, causal attribution, transfer-gated principles, reus
 strategies, and append-only candidate lineage rather than relying exclusively on
 conventional neural-weight training.
 
-> **Current status:** functional `0.2.0a0` iteration. The repository now includes a
+> **Current status:** functional `0.3.0a0` iteration. The repository now includes a
 > backend-neutral accelerator placement policy, optional Torch/Accelerate adapter,
 > process-local persistent Rust host, reusable identity-bound snapshots, bounded and
 > normalized diagnostic results, failure quarantine, an executable Rust HMM baseline,
 > deterministic runtime measurements, and bounded investigator context/workspace
 > contracts, an executable local-harness/worktree path, and a validated Rust v1 dynamic
-> provider loader. It still does not provide process isolation,
+> provider loader, and an executable bounded Forge-oriented diagnostic lifecycle with
+> compact snapshot views, a verifier registry, reference probes, witnesses, mutations,
+> comparison, health, coverage, and omitted-question candidates. It still does not provide process isolation,
 > unattended model execution, distributed scheduling, protected final custody, formal
 > MNCS/MNCDS conformance, or automatic RAVEL promotion.
 
@@ -104,6 +106,14 @@ copy their authority or silently create substitute implementations.
   integration through the existing provider host;
 - initial immutable transition, tabular, and pair diagnostic snapshot producers with
   compact binary payloads and dependency-bound content identities;
+- bounded transition, pair, tabular, trace, graph, and composite snapshot views backed by
+  one identity-keyed immutable snapshot store;
+- explicit diagnostic verifier declarations and registry matching, bounded preconditions,
+  proposal-bound probe requests, diagnostic-only witnesses, and deterministic reference
+  transition/tabular/pair/trace/graph verifiers;
+- registered-only mutation operators, independent witness comparison, verifier health and
+  quarantine state, coverage records, learned-provider observation normalization, and
+  proposal-only omitted-question candidates;
 - deterministic reference workflow, JSON schemas, mutation-oriented tests, and CI.
 
 ## Install
@@ -169,6 +179,14 @@ mnel demo --workspace build/demo
 The demo preregisters a bounded experiment, records an observation, evaluates hard
 gates, attributes the intervention, and creates a provisional principle proposal. It
 does not call a model or modify RAVEL.
+
+Run the bounded 0.3 diagnostic lifecycle, including snapshot production, two independent
+reference witnesses, a mutation, comparison, health/coverage records, and a next-question
+candidate:
+
+```bash
+mnel forge-reference --workspace build/forge-reference
+```
 
 Verify and summarize the resulting ledger:
 

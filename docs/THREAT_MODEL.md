@@ -63,6 +63,14 @@ dependency, extractor, producer, schema, and payload identities in the content i
 material dependency changes therefore invalidate reuse rather than silently transferring
 stale diagnostic context.
 
+The 0.3 diagnostic lifecycle fails closed on malformed snapshot bytes, incompatible
+verifiers, unavailable preconditions, malformed verifier output, budget exhaustion, and
+repeated verifier errors. A verifier may be quarantined for runtime reliability without
+being treated as truthful. Mutation operators are a fixed registered set; arbitrary
+callbacks and in-place authoritative snapshot mutation are not accepted. Learned
+provider observations and verifier witnesses remain distinct diagnostic records, and
+neither can authorize conformance or promotion.
+
 ### Apparent independence
 
 Multiple local machines run the same operator-controlled stack. This is replication,

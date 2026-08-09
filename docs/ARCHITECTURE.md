@@ -72,6 +72,22 @@ sequential CPU offload. The latter keeps weights in system RAM and temporarily e
 modules on CUDA; it does not reload a provider for each query. Placement decisions are
 resource-accounted and diagnostic, never evaluator decisions.
 
+### Bounded Forge-oriented diagnostic lifecycle
+
+The executable local lifecycle is deliberately split into independent records:
+
+```text
+identified snapshot -> compatible verifier -> precondition report -> bounded probe
+       -> diagnostic witness -> optional registered mutation -> independent comparison
+       -> health/coverage -> proposal-only omitted-question candidate
+```
+
+`src/mnel/snapshots.py` provides compact immutable views shared by deterministic
+verifiers and learned providers. `src/mnel/forge_lifecycle.py` provides the explicit
+registry and reference execution surface. Witnesses characterize observations; they
+contain no evaluator verdict field. Health describes execution reliability, not truth,
+and comparisons preserve disagreement rather than voting it away.
+
 ### Probe plane
 
 Forge supplies small, identity-bearing questions and witnesses. The stable interface is

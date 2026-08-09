@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.3.0a0 — unreleased
+
+- Add bounded binary views and an identity-keyed shared store for transition, pair,
+  tabular, trace, graph, and composite diagnostic snapshots.
+- Add an explicit MNEL-side Forge lifecycle surface: verifier registry and declarations,
+  preconditions, bounded probe requests, diagnostic-only witnesses, reference verifiers,
+  registered mutations, independent comparison, health/quarantine, coverage, learned
+  observation events, and omitted-question candidates.
+- Add a deterministic `mnel forge-reference` study path and lifecycle schema. This is a
+  local diagnostic reference surface, not an implementation of external Forge authority.
+
 ## 0.2.0a0 — unreleased
 
 - Add backend-neutral CPU, full-CUDA, and sequential CPU offload placement policy with

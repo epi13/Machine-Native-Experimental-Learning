@@ -40,18 +40,18 @@
 
 ## 0.3 — Forge experiment lifecycle
 
-- micro-verifier registry;
-- probe preconditions and witness schemas;
-- counterfactual and mutation probe support;
-- independent-probe comparison;
-- verifier health and coverage records;
-- skeptic-driven omitted-question discovery;
-- **Started:** identity-bound transition, tabular, and pair diagnostic snapshots with
+- **Implemented:** explicit micro-verifier registry and identity-bound declarations;
+- **Implemented:** probe preconditions, proposal-bound requests, and diagnostic-only witness schemas;
+- **Implemented:** bounded counterfactual and registered mutation probe support;
+- **Implemented:** independent-probe comparison preserving agreement, disagreement, and incomplete coverage;
+- **Implemented:** verifier health, quarantine, and coverage records;
+- **Started:** deterministic skeptic-driven omitted-question candidate discovery;
+- **Implemented:** identity-bound transition, tabular, pair, trace, graph, and composite diagnostic snapshots with
   immutable compact binary payloads, producer/source/dependency/extractor identities, and
   deterministic content identities suitable for deterministic probes and learned
   micro-providers;
-- compact binary snapshot views shared across compatible providers;
-- learned observations normalized as diagnostic events without verifier status.
+- **Implemented:** compact binary snapshot views shared across compatible providers;
+- **Implemented:** learned observations normalized as diagnostic events without verifier status.
 
 ## 0.4 — verified distillation and learned-provider studies
 
