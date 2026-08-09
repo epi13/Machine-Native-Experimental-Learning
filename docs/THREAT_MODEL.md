@@ -50,6 +50,14 @@ selection.
 Model, quantization, runtime, prompt, tool schema, compiler, or context-packing changes
 silently change behavior. Bind all of them in experiment records.
 
+### False offload claims
+
+An accelerator may be discoverable while kernels or a requested dtype fail, and a runtime
+may accept an offload option without moving weights as intended. Require a real execution
+probe before CUDA placement, keep explicit choices fail-closed, record reserve/cap/workspace
+math, and mark sequential offload verified only from completed inference plus observed hooks
+and parameter residency.
+
 ### Apparent independence
 
 Multiple local machines run the same operator-controlled stack. This is replication,
@@ -57,7 +65,7 @@ not independent evaluation or protected custody.
 
 ## Current residual risks
 
-The foundation does not provide process isolation, network enforcement, cgroups,
+The foundation does not provide dynamic library loading, process isolation, network enforcement, cgroups,
 hardware attestation, authenticated Fabric transport, protected custody, or immutable
 remote verifier nodes. Those remain roadmap requirements before unattended operation on
 untrusted workloads.

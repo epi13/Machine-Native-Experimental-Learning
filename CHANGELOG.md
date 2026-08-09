@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.2.0a0 — unreleased
+
+- Add backend-neutral CPU, full-CUDA, and sequential CPU offload placement policy with
+  reserve/cap/workspace math, real accelerator probe requirements, precision checks, and
+  bounded AUTO OOM recovery.
+- Extend runtime manifests with backward-compatible placement policy and capability
+  metadata without changing C ABI v1.
+- Add optional Torch/Accelerate adapter with observed sequential-offload verification.
+- Add process-local Rust host lifecycle, identity-bound snapshot reuse, bounded host-owned
+  result buffers, normalized diagnostic statuses, measurements, unload, and quarantine.
+- Add executable deterministic Rust HMM provider baseline and provider-host benchmark.
+- Add bounded investigator context packing, explicit workspace access, candidate transaction,
+  identity envelope, quarantine, and morning-report contracts.
+
 ## 0.1.0a0 — unreleased
 
 - Define Machine-Native Experimental Learning and Verified Experience Distillation.

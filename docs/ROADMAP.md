@@ -18,17 +18,18 @@
 
 ## 0.2 — local investigator harness and provider runtime
 
-- native adapter to `MNEL-local-harness`;
-- eligible-context retrieval and packing;
-- investigator portfolio scheduling;
-- explicit read-only and proposal workspaces;
-- Git worktree or snapshot-isolated candidate transactions;
-- model, quantization, runtime, prompt, and tool-schema identities;
-- deterministic morning reports and quarantine queues;
-- process-local persistent Rust provider host;
-- host-owned bounded result buffers and ABI loader validation;
-- first native Rust classical provider baseline;
-- warm/cold latency, copy-byte, resident-memory, and snapshot-reuse benchmarks.
+- **Implemented:** eligible-context packing with visibility and byte ceilings;
+- **Implemented:** explicit read-only/proposal workspace models and proposal-only candidate
+  transactions;
+- **Implemented:** model, quantization, runtime, prompt, and tool-schema identity envelope;
+- **Implemented:** deterministic morning-report and quarantine queue records;
+- **Implemented:** process-local persistent Rust provider host with reusable provider state;
+- **Implemented:** host-owned bounded result normalization, failure quarantine, and clean unload;
+- **Implemented:** first native Rust HMM classical provider baseline;
+- **Implemented:** warm/cold timing, copied-byte, output, placement, and snapshot-reuse
+  measurement harness;
+- native adapter to `MNEL-local-harness` and Git worktree materialization remain open;
+- ABI dynamic-loader validation remains open; ABI v1 itself is unchanged.
 
 ## 0.3 — Forge experiment lifecycle
 

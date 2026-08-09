@@ -60,10 +60,18 @@ This decision is enforced by repository artifacts rather than prose alone:
 - `mnel-provider-api` defines allocation-neutral ABI vocabulary.
 - `mnel-provider-sdk` provides a safe Rust authoring surface.
 - `mnel-provider-host` encodes native-language admission policy and snapshot reuse.
+- `mnel-provider-host::placement` mirrors the backend-neutral CPU/CUDA/offload policy;
+  physical accelerator adapters remain outside the trusted ABI boundary.
 - `include/mnel_provider_v1.h` is the language-neutral ABI header.
 - `ProviderRuntimeManifest` mirrors the admission contract in the Python control plane.
 - `learned-provider-runtime-manifest.schema.json` makes the durable manifest testable.
 - CI runs Rust formatting, linting, and tests alongside the Python suite.
+
+The first executable native baseline is a deterministic Rust HMM diagnostic provider. Its
+host integration demonstrates persistent admission, identity-bound snapshot reuse,
+bounded output normalization, timing measurements, and quarantine without changing the
+v1 ABI. Sequential CPU offload is an optional external/backend capability, not a reason to
+replace the Rust host with a Python daemon.
 
 A future loader may not weaken these requirements. It must reject unsupported ABI
 versions, missing identities, unbounded queries, process-per-invocation providers,

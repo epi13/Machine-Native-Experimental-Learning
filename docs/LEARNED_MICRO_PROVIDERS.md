@@ -201,13 +201,16 @@ remain valuable when it discovers a distinct class of omitted questions.
 
 ## Current implementation boundary
 
-This foundation implements declarations, canonical identities, deterministic matching,
+The 0.2 iteration implements declarations, canonical identities, deterministic matching,
 diversity selection, a diagnostic observation record, CLI inspection, schema, examples,
-and tests.
+and tests. The Rust host also executes a small deterministic HMM baseline against an
+identity-bound transition snapshot. That baseline is a runtime contract test and
+diagnostic reference; it is not evidence that the HMM or any catalog architecture
+improves MNEL.
 
 It does not yet:
 
-- train or execute any model;
+- train or execute the learned neural/catalog models;
 - download third-party weights;
 - add PyTorch, ONNX, or another runtime dependency;
 - build Forge diagnostic snapshots;
