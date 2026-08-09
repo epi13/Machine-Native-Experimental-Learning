@@ -172,6 +172,18 @@ diagnostic provider. It is not a verifier and is not exported through ABI v1; na
 export remains a later task once the artifact contract has a measured compatible runtime
 boundary.
 
+The companion `mnel.provider_study` module adds a second, structurally different
+CPU reference provider: a bounded tabular nearest-centroid artifact with explicit
+normalization parameters, calibration dataset identity, OOD threshold, deterministic
+serialization, and reload equivalence. The portfolio harness compares both providers
+with seeded-random and explicit heuristic controls, while preserving separate provider
+observations and recording cold-load, first-inference, warm, model-size, artifact-size,
+allocation, calibration, disagreement, and OOD measurements. Its admission, quarantine,
+retirement, and rollback records are control-plane evidence; they do not change the
+stable C ABI or create evaluator authority. The existing ABI v1 query has no portable
+model-artifact initialization field, so this iteration deliberately does not smuggle a
+Python artifact path through global state or claim native export.
+
 ## Native-language exceptions
 
 A non-Rust provider may enter `native-trusted` only when its manifest includes:

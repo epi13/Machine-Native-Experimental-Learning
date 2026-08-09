@@ -68,15 +68,26 @@
   precision/recall/hit-rate/reuse/diversity metrics plus bounded calibration metrics;
 - **Implemented:** deterministic `mnel distill-reference` study and a tiny reloadable CPU
   transition-frequency learned provider with OOD abstention and diagnostic-only output;
-- **Started:** heterogeneous learned-provider portfolio training and calibration;
+- **Implemented:** a deterministic heterogeneous reference portfolio with a structurally
+  distinct tabular nearest-centroid provider, explicit calibration records, deterministic
+  serialization/reload, routing controls, disagreement/correlation/OOD/abstention/resource
+  measurements, and diagnostic-only evidence ledgers;
+- **Implemented:** provider candidate/admission, transfer-pending, quarantine, retirement,
+  and rollback records with explicit evidence checklists;
+- **Started:** broader provider portfolios and native export of Python-trained artifacts;
 - export Python-trained providers into the versioned native runtime boundary;
-- **Started:** compare learned providers against deterministic and classical baselines;
+- **Implemented:** compare the reference providers against seeded-random and explicit
+  heuristic controls; the Rust HMM remains a separate not-applicable native baseline for
+  this compact mixed snapshot fixture;
   the reference transition study records deterministic and heuristic controls; the
   existing Rust HMM baseline is not input-compatible with this compact fixture and is
   retained as a separate native runtime baseline;
-- random, heuristic, single-provider, and diversity-routed controls;
-- correlated-error, disagreement, abstention, and out-of-distribution studies;
-- useful confirmed probes per operation, latency, memory, energy, and cold-start metrics;
+- **Implemented:** random, heuristic, single-provider, and diversity-routed controls;
+- **Implemented:** correlated-error, disagreement, abstention, and out-of-distribution
+  measurements, plus cold-load/first-inference/warm-latency and bounded Python allocation
+  measurements;
+- **Started:** energy measurements; an optional reader records trusted joules when supplied,
+  otherwise the study records unavailable rather than estimating;
 - non-Rust native exception studies with benchmark and threat-review identities;
 - hidden-transfer admission, quarantine, retirement, and rollback workflows;
 - optional small proposer-model distillation from verified traces.

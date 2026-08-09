@@ -248,6 +248,117 @@ class StudyDataAccess:
 
 
 @dataclass(frozen=True, slots=True)
+class CalibrationRecord:
+    """An explicitly identified calibration example, separate from training data."""
+
+    snapshot_identity: str
+    source_record_identity: str
+    expected_label: int | None
+    visibility: Visibility = Visibility.DEVELOPMENT
+    record_identity: str = ""
+
+    def __post_init__(self) -> None:
+        _nonempty(self.snapshot_identity, "calibration snapshot identity")
+        _nonempty(self.source_record_identity, "calibration source identity")
+        if self.expected_label not in (None, 0, 1, False, True):
+            raise DistillationError("calibration labels must be binary or unavailable")
+        if self.visibility is Visibility.FUTURE_FINAL:
+            raise VisibilityViolation("future-final material cannot become calibration data")
+        if self.record_identity and self.record_identity != self.content_identity:
+            raise DistillationError("calibration record identity does not match content")
+
+    @property
+    def content_identity(self) -> str:
+        return canonical_digest(self.to_dict(include_identity=False))
+
+    @property
+    def identity(self) -> str:
+        return self.record_identity or self.content_identity
+
+    def to_dict(self, *, include_identity: bool = True) -> dict[str, Any]:
+        value: dict[str, Any] = {
+            "schema": "mnel-calibration-record/0.4",
+            "snapshot_identity": self.snapshot_identity,
+            "source_record_identity": self.source_record_identity,
+            "expected_label": self.expected_label,
+            "visibility": self.visibility.value,
+            "authority": AUTHORITY_DIAGNOSTIC_ONLY,
+            "semantics": "calibration-example; not-a-verdict",
+        }
+        if include_identity:
+            value["record_identity"] = self.identity
+        return value
+
+
+class CalibrationDataAccess:
+    """Fail-closed access to identified calibration examples."""
+
+    def __init__(
+        self,
+        records: Sequence[CalibrationRecord],
+        *,
+        allowed_visibility: Sequence[Visibility] = (Visibility.DEVELOPMENT,),
+        purpose: str = "development-calibration",
+    ) -> None:
+        if not allowed_visibility or Visibility.FUTURE_FINAL in allowed_visibility:
+            raise VisibilityViolation("calibration access requires a non-final visibility set")
+        if purpose == "development-calibration" and Visibility.TRANSFER_HIDDEN in allowed_visibility:
+            raise VisibilityViolation("development calibration may not include hidden transfer")
+        self._records: dict[str, CalibrationRecord] = {}
+        for record in records:
+            if purpose == "development-calibration" and record.visibility not in {
+                Visibility.DEVELOPMENT,
+                Visibility.SELECTION_OBSERVED,
+            }:
+                raise VisibilityViolation("development calibration cannot ingest hidden or final records")
+            if record.identity in self._records and self._records[record.identity] != record:
+                raise DistillationError("calibration record identity collision")
+            self._records[record.identity] = record
+        self.allowed_visibility = tuple(allowed_visibility)
+        self.purpose = purpose
+
+    @classmethod
+    def development(cls, records: Sequence[CalibrationRecord]) -> "CalibrationDataAccess":
+        return cls(
+            records,
+            allowed_visibility=(Visibility.DEVELOPMENT, Visibility.SELECTION_OBSERVED),
+            purpose="development-calibration",
+        )
+
+    @property
+    def dataset_identity(self) -> str:
+        return canonical_digest(
+            {
+                "schema": "mnel-calibration-dataset/0.4",
+                "purpose": self.purpose,
+                "allowed_visibility": [item.value for item in self.allowed_visibility],
+                "records": [record.to_dict() for record in self.records()],
+            }
+        )
+
+    def records(self) -> tuple[CalibrationRecord, ...]:
+        return tuple(
+            sorted(
+                (
+                    record
+                    for record in self._records.values()
+                    if record.visibility in self.allowed_visibility
+                ),
+                key=lambda item: item.identity,
+            )
+        )
+
+    def get(self, identity: str) -> CalibrationRecord:
+        try:
+            record = self._records[identity]
+        except KeyError as error:
+            raise VisibilityViolation(f"calibration record is unavailable: {identity}") from error
+        if record.visibility not in self.allowed_visibility:
+            raise VisibilityViolation("calibration view may not read this record")
+        return record
+
+
+@dataclass(frozen=True, slots=True)
 class SemanticGroup:
     source_record_ids: tuple[str, ...]
     feature_extractor_identity: str

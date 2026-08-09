@@ -83,3 +83,15 @@ equal-budget, and hidden-transfer controls. It computes retrieval and calibratio
 measurements and trains a tiny transition-frequency diagnostic provider that serializes
 and reloads deterministically. These are measurements from a bounded synthetic fixture,
 not evidence of general learning improvement or evaluator authority.
+
+The companion `mnel provider-study-reference` path extends this into a small controlled
+portfolio: a transition-frequency provider and a structurally different tabular
+nearest-centroid provider are trained from development-visible records, calibrated from
+separate identified examples, serialized/reloaded, and evaluated on a held-out fixture
+through random, heuristic, single-provider, and diversity routing policies. It records
+pairwise disagreement, bounded error correlation, abstention/OOD behavior, cold-load,
+first-inference, warm-latency, model/artifact size, and optional energy measurements.
+Provider admission, quarantine, retirement, and rollback are explicit diagnostic
+lifecycle records. The synthetic labels and transfer policy are study evidence, not
+MNEL/MNCS verdicts; the Rust HMM is retained as a separate native baseline because it is
+not input-compatible with the mixed compact fixture.

@@ -12,6 +12,14 @@
   learned-provider artifact with deterministic serialization, reload, OOD abstention, and
   diagnostic-only observations.
 - Add the no-network `mnel distill-reference` study and distillation record schema.
+- Add a structurally distinct tabular nearest-centroid learned provider with bounded
+  feature scaling, explicit calibration data, artifact identity, deterministic reload,
+  OOD detection, and diagnostic-only observations.
+- Add `mnel provider-study-reference`: a no-network heterogeneous portfolio study with
+  random/heuristic/single/diversity routing, baseline comparisons, disagreement and
+  OOD/abstention metrics, cold/warm/resource measurements, optional energy reporting,
+  hidden-transfer visibility checks, and evidence-bound provider lifecycle records for
+  admission, quarantine, retirement, and rollback.
 
 ## 0.3.0a0 — unreleased
 

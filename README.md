@@ -126,6 +126,11 @@ copy their authority or silently create substitute implementations.
 - `mnel distill-reference`, a no-network held-out study that writes an evidence ledger
   and exercises controls, hidden-transfer access, strategy transfer, and a tiny
   reloadable transition-frequency learned provider. Its observations remain diagnostic.
+- `mnel provider-study-reference`, a no-network heterogeneous portfolio study that trains
+  a transition-frequency provider and a structurally different tabular nearest-centroid
+  provider, calibrates and reloads both, compares seeded-random and heuristic controls,
+  measures disagreement/OOD/abstention/cold-warm resource behavior, and records explicit
+  admission, quarantine, retirement, and rollback evidence. It does not issue a verdict.
 
 ## Install
 
@@ -210,6 +215,19 @@ The study preserves development records, prevents development code from reading 
 or future-final records, freezes the transfer prediction before held-out evaluation,
 and reports measurements rather than a success verdict. Its reference feature grouping
 is an explicit bounded baseline, not semantic understanding.
+
+Run the deterministic heterogeneous learned-provider portfolio study:
+
+```bash
+mnel provider-study-reference --workspace build/provider-study-reference
+mnel ledger verify build/provider-study-reference/provider-portfolio-evidence.jsonl
+```
+
+The transition-frequency and tabular nearest-centroid artifacts use separate snapshot
+families and feature/objective identities. Routing preserves each observation; agreement,
+disagreement, calibration, and transfer measurements are evidence, not consensus or
+evaluator authority. The reference HMM is not silently applied to incompatible tabular
+inputs.
 
 Verify and summarize the resulting ledger:
 

@@ -51,3 +51,13 @@ The current 0.4 reference study is deliberately synthetic and deterministic. Its
 transition-frequency provider is a diagnostic observation source with explicit artifact,
 training dataset, feature extractor, calibration, and reload identities. It is not a
 verifier, evaluator, or promotion mechanism.
+
+The provider portfolio control surface is also deterministic and equal-budget by
+construction. `provider-study-reference` trains separate transition and tabular provider
+families, keeps calibration distinct from training, and applies seeded random, explicit
+heuristic, single-provider, and architecture/objective diversity routing. It preserves
+per-provider observations and reports disagreement, joint/overlapping failure only when
+reference labels exist, abstention, OOD, latency, memory scope, and energy availability.
+Admission and rollback are evidence-bound records, not automatic promotion. The fixture
+does not claim that two providers are independent evaluators or that a successful
+synthetic transfer generalizes.

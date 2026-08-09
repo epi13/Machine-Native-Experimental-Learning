@@ -114,6 +114,15 @@ and inconclusive experience. Records are content-identified and chained in order
 Learned observations retain declaration, weight, feature, query, snapshot, calibration,
 and limitation identities before they are eligible for later study.
 
+The 0.4 provider-study plane adds a small explicit portfolio contract on top of that
+ledger. `mnel.provider_study` binds provider artifacts to training/calibration dataset
+identities, supported snapshot families, artifact/model identities, and diagnostic-only
+metadata. It runs a transition-frequency provider beside a structurally distinct tabular
+nearest-centroid provider and explicit random/heuristic controls. Routing is recorded,
+not learned authority; every observation remains separate. Cold load, first inference,
+warm samples, artifact/model bytes, bounded Python allocation, calibration, disagreement,
+OOD, abstention, and optional energy availability are measurements.
+
 ### Verified distillation and study plane
 
 The 0.4 data plane makes reuse explicit without replacing evidence:
@@ -137,6 +146,13 @@ and match reasons separately, while calibration and transfer status remain measu
 Study arms and ablations carry equal-budget declarations and deterministic identities.
 The `distill-reference` command is a synthetic, no-network study surface, not an
 evaluator or a substitute for Forge, Fabric, MNCS, MNCDS, or RAVEL.
+
+Provider lifecycle records separately capture candidate, development admission,
+transfer-pending, transfer admission, quarantine, retirement, and rollback. Admission
+criteria identify artifact/calibration/resource/OOD/authority checks; a provider cannot
+transition on its own score, and quarantine preserves its artifact and evidence. The
+portfolio reference command is a bounded local study, not a production provider
+orchestrator and not a native ABI export.
 
 ### Distillation plane
 
