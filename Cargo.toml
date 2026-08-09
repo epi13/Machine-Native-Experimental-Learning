@@ -4,6 +4,10 @@ members = [
   "crates/mnel-provider-classical",
   "crates/mnel-provider-sdk",
   "crates/mnel-provider-host",
+  "crates/mnel-provider-loader",
+  "crates/mnel-provider-fixture",
+  "crates/mnel-provider-fixture-invalid",
+  "crates/mnel-provider-fixture-no-entry",
 ]
 resolver = "2"
 

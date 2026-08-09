@@ -28,8 +28,15 @@
 - **Implemented:** first native Rust HMM classical provider baseline;
 - **Implemented:** warm/cold timing, copied-byte, output, placement, and snapshot-reuse
   measurement harness;
-- native adapter to `MNEL-local-harness` and Git worktree materialization remain open;
-- ABI dynamic-loader validation remains open; ABI v1 itself is unchanged.
+- **Implemented:** bounded adapter to the local JSON-line harness protocol, including
+  timeout/output limits, machine-readable response validation, authority-expansion
+  rejection, deterministic diagnostic observations, and explicit proposal-only records;
+- **Implemented:** Git-validated detached proposal worktrees with source commit identity,
+  root confinement, reproducible metadata, immutable authoritative checkout behavior, and
+  explicit preservation or cleanup;
+- **Implemented:** ABI v1 dynamic-library loading and validation in a small Rust unsafe
+  boundary, including artifact hashing, descriptor identity checks, pointer/length checks,
+  host-owned output copying, clean unload, and quarantine integration. ABI v1 is unchanged.
 
 ## 0.3 — Forge experiment lifecycle
 
@@ -39,8 +46,10 @@
 - independent-probe comparison;
 - verifier health and coverage records;
 - skeptic-driven omitted-question discovery;
-- identity-bound graph, trace, transition, tabular, pair, and composite diagnostic
-  snapshots suitable for both deterministic probes and learned micro-providers;
+- **Started:** identity-bound transition, tabular, and pair diagnostic snapshots with
+  immutable compact binary payloads, producer/source/dependency/extractor identities, and
+  deterministic content identities suitable for deterministic probes and learned
+  micro-providers;
 - compact binary snapshot views shared across compatible providers;
 - learned observations normalized as diagnostic events without verifier status.
 

@@ -58,6 +58,11 @@ probe before CUDA placement, keep explicit choices fail-closed, record reserve/c
 math, and mark sequential offload verified only from completed inference plus observed hooks
 and parameter residency.
 
+Snapshot reuse is also identity-gated. The current snapshot producers include source,
+dependency, extractor, producer, schema, and payload identities in the content identity;
+material dependency changes therefore invalidate reuse rather than silently transferring
+stale diagnostic context.
+
 ### Apparent independence
 
 Multiple local machines run the same operator-controlled stack. This is replication,
@@ -65,7 +70,8 @@ not independent evaluation or protected custody.
 
 ## Current residual risks
 
-The foundation does not provide dynamic library loading, process isolation, network enforcement, cgroups,
-hardware attestation, authenticated Fabric transport, protected custody, or immutable
-remote verifier nodes. Those remain roadmap requirements before unattended operation on
-untrusted workloads.
+The foundation now validates and loads identified native provider libraries through a
+small Rust boundary, but it does not provide process isolation for that native code.
+Network enforcement, cgroups, hardware attestation, authenticated Fabric transport,
+protected custody, and immutable remote verifier nodes remain roadmap requirements before
+unattended operation on untrusted workloads.

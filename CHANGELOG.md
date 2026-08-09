@@ -13,6 +13,13 @@
 - Add executable deterministic Rust HMM provider baseline and provider-host benchmark.
 - Add bounded investigator context packing, explicit workspace access, candidate transaction,
   identity envelope, quarantine, and morning-report contracts.
+- Add executable local-harness request/observation normalization with timeout and output
+  bounds, authority-expansion rejection, and explicit proposal-only semantics.
+- Add Git-validated detached proposal worktree materialization, source commit identities,
+  reproducible metadata, and explicit preserve-or-cleanup behavior.
+- Add the reviewed Rust `mnel-provider-loader` unsafe boundary, SHA-256 artifact admission,
+  v1 descriptor/query/result validation, host-owned output copying, native cdylib fixtures,
+  and existing-host quarantine integration tests. ABI v1 is unchanged.
 
 ## 0.1.0a0 — unreleased
 

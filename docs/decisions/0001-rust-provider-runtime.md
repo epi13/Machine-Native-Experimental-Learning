@@ -63,6 +63,10 @@ This decision is enforced by repository artifacts rather than prose alone:
 - `mnel-provider-host::placement` mirrors the backend-neutral CPU/CUDA/offload policy;
   physical accelerator adapters remain outside the trusted ABI boundary.
 - `include/mnel_provider_v1.h` is the language-neutral ABI header.
+- `mnel-provider-loader` is the reviewed native-trusted dynamic-library boundary. It
+  hashes the admitted artifact, validates v1 descriptors and pointer/length metadata,
+  copies results into host-owned memory, serializes calls, and preserves diagnostic-only
+  semantics before handing a provider to the existing host.
 - `ProviderRuntimeManifest` mirrors the admission contract in the Python control plane.
 - `learned-provider-runtime-manifest.schema.json` makes the durable manifest testable.
 - CI runs Rust formatting, linting, and tests alongside the Python suite.
@@ -73,7 +77,7 @@ bounded output normalization, timing measurements, and quarantine without changi
 v1 ABI. Sequential CPU offload is an optional external/backend capability, not a reason to
 replace the Rust host with a Python daemon.
 
-A future loader may not weaken these requirements. It must reject unsupported ABI
+A loader may not weaken these requirements. It must reject unsupported ABI
 versions, missing identities, unbounded queries, process-per-invocation providers,
 invalid tier/language combinations, or attempts to grant learned output evaluator
 semantics.

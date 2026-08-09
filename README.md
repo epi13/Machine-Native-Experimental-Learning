@@ -42,7 +42,8 @@ conventional neural-weight training.
 > process-local persistent Rust host, reusable identity-bound snapshots, bounded and
 > normalized diagnostic results, failure quarantine, an executable Rust HMM baseline,
 > deterministic runtime measurements, and bounded investigator context/workspace
-> contracts. It still does not provide dynamic library loading, process isolation,
+> contracts, an executable local-harness/worktree path, and a validated Rust v1 dynamic
+> provider loader. It still does not provide process isolation,
 > unattended model execution, distributed scheduling, protected final custody, formal
 > MNCS/MNCDS conformance, or automatic RAVEL promotion.
 
@@ -96,6 +97,13 @@ copy their authority or silently create substitute implementations.
 - executable `mnel-provider-classical` HMM diagnostic provider and host integration tests;
 - eligible-context packing, read-only/proposal workspace models, identity envelopes,
   candidate transactions, quarantine queues, and deterministic morning-report records;
+- bounded local-harness JSON-line execution with timeout/output ceilings, authority
+  rejection, deterministic observations, and detached Git proposal worktrees;
+- SHA-256 artifact-bound Rust dynamic loading for `mnel_provider_entry_v1`, descriptor and
+  pointer/length validation, host-owned output copying, clean unload, and quarantine
+  integration through the existing provider host;
+- initial immutable transition, tabular, and pair diagnostic snapshot producers with
+  compact binary payloads and dependency-bound content identities;
 - deterministic reference workflow, JSON schemas, mutation-oriented tests, and CI.
 
 ## Install
@@ -296,8 +304,11 @@ operating-system sandbox. Untrusted experiment execution belongs in a hardened r
 with network restrictions, resource controls, immutable verifiers, and disposable
 workspaces.
 
-The provider runtime crates establish contracts and admission policy; they do not yet
-implement a hardened dynamic loader or operating-system sandbox.
+The provider runtime includes a small native-trusted dynamic loader with explicit ABI,
+artifact, pointer/length, output, and diagnostic-authority checks. It is not an
+operating-system sandbox: malformed native code can still crash the host process, so
+untrusted experiment execution belongs in a hardened runner with network restrictions,
+resource controls, immutable verifiers, and disposable workspaces.
 
 A local MNEL result or learned-provider observation can describe bounded development
 context. It cannot by itself establish independent evaluation, protected custody,
