@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mnel.dev/schemas/mnel-partial-training-artifact.schema.json",
+  "title": "MNEL partial training sufficient statistic",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "artifact_identity", "provider_family", "dataset_identity", "shard_identity", "shard_index", "source_record_ids", "feature_extractor_identity", "training_code_identity", "authority", "semantics"],
+  "properties": {
+    "schema": {"const": "mnel-partial-training-artifact/0.5"},
+    "artifact_identity": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "provider_family": {"enum": ["transition-frequency", "nearest-centroid"]},
+    "dataset_identity": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "shard_identity": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "shard_index": {"type": "integer", "minimum": 0},
+    "source_record_ids": {"type": "array", "minItems": 1, "maxItems": 512, "items": {"type": "string", "minLength": 1}},
+    "feature_extractor_identity": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "training_code_identity": {"type": "string", "minLength": 1},
+    "transition_counts": {"type": "array", "maxItems": 512, "items": {"type": "array", "minItems": 2, "maxItems": 2}},
+    "row_count": {"type": "integer", "minimum": 0},
+    "feature_sums": {"type": "array", "maxItems": 256, "items": {"type": "number"}},
+    "feature_squared_sums": {"type": "array", "maxItems": 256, "items": {"type": "number"}},
+    "authority": {"const": "diagnostic-only"},
+    "semantics": {"const": "partial-sufficient-statistic; not-a-verdict"}
+  }
+}

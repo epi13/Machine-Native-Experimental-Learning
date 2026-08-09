@@ -64,6 +64,14 @@ normalizes the observation into the MNEL ledger. Repeated execution is labelled
 `local-in-process-replication`; it is not multi-host independence, authenticated worker
 enrollment, or protected custody.
 
+`mnel fabric-reference` uses the current public `LocalController` and `LocalWorker`
+interfaces for a two-logical-worker, network-free study. `NetworkFabricBackend` uses the
+documented `NetworkController`/`TLSNetworkTransport` pair only after validating explicit
+CA, client-certificate, key, trust-store, capability, and pre-staged bundle references.
+Bulk artifact transfer remains outside MNEL until Fabric exposes a public verified
+transfer profile. A worker is an execution location, not an expert identity; provider
+artifact and model identities remain bound in every workload and observation.
+
 The same path emits an inert Commons Observation-shaped record and a RAVEL 0.6 proposal
 context fixture. Neither is published or granted trust-domain, evaluator, freeze, selection,
 or promotion authority.

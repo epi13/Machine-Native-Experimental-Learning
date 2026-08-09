@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mnel.dev/schemas/mnel-distributed-workload.schema.json",
+  "title": "MNEL distributed workload",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "workload_identity", "study_identity", "experiment_identity", "workload_class", "required_capabilities", "resource_budget", "replication_count", "visibility", "authority", "semantics"],
+  "properties": {
+    "schema": {"const": "mnel-distributed-workload/0.5"},
+    "workload_identity": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "study_identity": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "experiment_identity": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "workload_class": {"enum": ["expert-inference", "micro-provider-run", "study-case", "calibration", "training-shard", "evaluation-support", "counterfactual-probe", "replication"]},
+    "provider_id": {"type": ["string", "null"]},
+    "expert_placement": {"type": ["object", "null"]},
+    "provider_artifact_identity": {"type": ["string", "null"]},
+    "model_identity": {"type": ["string", "null"]},
+    "calibration_identity": {"type": ["string", "null"]},
+    "snapshot_identities": {"type": "array", "maxItems": 64, "items": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}},
+    "dataset_identity": {"type": ["string", "null"]},
+    "required_capabilities": {"type": "array", "maxItems": 32, "items": {"type": "string", "minLength": 1}},
+    "resource_budget": {"type": "object", "additionalProperties": {"type": "number", "minimum": 0}},
+    "replication_count": {"type": "integer", "minimum": 1, "maximum": 64},
+    "shard_index": {"type": ["integer", "null"], "minimum": 0},
+    "shard_count": {"type": ["integer", "null"], "minimum": 1, "maximum": 256},
+    "visibility": {"const": "development-visible"},
+    "seed": {"type": "integer", "minimum": 0},
+    "forge_workflow_identity": {"type": "string", "minLength": 1},
+    "expected_output_kind": {"type": "string", "minLength": 1},
+    "authority": {"const": "diagnostic-only"},
+    "semantics": {"const": "distributed-execution-request; observation-only; not-a-verdict"}
+  }
+}

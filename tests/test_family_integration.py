@@ -23,6 +23,7 @@ class ForgeProviderProtocolTests(unittest.TestCase):
         capabilities = handle_request({"protocol_version": "0.1", "type": "capabilities", "request_id": "r"})
         self.assertEqual(capabilities["type"], "capabilities")
         self.assertEqual(capabilities["provider"]["identity"], "mnel-family-provider-protocol-v1")
+        self.assertIn("distributed_workload_inspection", capabilities["analyses"])
         response = handle_request(
             {
                 "protocol_version": "0.1",
@@ -35,6 +36,8 @@ class ForgeProviderProtocolTests(unittest.TestCase):
         )
         self.assertEqual(response["status"], "UNKNOWN")
         self.assertEqual(response["extensions"]["mnel"]["authority"], "diagnostic-only")
+        distributed = handle_request({"protocol_version": "0.1", "type": "analysis_request", "request_id": "distributed", "analysis": "reconciliation_summary", "component": {"identities": {"study": "sha256:" + "2" * 64}}, "limits": {"output_bytes": 4096}})
+        self.assertEqual(distributed["status"], "UNKNOWN")
 
     def test_protocol_rejects_framing_authority_and_bad_identity(self):
         with self.assertRaises(ForgeProviderError):

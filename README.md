@@ -49,7 +49,7 @@ conventional neural-weight training.
 > source-preserving distillation groups, lineage-bound strategies, negative-memory
 > retrieval, equal-budget study controls, retrieval/calibration metrics, and a tiny
 > reloadable CPU transition-frequency diagnostic provider. It still does not provide process isolation,
-> unattended model execution, distributed scheduling, protected final custody, formal
+> unattended model execution, protected final custody, formal
 > MNCS/MNCDS conformance, or automatic RAVEL promotion.
 
 The repository also contains a dependency-aware MNCS-family integration reference:
@@ -58,6 +58,18 @@ pinned Forge/Fabric/Commons/RAVEL/Language compatibility shapes, executes a boun
 Fabric job through its public service, consumes the experimental MNCS receipt, and records
 the result as diagnostic evidence. Live sibling availability is reported explicitly; no
 external checkout is required for ordinary MNEL CI.
+
+The `mnel fabric-reference` command is a network-free distributed execution study. It
+uses Fabric's public local controller/worker boundary to run the transition-frequency
+and tabular centroid providers on two logical workers, records replicated execution
+observations, and aggregates identified transition-training shards. The logical workers
+share one process and host, so this is execution evidence rather than independent
+evaluation. Live TLS workers require explicit operator configuration and pre-staged
+bundles; MNEL does not copy artifacts over SSH or use hidden remote paths.
+
+The operator-only network entrypoint is `mnel fabric-run --config ... --plan ...
+--manifest ...`; it accepts only Fabric's bounded fixed-argv plan/manifest pair and
+fails closed when trust material or the declared pre-staged bundle identity is absent.
 
 ## Core rule
 
@@ -138,6 +150,10 @@ copy their authority or silently create substitute implementations.
   provider, calibrates and reloads both, compares seeded-random and heuristic controls,
   measures disagreement/OOD/abstention/cold-warm resource behavior, and records explicit
   admission, quarantine, retirement, and rollback evidence. It does not issue a verdict.
+- `mnel fabric-reference`, a no-network multi-worker Fabric study that distributes
+  reference expert inference and transition-frequency sufficient-statistic shards,
+  exercises replication and missing-shard semantics, and verifies deterministic model
+  equivalence without granting execution records evaluator authority.
 
 ## Install
 
@@ -235,6 +251,13 @@ families and feature/objective identities. Routing preserves each observation; a
 disagreement, calibration, and transfer measurements are evidence, not consensus or
 evaluator authority. The reference HMM is not silently applied to incompatible tabular
 inputs.
+
+Run the local distributed reference path:
+
+```bash
+mnel fabric-reference --workspace build/fabric-reference
+mnel ledger verify build/fabric-reference/fabric-evidence.jsonl
+```
 
 Verify and summarize the resulting ledger:
 

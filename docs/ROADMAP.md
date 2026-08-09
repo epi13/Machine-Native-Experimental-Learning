@@ -97,15 +97,21 @@
 
 ## 0.5 — MNCS Fabric execution
 
-- **Started:** content-addressed local experiment material binding to Fabric manifests;
-- **Started:** capability-aware local dispatch through the public `FabricService` boundary;
-- **Started:** typed MNCS execution-receipt collection and MNEL normalization;
-- **Started:** local duplicate/replay and same-node reconciliation evidence;
-- authenticated worker enrollment;
-- replicated and sharded trial matrices;
-- remote node-loss handling, protected custody, and scaling measurements;
-- heterogeneous learned-provider placement by snapshot locality and node capability;
-- ABI compatibility and provider-artifact admission across Fabric nodes.
+- **Implemented (local reference):** content-addressed identified workloads and bounded
+  acyclic workload graphs;
+- **Implemented (local reference):** capability-aware dispatch through Fabric's public
+  `LocalController`/`LocalWorker` boundary with provider-artifact identity binding;
+- **Implemented (local reference):** typed Fabric execution/receipt observations retained
+  as MNEL evidence without evaluator authority;
+- **Implemented (local reference):** replicated expert runs and deterministic reconciliation
+  observations across distinct logical worker identities;
+- **Implemented (local reference):** transition-frequency and nearest-centroid sharded
+  sufficient-statistic training with duplicate/overlap/missing/visibility validation;
+- **Started:** optional authenticated remote dispatch through `NetworkController` and
+  `TLSNetworkTransport`; current network mode requires operator-pre-staged bundles;
+- **Started:** node-loss/UNKNOWN handling, locality hints, and scaling measurements;
+- **Started:** authenticated worker enrollment consumption and provider-artifact admission
+  across physical nodes; live remote execution remains operator-only and unverified here.
 
 ## 0.6 — RAVEL integration study
 

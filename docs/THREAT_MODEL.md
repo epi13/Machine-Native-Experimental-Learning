@@ -107,6 +107,22 @@ unasserted. Commons records are inert and unpublished; RAVEL material is proposa
 only. Forge configuration and local sibling checkouts remain operator-controlled inputs and
 must be reviewed for substitution or drift.
 
+### Distributed Fabric boundary
+
+MNEL sends only bounded, identity-bound workloads to Fabric. A compromised or stale
+worker can return a malformed result, wrong artifact identity, poisoned sufficient
+statistics, replayed output, or omit a shard. Fabric protocol/TLS identity proves the
+configured peer and replay binding; it does not prove worker honesty, independent
+evaluation, or hardware attestation. MNEL validates dataset, shard, provider, model,
+feature-extractor, visibility, and bundle identities before aggregation, preserves raw
+Fabric dispatch/result/receipt identities, rejects duplicate/overlapping shards, and
+reports missing workers as UNKNOWN/incomplete. Multiple machines operated by one party
+are cross-node execution evidence, not independent validation.
+
+Remote bundle staging is an explicit operator precondition. MNEL does not add SSH,
+developer-directory mounts, network downloads, or ambient model paths to the semantic
+execution protocol. Certificate/private-key paths remain outside ledgers and source.
+
 ## Current residual risks
 
 The foundation now validates and loads identified native provider libraries through a

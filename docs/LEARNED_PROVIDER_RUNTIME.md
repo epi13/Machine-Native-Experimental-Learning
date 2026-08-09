@@ -205,7 +205,12 @@ artifact and does not establish a general language preference.
 4. Add Forge snapshot producers and reuse measurements.
 5. Export one Python-trained neural provider and compare it with the baseline.
 6. Add WASM quarantine only after native measurements establish the overhead budget.
-7. Integrate Fabric placement after single-host identity and replay behavior is stable.
+7. The local distributed reference now composes MNEL provider placement with MNCS Fabric
+   worker placement: Fabric selects a compatible machine while the provider runtime still
+   selects CPU, full CUDA, or sequential CPU offload on that machine. Expert artifact,
+   model, calibration, snapshot, and capability identities remain bound. Network dispatch
+   is operator-only and requires TLS trust material plus explicit pre-staging; Fabric
+   execution is observation evidence, not evaluator authority.
 
 Each stage must preserve the current diagnostic authority boundary and may terminate in
 `UNKNOWN` rather than silently widening capability.
