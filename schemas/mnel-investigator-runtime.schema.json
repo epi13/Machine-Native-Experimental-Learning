@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/epi13/Machine-Native-Experimental-Learning/schemas/mnel-investigator-runtime.schema.json",
+  "title": "MNEL bounded investigator runtime records",
+  "oneOf": [
+    {"$ref": "#/$defs/context"},
+    {"$ref": "#/$defs/transaction"},
+    {"$ref": "#/$defs/report"}
+  ],
+  "$defs": {
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "snapshot_identity", "record_ids", "records", "encoded_bytes", "authority"],
+      "properties": {
+        "schema": {"const": "mnel-eligible-context/0.2"},
+        "snapshot_identity": {"type": "string", "minLength": 1},
+        "record_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "records": {"type": "array", "items": {"type": "object"}},
+        "encoded_bytes": {"type": "integer", "minimum": 0},
+        "authority": {"const": "proposal-only"}
+      }
+    },
+    "transaction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "transaction_identity", "parent_candidate_id", "context_snapshot_identity", "workspace", "access", "proposal_only"],
+      "properties": {
+        "schema": {"const": "mnel-candidate-transaction/0.2"},
+        "transaction_identity": {"type": "string", "minLength": 1},
+        "parent_candidate_id": {"type": "string", "minLength": 1},
+        "context_snapshot_identity": {"type": "string", "minLength": 1},
+        "workspace": {"type": "string", "minLength": 1},
+        "access": {"enum": ["read-only", "proposal"]},
+        "proposal_only": {"const": true}
+      }
+    },
+    "report": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "context_snapshot_identity", "packed_record_count", "provider_observation_count", "quarantined_provider_count", "proposal_count", "authority", "report_identity"],
+      "properties": {
+        "schema": {"const": "mnel-morning-report/0.2"},
+        "context_snapshot_identity": {"type": "string", "minLength": 1},
+        "packed_record_count": {"type": "integer", "minimum": 0},
+        "provider_observation_count": {"type": "integer", "minimum": 0},
+        "quarantined_provider_count": {"type": "integer", "minimum": 0},
+        "proposal_count": {"type": "integer", "minimum": 0},
+        "authority": {"const": "proposal-only"},
+        "report_identity": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

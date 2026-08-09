@@ -1,6 +1,7 @@
 [workspace]
 members = [
   "crates/mnel-provider-api",
+  "crates/mnel-provider-classical",
   "crates/mnel-provider-sdk",
   "crates/mnel-provider-host",
 ]

@@ -1,18 +1,15 @@
 [package]
-name = "mnel-provider-host"
+name = "mnel-provider-classical"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
 license.workspace = true
 repository.workspace = true
-description = "Persistent policy host for MNEL learned micro-providers"
+description = "Deterministic Rust classical provider baseline for MNEL"
 
 [dependencies]
 mnel-provider-api = { path = "../mnel-provider-api" }
 mnel-provider-sdk = { path = "../mnel-provider-sdk" }
-
-[dev-dependencies]
-mnel-provider-classical = { path = "../mnel-provider-classical" }
 
 [lints]
 workspace = true

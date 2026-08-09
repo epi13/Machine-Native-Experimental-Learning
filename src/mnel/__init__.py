@@ -21,22 +21,42 @@ from .provider_runtime import (
     ProviderRuntimeManifest,
     load_runtime_manifest,
 )
+from .placement import (
+    AcceleratorDiagnostics,
+    ExecutionDevice,
+    ExecutionMode,
+    OffloadMode,
+    PlacementCapabilities,
+    PlacementDecision,
+    PlacementPolicy,
+    Precision,
+    decide_placement,
+)
 
 __all__ = [
     "DEFAULT_LEARNED_PROVIDER_REGISTRY",
     "EvidenceLedger",
+    "AcceleratorDiagnostics",
     "ExecutionTier",
     "HardGateEvaluator",
     "ImplementationLanguage",
+    "ExecutionDevice",
+    "ExecutionMode",
     "LearnedProviderDeclaration",
     "LearnedProviderObservation",
     "LearnedProviderQuery",
     "LearnedProviderRegistry",
     "NativeLanguageException",
+    "OffloadMode",
+    "PlacementCapabilities",
+    "PlacementDecision",
+    "PlacementPolicy",
+    "Precision",
     "ProviderRuntimeManifest",
     "RecursionGovernor",
     "VerifiedExperienceDistiller",
     "canonical_digest",
+    "decide_placement",
     "load_runtime_manifest",
 ]
 

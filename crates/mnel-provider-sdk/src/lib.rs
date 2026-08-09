@@ -99,6 +99,14 @@ impl<'a> Invocation<'a> {
     pub fn snapshots(&self) -> &[SnapshotRef<'a>] {
         &self.snapshot_lifetimes
     }
+
+    pub fn identities(&self) -> InvocationIdentity {
+        self.identities
+    }
+
+    pub fn budget(&self) -> ResourceBudget {
+        self.budget
+    }
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -119,7 +127,7 @@ impl DiagnosticResult {
     }
 }
 
-pub trait LearnedProvider {
+pub trait LearnedProvider: Send + Sync {
     fn infer(&self, invocation: &Invocation<'_>) -> Result<DiagnosticResult, ProviderError>;
 }
 
