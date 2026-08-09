@@ -81,6 +81,16 @@ heuristic limitation, so it cannot masquerade as semantic understanding. Distill
 retrieval, calibration, and learned-provider observations remain proposal or diagnostic
 records; none includes evaluator verdict authority.
 
+The provider portfolio adds further guards: provider training and calibration accept only
+explicit development views; the held-out transfer fixture is exposed through a separate
+transfer-evaluator identity after prediction freeze; provider artifacts are hash-bound and
+reload-tested; and lifecycle transitions require evidence identities and a policy identity.
+Random and diversity routing cannot expand snapshot compatibility, and pairwise
+disagreement is not treated as error without an identified reference outcome. Optional
+energy readings are recorded as unavailable when no trusted source exists rather than
+estimated from latency. A small tabular provider is intentionally bounded and CPU-only;
+native export remains outside this iteration rather than weakening the ABI boundary.
+
 ### Apparent independence
 
 Multiple local machines run the same operator-controlled stack. This is replication,
