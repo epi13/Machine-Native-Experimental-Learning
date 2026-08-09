@@ -25,15 +25,15 @@ INTEGRATION_SCHEMA = "mnel-family-integration-report/0.1"
 NORMALIZED_SCHEMA = "mnel-family-execution-evidence/0.1"
 PINNED_COMMITS = {
     "mncs-forge-mcp": "7710ea606bd592e0be95957c96132e8732fbb955",
-    "mncs-fabric": "fd6a1e1fe617b77402a3d40c278776dd8f159fb0",
-    "machine-native-complexity-standard": "1f0a1f903379d740eeeb59fe8689aed398bfb47c",
-    "MNCS-Commons": "5afff351efd3563febb7b3149d7de711d3342a44",
-    "mncs-language": "26cd7f015cb857abe3f0601780de096e04dea7b4",
-    "RAVEL": "4b7c3c5503ec6bd11a7ffb96cbb32599cd1f342c",
+    "mncs-fabric": "740b4b3a2590f76aa6eeb5365d3bdd8a40e39964",
+    "machine-native-complexity-standard": "80f08d312dce963265c7f69ac5b4bae8245bd692",
+    "MNCS-Commons": "b1eb5a1081bbb63ee3a6284e8046035bd72a47bc",
+    "mncs-language": "f234cc8079faa5895a38b7abce0c96031f7d2565",
+    "RAVEL": "d572d68ab9c8eaf163425748d44729aaa8028e98",
 }
 EXPECTED_CONTRACT_VERSIONS = {
     "mncs-forge-mcp": "Provider Protocol 0.1",
-    "mncs-fabric": "mncs-fabric public service 0.1",
+    "mncs-fabric": "mncs-fabric public controller/service 0.2.0a0",
     "machine-native-complexity-standard": "execution receipt 0.1-experimental",
     "MNCS-Commons": "commons.mncs.dev/v0alpha1",
     "mncs-language": "semantic identity boundary",

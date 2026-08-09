@@ -101,6 +101,21 @@ MNCS Fabric is the intended distributed execution and reconciliation substrate. 
 also supports a deterministic single-host reference path. Execution produces raw facts,
 not semantic acceptance.
 
+The distributed layer (`mnel.fabric_execution`) models bounded identified workloads and
+acyclic workload graphs. Fabric answers which compatible worker executes a workload;
+the provider placement policy separately answers CPU, full CUDA, or sequential offload
+on that worker. The local backend calls Fabric's public `LocalController`/`LocalWorker`
+boundary. The network backend calls `NetworkController` with `TLSNetworkTransport` and
+operator enrollment state, and rejects missing trust material or non-matching pre-staged
+bundle identities. It never turns remote completion into correctness, independence,
+conformance, or promotion.
+
+Coarse-grained training is supported for the reference transition-frequency and centroid
+providers. Workers produce identified partial sufficient statistics; the controller
+rejects duplicate, overlapping, missing, wrong-dataset, or hidden shards and merges in
+deterministic shard order. A missing required shard makes the study incomplete rather
+than silently producing a canonical full model.
+
 ### Evaluation plane
 
 An immutable evaluator derives every hard gate. Failed gates cannot be compensated by a
@@ -170,7 +185,9 @@ capability, authority, disclosure, partition access, or cost ceilings.
 ### MNCS-family integration plane
 
 Forge is the preferred external control/evidence plane. The `mnel.forge_provider` module
-implements only Provider Protocol 0.1 capabilities and bounded analysis responses. The
+implements only Provider Protocol 0.1 capabilities and bounded analysis responses,
+including distributed workload, worker capability, shard provenance, and reconciliation
+diagnostics. The
 family reference path binds an MNEL study and provider artifact to a Fabric manifest, calls
 the public `FabricService`, consumes the typed experimental execution receipt, and stores a
 companion MNEL observation. Forge controls the declared workflow, Fabric records execution,

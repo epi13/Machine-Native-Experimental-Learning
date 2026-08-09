@@ -2,6 +2,17 @@
 
 ## 0.4.0a0 — unreleased
 
+- Add bounded distributed MNEL workloads and workload graphs on the current public MNCS
+  Fabric boundary. `mnel fabric-reference` runs heterogeneous reference providers on
+  two logical Fabric workers, preserves worker/receipt identities, exercises replicated
+  dispatch, and performs deterministic transition-frequency shard aggregation. Hidden
+  data, duplicate/overlapping shards, mismatched artifacts, and incomplete results fail
+  closed or remain UNKNOWN. Optional network configuration uses TLS transports and
+  explicitly requires operator-pre-staged bundles; no SSH or implicit transfer is added.
+- Extend the Forge Provider Protocol 0.1 adapter with distributed workload, worker
+  capability, shard provenance, and reconciliation diagnostics. Protocol version remains
+  0.1 and all new responses remain diagnostic-only.
+
 - Add a strict MNCS Forge Provider Protocol 0.1 adapter and project-scoped Forge config;
   capabilities and analysis responses are bounded, one-line, diagnostic-only records.
 - Add pinned MNCS-family compatibility snapshots and a `family-integration-reference`

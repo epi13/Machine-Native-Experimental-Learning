@@ -16,13 +16,18 @@ from .core import canonical_digest, canonical_json
 PROTOCOL_VERSION = "0.1"
 PROVIDER_ID = "mnel-family-provider"
 PROVIDER_IDENTITY = "mnel-family-provider-protocol-v1"
-PROVIDER_VERSION = "0.1"
+PROVIDER_VERSION = "0.2"
 MAX_REQUEST_BYTES = 64 * 1024
 MAX_RESPONSE_BYTES = 128 * 1024
 ANALYSES = (
     "evidence_derivation",
     "mncs_bundle_validation",
     "provider_study_summary",
+    "distributed_workload_inspection",
+    "fabric_worker_capability_summary",
+    "distributed_training_provenance",
+    "shard_completeness",
+    "reconciliation_summary",
 )
 FORBIDDEN_KEYS = frozenset(
     {
@@ -76,6 +81,10 @@ def capabilities(request_id: str | None = None) -> dict[str, Any]:
                 "identified-study-summary",
                 "provider-artifact-binding",
                 "execution-receipt-binding",
+                "distributed-workload-identity-binding",
+                "fabric-worker-capability-observation",
+                "sharded-training-provenance",
+                "cross-node-reconciliation-observation",
             ],
             "unsupported_constructs": [
                 "hidden-transfer-content",
@@ -169,10 +178,21 @@ def handle_request(request: Any) -> dict[str, Any]:
         raise ForgeProviderError("limits must be an object")
     if limits.get("output_bytes", MAX_RESPONSE_BYTES) > MAX_RESPONSE_BYTES:
         raise ForgeProviderError("requested output limit exceeds provider ceiling")
+    summary = f"bounded diagnostic analysis accepted: {analysis}"
+    if analysis == "distributed_workload_inspection":
+        summary = "distributed workload identity and declared capability requirements were inspected; execution placement remains a Fabric observation"
+    elif analysis == "fabric_worker_capability_summary":
+        summary = "Fabric worker capability observations were accepted as operator-supplied execution facts; they do not establish worker honesty or independence"
+    elif analysis == "distributed_training_provenance":
+        summary = "distributed training provenance was inspected without opening hidden or future-final records"
+    elif analysis == "shard_completeness":
+        summary = "training shard completeness was inspected; omitted or overlapping shards remain incomplete or invalid"
+    elif analysis == "reconciliation_summary":
+        summary = "Fabric reconciliation was retained as cross-node execution evidence, not a correctness result"
     return _analysis_response(
         request,
         "UNKNOWN",
-        f"bounded diagnostic analysis accepted: {analysis}",
+        summary,
         limitations=["external evaluator and promotion authority remain outside MNEL"],
     )
 

@@ -51,12 +51,12 @@ useful_benefit_objective = "README.md"
 id = "mnel-family-provider"
 name = "MNEL family diagnostic provider"
 identity = "mnel-family-provider-protocol-v1"
-version = "0.1"
+version = "0.2"
 command = ["python", "-m", "mnel.forge_provider"]
 transport = "stdio-jsonl"
 required = false
-capabilities = ["evidence_derivation", "mncs_bundle_validation", "provider_study_summary"]
-supported_constructs = ["identified-study-summary", "provider-artifact-binding", "execution-receipt-binding"]
+capabilities = ["evidence_derivation", "mncs_bundle_validation", "provider_study_summary", "distributed_workload_inspection", "fabric_worker_capability_summary", "distributed_training_provenance", "shard_completeness", "reconciliation_summary"]
+supported_constructs = ["identified-study-summary", "provider-artifact-binding", "execution-receipt-binding", "distributed-workload-identity-binding", "fabric-worker-capability-observation", "sharded-training-provenance", "cross-node-reconciliation-observation"]
 unsupported_constructs = ["hidden-transfer-content", "future-final-content", "evaluator-verdict", "ravel-promotion"]
 limitations = ["diagnostic-only provider; no external evaluator authority"]
 
@@ -72,6 +72,46 @@ disclosure = "compact"
 
 [[workflows]]
 name = "mnel-provider-study-summary"
+category = "evidence_derivation"
+mode = "development"
+command = ["python", "-m", "mnel.forge_provider"]
+provider_protocol = true
+provider_id = "mnel-family-provider"
+subject = "candidate"
+disclosure = "compact"
+
+[[workflows]]
+name = "mnel-fabric-reference"
+category = "evidence_derivation"
+mode = "development"
+command = ["python", "-m", "mnel.forge_provider"]
+provider_protocol = true
+provider_id = "mnel-family-provider"
+subject = "candidate"
+disclosure = "compact"
+
+[[workflows]]
+name = "mnel-fabric-reconcile"
+category = "evidence_derivation"
+mode = "development"
+command = ["python", "-m", "mnel.forge_provider"]
+provider_protocol = true
+provider_id = "mnel-family-provider"
+subject = "candidate"
+disclosure = "compact"
+
+[[workflows]]
+name = "mnel-fabric-plan"
+category = "evidence_derivation"
+mode = "development"
+command = ["python", "-m", "mnel.forge_provider"]
+provider_protocol = true
+provider_id = "mnel-family-provider"
+subject = "candidate"
+disclosure = "compact"
+
+[[workflows]]
+name = "mnel-fabric-train"
 category = "evidence_derivation"
 mode = "development"
 command = ["python", "-m", "mnel.forge_provider"]
