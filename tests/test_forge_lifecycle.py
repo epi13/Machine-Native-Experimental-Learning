@@ -237,6 +237,53 @@ class ForgeLifecycleTests(unittest.TestCase):
         candidates = discover_question_candidates("source:v1", self.store, coverage)
         self.assertTrue(candidates)
 
+    def test_skeptic_discovery_is_bounded_deduplicated_and_proposal_only(self) -> None:
+        failed_request = self._request(
+            probe_id="failed-probe-1",
+            preconditions=(Precondition("required_snapshot_type", "tabular"),),
+        )
+        failed = self.runtime.execute(failed_request)
+        failed_again = self.runtime.execute(
+            self._request(
+                probe_id="failed-probe-2",
+                preconditions=(Precondition("required_snapshot_type", "tabular"),),
+            )
+        )
+        mutation = MutationRegistry().apply("transition.swap", self.snapshot, {}, self.store)
+        learned = LearnedDiagnosticEvent.from_observation(
+            {
+                "provider_id": "provider:v1",
+                "observation_identity": "observation:disagree",
+                "snapshot_ids": [self.snapshot.snapshot_identity],
+                "declaration_identity": "declaration:v1",
+                "condition_observed": False,
+            }
+        )
+        coverage = build_coverage(self.registry, self.store, (failed, failed_again))
+        candidates = discover_question_candidates(
+            "source:v1",
+            self.store,
+            coverage,
+            witnesses=(failed, failed_again),
+            mutations=(mutation,),
+            learned_observations=(learned,),
+            registry=self.registry,
+            max_candidates=12,
+        )
+        self.assertLessEqual(len(candidates), 12)
+        self.assertEqual(len({item.candidate_identity for item in candidates}), len(candidates))
+        self.assertIn("repeated-unknown", {item.candidate_kind for item in candidates})
+        self.assertTrue(all(item.authority == "proposal-only" for item in candidates))
+        self.assertTrue(all("verdict" not in item.to_dict() for item in candidates))
+        with self.assertRaises(ForgeLifecycleError):
+            discover_question_candidates(
+                "source:v1",
+                self.store,
+                coverage,
+                witnesses=(failed,),
+                visible_lineage=frozenset({"development-only-id"}),
+            )
+
 
 if __name__ == "__main__":
     unittest.main()
