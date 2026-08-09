@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any, Protocol, Sequence
 
 from .core import canonical_digest
+from .forge_lifecycle import ProbeRequest as ForgeLifecycleProbeRequest
 from .investigator_harness import RuntimeIdentityEnvelope, WorkspaceAccess
 
 
@@ -402,6 +403,17 @@ class ForgeProbeRequest:
 
 class ForgeProbeProvider(Protocol):
     def run_probe(self, request: ForgeProbeRequest) -> dict[str, Any]: ...
+
+
+class ForgeLifecycleProvider(Protocol):
+    """MNEL-side boundary for an identity-bound diagnostic probe provider.
+
+    Implementations may target the external Forge project or the local reference
+    surface. The returned record remains a witness/observation and never an evaluator
+    verdict.
+    """
+
+    def execute_probe(self, request: ForgeLifecycleProbeRequest) -> dict[str, Any]: ...
 
 
 @dataclass(frozen=True)

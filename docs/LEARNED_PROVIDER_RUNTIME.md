@@ -146,8 +146,8 @@ and a production accelerator backend remain future work. The C ABI v1 remains un
 
 ## Snapshot transport
 
-The initial Python snapshot producers construct bounded transition, pair, or tabular
-snapshots once. Each immutable payload is binary-friendly and carries producer, source,
+The initial Python snapshot producers construct bounded transition, pair, tabular, trace,
+graph, or composite snapshots once. Each immutable payload is binary-friendly and carries producer, source,
 dependency, feature-extractor, schema, and payload identities. Compatible deterministic
 probes and learned providers can consume the same payload boundary; changing a material
 dependency changes the content identity and prevents silent reuse. Forge or another
@@ -157,6 +157,11 @@ The durable ledger may describe the snapshot with canonical JSON, but the hot pa
 compact binary bytes with explicit schema and feature-extractor identities. Any material
 change to source, dependency, extractor, normalization, toolchain, or environment
 invalidates reuse unless the dependency envelope proves the snapshot unaffected.
+
+The shared `SnapshotStore` exposes validated immutable views to compatible consumers, so
+the same identified payload can be reused by a deterministic micro-verifier and a
+learned provider without reparsing ad hoc JSON. Composite snapshots reference component
+identities rather than duplicating their payloads.
 
 ## Native-language exceptions
 
