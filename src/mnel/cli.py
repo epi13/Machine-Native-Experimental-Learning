@@ -13,6 +13,7 @@ from . import __version__
 from .core import EvidenceLedger, run_reference_study
 from .distillation import run_reference_distill_study
 from .forge_lifecycle import run_reference_forge_study
+from .provider_study import run_reference_portfolio_study
 from .investigators import DEFAULT_ROLE_CONTRACTS
 from .learned_providers import (
     DEFAULT_LEARNED_PROVIDER_REGISTRY,
@@ -68,6 +69,10 @@ def parser() -> argparse.ArgumentParser:
         "distill-reference", description="Run the deterministic MNEL distillation study"
     )
     distill_reference.add_argument("--workspace", default=None)
+    provider_study_reference = commands.add_parser(
+        "provider-study-reference", description="Run the deterministic heterogeneous provider study"
+    )
+    provider_study_reference.add_argument("--workspace", default=None)
     return root
 
 
@@ -137,6 +142,9 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.command == "distill-reference":
         print(json.dumps(run_reference_distill_study(args.workspace), indent=2, sort_keys=True))
+        return 0
+    if args.command == "provider-study-reference":
+        print(json.dumps(run_reference_portfolio_study(args.workspace), indent=2, sort_keys=True))
         return 0
     print(json.dumps(run_reference_study(args.workspace), indent=2, sort_keys=True))
     return 0

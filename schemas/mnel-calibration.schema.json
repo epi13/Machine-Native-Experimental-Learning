@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/epi13/Machine-Native-Experimental-Learning/schemas/mnel-calibration.schema.json",
+  "title": "MNEL identified calibration records",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "snapshot_identity",
+    "source_record_identity",
+    "expected_label",
+    "visibility",
+    "record_identity",
+    "authority",
+    "semantics"
+  ],
+  "properties": {
+    "schema": {"const": "mnel-calibration-record/0.4"},
+    "snapshot_identity": {"type": "string", "minLength": 1},
+    "source_record_identity": {"type": "string", "minLength": 1},
+    "expected_label": {"type": ["integer", "null"], "enum": [0, 1, null]},
+    "visibility": {"enum": ["development-visible", "selection-observed-not-repairable"]},
+    "record_identity": {"type": "string", "minLength": 1},
+    "authority": {"const": "diagnostic-only"},
+    "semantics": {"const": "calibration-example; not-a-verdict"}
+  }
+}
