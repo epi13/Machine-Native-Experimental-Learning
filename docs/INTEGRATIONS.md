@@ -37,6 +37,13 @@ The external `mncs-forge-mcp` checkout is optional. The MNEL adapter contract is
 identity-bound and provider-neutral; no developer-local Forge path is a runtime
 dependency, and no hidden network or model service is invoked by the reference study.
 
+The 0.4 distillation study consumes the same identified diagnostic plane but remains an
+MNEL-side research harness. Its groups, strategies, retrieval results, learned-provider
+observations, and transfer records are append-only measurements. It does not turn a
+retrieval hit, calibrated score, witness, or synthetic transfer result into Forge/MNCS
+authority. A future external Forge adapter must supply its own identified evaluator and
+keep hidden-transfer access outside development study code.
+
 ## MNCS Fabric
 
 Fabric distributes identified experiment bundles, captures node capabilities, and

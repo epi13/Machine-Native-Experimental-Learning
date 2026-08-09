@@ -114,6 +114,30 @@ and inconclusive experience. Records are content-identified and chained in order
 Learned observations retain declaration, weight, feature, query, snapshot, calibration,
 and limitation identities before they are eligible for later study.
 
+### Verified distillation and study plane
+
+The 0.4 data plane makes reuse explicit without replacing evidence:
+
+```text
+development-visible episodes
+  -> attribution-linked source-preserving group
+  -> provisional principle/strategy with counterexamples
+  -> negative-memory-aware retrieval
+  -> frozen transfer prediction
+  -> hidden transfer evidence
+  -> retained/quarantined/rejected strategy lineage
+```
+
+`mnel.distillation` exposes explicit development and transfer access views. Development
+study code cannot retrieve `TRANSFER_HIDDEN` or `FUTURE_FINAL` records, and a strategy
+cannot be repaired from its own hidden-transfer result. Groups, principles, strategies,
+and negative memory retain source identities; heuristic grouping is labeled as a
+reference feature baseline rather than semantic truth. Retrieval returns record classes
+and match reasons separately, while calibration and transfer status remain measurements.
+Study arms and ablations carry equal-budget declarations and deterministic identities.
+The `distill-reference` command is a synthetic, no-network study surface, not an
+evaluator or a substitute for Forge, Fabric, MNCS, MNCDS, or RAVEL.
+
 ### Distillation plane
 
 VED proposes compact principles and strategies while preserving source lineage,

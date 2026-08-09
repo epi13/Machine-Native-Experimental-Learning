@@ -37,7 +37,7 @@ experience, negative memory, causal attribution, transfer-gated principles, reus
 strategies, and append-only candidate lineage rather than relying exclusively on
 conventional neural-weight training.
 
-> **Current status:** functional `0.3.0a0` iteration. The repository now includes a
+> **Current status:** functional `0.4.0a0` study iteration. The repository now includes a
 > backend-neutral accelerator placement policy, optional Torch/Accelerate adapter,
 > process-local persistent Rust host, reusable identity-bound snapshots, bounded and
 > normalized diagnostic results, failure quarantine, an executable Rust HMM baseline,
@@ -45,7 +45,10 @@ conventional neural-weight training.
 > contracts, an executable local-harness/worktree path, and a validated Rust v1 dynamic
 > provider loader, and an executable bounded Forge-oriented diagnostic lifecycle with
 > compact snapshot views, a verifier registry, reference probes, witnesses, mutations,
-> comparison, health, coverage, and omitted-question candidates. It still does not provide process isolation,
+> comparison, health, coverage, and deterministic skeptic candidates. It also includes
+> source-preserving distillation groups, lineage-bound strategies, negative-memory
+> retrieval, equal-budget study controls, retrieval/calibration metrics, and a tiny
+> reloadable CPU transition-frequency diagnostic provider. It still does not provide process isolation,
 > unattended model execution, distributed scheduling, protected final custody, formal
 > MNCS/MNCDS conformance, or automatic RAVEL promotion.
 
@@ -115,6 +118,14 @@ copy their authority or silently create substitute implementations.
   quarantine state, coverage records, learned-provider observation normalization, and
   proposal-only omitted-question candidates;
 - deterministic reference workflow, JSON schemas, mutation-oriented tests, and CI.
+- bounded skeptic-driven omitted-question discovery with evidence lineage, duplicate
+  suppression, coverage/health/disagreement gaps, and proposal-only authority;
+- source-preserving distillation groups, provisional principles/strategies, transfer
+  prediction freezing, negative-memory-aware retrieval, deterministic study arms and
+  ablations, and retrieval/calibration metrics;
+- `mnel distill-reference`, a no-network held-out study that writes an evidence ledger
+  and exercises controls, hidden-transfer access, strategy transfer, and a tiny
+  reloadable transition-frequency learned provider. Its observations remain diagnostic.
 
 ## Install
 
@@ -187,6 +198,18 @@ candidate:
 ```bash
 mnel forge-reference --workspace build/forge-reference
 ```
+
+Run the deterministic 0.4 distillation study:
+
+```bash
+mnel distill-reference --workspace build/distill-reference
+mnel ledger verify build/distill-reference/distill-evidence.jsonl
+```
+
+The study preserves development records, prevents development code from reading hidden
+or future-final records, freezes the transfer prediction before held-out evaluation,
+and reports measurements rather than a success verdict. Its reference feature grouping
+is an explicit bounded baseline, not semantic understanding.
 
 Verify and summarize the resulting ledger:
 

@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.4.0a0 — unreleased
+
+- Complete bounded deterministic skeptic discovery for verifier gaps, disagreements,
+  abstentions, missing counterfactuals, learned-provider disagreement, and verifier
+  health holes. Candidates remain proposal-only and carry visible evidence lineage.
+- Add source-preserving distillation groups, lineage-bound principles and strategies,
+  explicit negative memory, frozen transfer predictions/evaluations, study-arm contracts,
+  deterministic ablations, retrieval, and calibration metrics.
+- Add fail-closed development/transfer visibility access and a CPU transition-frequency
+  learned-provider artifact with deterministic serialization, reload, OOD abstention, and
+  diagnostic-only observations.
+- Add the no-network `mnel distill-reference` study and distillation record schema.
+
 ## 0.3.0a0 — unreleased
 
 - Add bounded binary views and an identity-keyed shared store for transition, pair,

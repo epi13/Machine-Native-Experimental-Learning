@@ -11,6 +11,7 @@ from pathlib import Path
 
 from . import __version__
 from .core import EvidenceLedger, run_reference_study
+from .distillation import run_reference_distill_study
 from .forge_lifecycle import run_reference_forge_study
 from .investigators import DEFAULT_ROLE_CONTRACTS
 from .learned_providers import (
@@ -63,6 +64,10 @@ def parser() -> argparse.ArgumentParser:
         "forge-reference", description="Run the deterministic MNEL Forge diagnostic lifecycle"
     )
     forge_reference.add_argument("--workspace", default=None)
+    distill_reference = commands.add_parser(
+        "distill-reference", description="Run the deterministic MNEL distillation study"
+    )
+    distill_reference.add_argument("--workspace", default=None)
     return root
 
 
@@ -129,6 +134,9 @@ def main(argv: list[str] | None = None) -> int:
         return 0 if result.valid else 1
     if args.command == "forge-reference":
         print(json.dumps(run_reference_forge_study(args.workspace), indent=2, sort_keys=True))
+        return 0
+    if args.command == "distill-reference":
+        print(json.dumps(run_reference_distill_study(args.workspace), indent=2, sort_keys=True))
         return 0
     print(json.dumps(run_reference_study(args.workspace), indent=2, sort_keys=True))
     return 0

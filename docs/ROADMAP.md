@@ -45,7 +45,9 @@
 - **Implemented:** bounded counterfactual and registered mutation probe support;
 - **Implemented:** independent-probe comparison preserving agreement, disagreement, and incomplete coverage;
 - **Implemented:** verifier health, quarantine, and coverage records;
-- **Started:** deterministic skeptic-driven omitted-question candidate discovery;
+- **Implemented:** deterministic skeptic-driven omitted-question candidate discovery with
+  bounded, deduplicated, lineage-checked candidates for coverage holes, disagreements,
+  abstentions, missing mutation counterparts, and verifier health gaps;
 - **Implemented:** identity-bound transition, tabular, pair, trace, graph, and composite diagnostic snapshots with
   immutable compact binary payloads, producer/source/dependency/extractor identities, and
   deterministic content identities suitable for deterministic probes and learned
@@ -55,14 +57,23 @@
 
 ## 0.4 — verified distillation and learned-provider studies
 
-- semantic clustering without source deletion;
-- attribution and transfer workflows;
-- success- and negative-memory ablations;
-- shuffled-attribution and aggregate-only controls;
-- strategy retrieval and calibration metrics;
-- train and calibrate the initial heterogeneous learned-provider portfolio;
+- **Implemented:** source-preserving deterministic reference grouping with explicit
+  extractor/method identities and limitations;
+- **Implemented:** attribution-linked provisional principles and strategies, negative
+  memory, frozen transfer predictions, held-out transfer evidence, and same-candidate
+  hidden-repair rejection;
+- **Implemented:** success- and negative-memory, shuffled-attribution, aggregate-only,
+  random, fixed-policy, equal-budget, and hidden-transfer control specifications;
+- **Implemented:** explicit class-preserving retrieval with negative-memory demotion and
+  precision/recall/hit-rate/reuse/diversity metrics plus bounded calibration metrics;
+- **Implemented:** deterministic `mnel distill-reference` study and a tiny reloadable CPU
+  transition-frequency learned provider with OOD abstention and diagnostic-only output;
+- **Started:** heterogeneous learned-provider portfolio training and calibration;
 - export Python-trained providers into the versioned native runtime boundary;
-- compare every learned provider against deterministic and classical baselines;
+- **Started:** compare learned providers against deterministic and classical baselines;
+  the reference transition study records deterministic and heuristic controls; the
+  existing Rust HMM baseline is not input-compatible with this compact fixture and is
+  retained as a separate native runtime baseline;
 - random, heuristic, single-provider, and diversity-routed controls;
 - correlated-error, disagreement, abstention, and out-of-distribution studies;
 - useful confirmed probes per operation, latency, memory, energy, and cold-start metrics;

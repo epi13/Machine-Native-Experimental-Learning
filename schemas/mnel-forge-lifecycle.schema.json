@@ -184,7 +184,7 @@
     "questionCandidate": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["schema", "subject_identity", "reason", "target_snapshot_type", "supporting_record_ids", "authority", "semantics", "candidate_identity"],
+      "required": ["schema", "subject_identity", "reason", "target_snapshot_type", "supporting_record_ids", "authority", "candidate_kind", "priority", "lineage", "semantics", "candidate_identity"],
       "properties": {
         "schema": {"const": "mnel-omitted-question-candidate/0.3"},
         "subject_identity": {"type": "string", "minLength": 1},
@@ -192,6 +192,9 @@
         "target_snapshot_type": {"type": ["string", "null"]},
         "supporting_record_ids": {"type": "array", "items": {"type": "string"}},
         "authority": {"const": "proposal-only"},
+        "candidate_kind": {"type": "string", "minLength": 1},
+        "priority": {"type": "integer", "minimum": 0, "maximum": 100},
+        "lineage": {"type": "array", "items": {"type": "string", "minLength": 1}},
         "semantics": {"const": "proposal-only; not-a-verdict"},
         "candidate_identity": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
       }

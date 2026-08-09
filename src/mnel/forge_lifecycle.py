@@ -54,6 +54,7 @@ FORBIDDEN_AUTHORITY_KEYS = frozenset(
         "mncds_verdict",
     }
 )
+MAX_QUESTION_CANDIDATES = 32
 
 
 class ForgeLifecycleError(ValueError):
@@ -1161,12 +1162,18 @@ class QuestionCandidate:
     target_snapshot_type: str | None
     supporting_record_ids: tuple[str, ...]
     authority: str = AUTHORITY_PROPOSAL_ONLY
+    candidate_kind: str = "coverage-gap"
+    priority: int = 0
+    lineage: tuple[str, ...] = ()
 
     def __post_init__(self) -> None:
         _nonempty(self.subject_identity, "candidate subject identity")
         _nonempty(self.reason, "candidate reason")
-        if self.authority != AUTHORITY_PROPOSAL_ONLY:
+        _nonempty(self.candidate_kind, "candidate kind")
+        if self.authority != AUTHORITY_PROPOSAL_ONLY or not 0 <= self.priority <= 100:
             raise ForgeLifecycleError("question candidates are proposal-only")
+        if not self.supporting_record_ids:
+            raise ForgeLifecycleError("question candidates require evidence lineage")
 
     @property
     def candidate_identity(self) -> str:
@@ -1180,6 +1187,9 @@ class QuestionCandidate:
             "target_snapshot_type": self.target_snapshot_type,
             "supporting_record_ids": list(self.supporting_record_ids),
             "authority": self.authority,
+            "candidate_kind": self.candidate_kind,
+            "priority": self.priority,
+            "lineage": list(self.lineage or self.supporting_record_ids),
             "semantics": "proposal-only; not-a-verdict",
         }
         if include_identity:
@@ -1192,21 +1202,163 @@ def discover_question_candidates(
     snapshots: SnapshotStore,
     coverage: CoverageRecord,
     comparisons: Sequence[WitnessComparison] = (),
+    witnesses: Sequence[Witness] = (),
+    mutations: Sequence[MutationRecord] = (),
+    learned_observations: Sequence[LearnedDiagnosticEvent] = (),
+    registry: VerifierRegistry | None = None,
+    visible_lineage: frozenset[str] | None = None,
+    max_candidates: int = MAX_QUESTION_CANDIDATES,
 ) -> tuple[QuestionCandidate, ...]:
-    candidates: list[QuestionCandidate] = [
-        QuestionCandidate(subject_identity, "no compatible verifier exercised this snapshot type", snapshot_type, (coverage.coverage_identity,))
-        for snapshot_type in coverage.uncovered_snapshot_types
-    ]
-    candidates.extend(
-        QuestionCandidate(subject_identity, "identified question has only one diagnostic verifier", None, (question_identity,))
-        for question_identity in coverage.single_source_question_identities
-    )
-    candidates.extend(
-        QuestionCandidate(subject_identity, "independent witnesses disagree", None, comparison.witness_identities)
-        for comparison in comparisons
-        if comparison.comparison_status == "disagreement"
-    )
-    return tuple(sorted(candidates, key=lambda item: item.candidate_identity))
+    if max_candidates < 1 or max_candidates > MAX_QUESTION_CANDIDATES:
+        raise ForgeLifecycleError("question candidate budget is outside its bounded range")
+    candidates: dict[str, QuestionCandidate] = {}
+
+    def add(
+        reason: str,
+        target_snapshot_type: str | None,
+        supporting: Sequence[str],
+        *,
+        candidate_kind: str,
+        priority: int,
+    ) -> None:
+        lineage = tuple(dict.fromkeys(str(item) for item in supporting if str(item).strip()))
+        if not lineage:
+            raise ForgeLifecycleError("skeptic candidate has no evidence lineage")
+        if visible_lineage is not None and not set(lineage).issubset(visible_lineage):
+            raise ForgeLifecycleError("skeptic candidate attempted to use unavailable evidence")
+        candidate = QuestionCandidate(
+            subject_identity,
+            reason,
+            target_snapshot_type,
+            lineage,
+            candidate_kind=candidate_kind,
+            priority=priority,
+            lineage=lineage,
+        )
+        candidates[candidate.candidate_identity] = candidate
+
+    for snapshot_type in coverage.uncovered_snapshot_types:
+        add(
+            "no compatible verifier exercised this snapshot type",
+            snapshot_type,
+            (coverage.coverage_identity,),
+            candidate_kind="missing-verifier-coverage",
+            priority=90,
+        )
+    for question_identity in coverage.single_source_question_identities:
+        add(
+            "identified question has only one diagnostic verifier",
+            None,
+            (question_identity,),
+            candidate_kind="single-diagnostic-source",
+            priority=70,
+        )
+    for comparison in comparisons:
+        if comparison.comparison_status == "disagreement":
+            add(
+                "independent witnesses disagree",
+                None,
+                comparison.witness_identities,
+                candidate_kind="witness-disagreement",
+                priority=100,
+            )
+    status_groups: dict[str, list[Witness]] = {}
+    for witness in witnesses:
+        if witness.execution_status in {
+            ProbeExecutionStatus.INELIGIBLE,
+            ProbeExecutionStatus.NOT_APPLICABLE,
+            ProbeExecutionStatus.ABSTAINED,
+            ProbeExecutionStatus.UNAVAILABLE,
+            ProbeExecutionStatus.ERROR,
+        }:
+            status_groups.setdefault(witness.question_identity, []).append(witness)
+            add(
+                f"verifier execution was {witness.execution_status.value}",
+                None,
+                (witness.witness_identity,),
+                candidate_kind="verifier-abstention-or-error",
+                priority=80,
+            )
+    for failed in status_groups.values():
+        if len(failed) >= 2:
+            add(
+                "question has repeated unavailable or ineligible diagnostic outcomes",
+                None,
+                tuple(item.witness_identity for item in failed),
+                candidate_kind="repeated-unknown",
+                priority=85,
+            )
+    witness_snapshot_ids = {
+        identity for witness in witnesses for identity in witness.snapshot_identities
+    }
+    for snapshot_identity in snapshots.identities():
+        if snapshot_identity not in witness_snapshot_ids:
+            snapshot = snapshots.get(snapshot_identity)
+            add(
+                "identified snapshot has no compatible verifier execution",
+                snapshot.snapshot_type,
+                (snapshot_identity,),
+                candidate_kind="snapshot-unprobed",
+                priority=78,
+            )
+    for mutation in mutations:
+        result_identity = mutation.resulting_snapshot_identity
+        if not any(result_identity in witness.snapshot_identities for witness in witnesses):
+            add(
+                "registered mutation has no corresponding counterfactual probe",
+                None,
+                (mutation.mutation_identity, mutation.original_snapshot_identity),
+                candidate_kind="missing-counterfactual-probe",
+                priority=88,
+            )
+        if mutation.original_snapshot_identity not in witness_snapshot_ids:
+            add(
+                "registered mutation has no identified original probe",
+                None,
+                (mutation.mutation_identity,),
+                candidate_kind="missing-original-probe",
+                priority=82,
+            )
+    mutated_originals = {item.original_snapshot_identity for item in mutations}
+    for witness in witnesses:
+        if witness.execution_status is ProbeExecutionStatus.COMPLETED and not any(
+            identity in mutated_originals for identity in witness.snapshot_identities
+        ):
+            add(
+                "completed original probe has no registered mutation counterpart",
+                None,
+                (witness.witness_identity,),
+                candidate_kind="missing-mutation-counterpart",
+                priority=60,
+            )
+    for event in learned_observations:
+        learned_value = event.payload.get("condition_observed")
+        for witness in witnesses:
+            if (
+                witness.execution_status is ProbeExecutionStatus.COMPLETED
+                and any(identity in event.snapshot_identities for identity in witness.snapshot_identities)
+                and isinstance(learned_value, bool)
+                and learned_value != witness.diagnostic_output.get("condition_observed")
+            ):
+                add(
+                    "learned-provider observation disagrees with a deterministic witness",
+                    None,
+                    (event.event_identity, witness.witness_identity),
+                    candidate_kind="learned-diagnostic-disagreement",
+                    priority=95,
+                )
+    if registry is not None:
+        for declaration in registry.declarations():
+            if registry.state(declaration.verifier_id) is VerifierState.QUARANTINED:
+                add(
+                    "quarantined verifier creates a diagnostic coverage hole",
+                    declaration.accepted_snapshot_types[0],
+                    (declaration.declaration_identity,),
+                    candidate_kind="verifier-health-hole",
+                    priority=75,
+                )
+    values = sorted(candidates.values(), key=lambda item: (-item.priority, item.candidate_identity))
+    return tuple(values[:max_candidates])
 
 
 def run_reference_forge_study(workspace: str | Path | None = None) -> dict[str, Any]:
