@@ -33,6 +33,38 @@ The provider host does not evaluate MNEL gates and cannot promote an observation
 verdict. Its job is admission, dispatch, bounded execution, normalization, and
 measurement.
 
+## Placement is separate from provider lifetime
+
+The runtime manifest carries two different facts:
+
+1. `weight_residency: resident-on-admission` means an admitted provider remains loaded
+   and reusable; weights are not reloaded for each invocation.
+2. `placement` describes where execution and physical weight storage should occur.
+
+The policy vocabulary is:
+
+| Field | Values |
+|---|---|
+| execution device | `auto`, `cpu`, `cuda` |
+| offload | `auto`, `none`, `sequential-cpu` |
+| precision | `auto`, `float32`, `float16`, `bfloat16` |
+
+Sequential CPU offload is therefore compatible with persistent admission. Weights remain
+in system RAM and supported modules are temporarily moved to CUDA for execution. This
+reduces persistent VRAM at the cost of host memory and transfer time; it is not a
+process-per-invocation reload strategy.
+
+The Python control-plane implementation is in `mnel.placement`. The Rust host mirrors the
+policy vocabulary in `mnel-provider-host::placement`. Both are backend-neutral. The
+optional `mnel.torch_runtime` adapter performs actual Torch probes and applies a decision
+through Accelerate when sequential offload is selected.
+
+AUTO placement requires a real accelerator execution probe, measures currently free VRAM,
+subtracts GPU reserve, applies an optional cap, and includes model plus workspace estimates.
+It selects full CUDA when it fits, sequential offload when supported, and CPU otherwise.
+Only AUTO may recover from a bounded CUDA OOM sequence; explicit operator choices fail
+instead of silently changing execution mode.
+
 ## Language and execution tiers
 
 | Tier | Default language | Purpose | Admission rule |
@@ -103,9 +135,11 @@ An admitted host must:
 8. record warm and cold performance separately; and
 9. unload or quarantine a provider after integrity, calibration, or budget failures.
 
-The initial Rust host crate establishes admission policy and reusable snapshot storage.
-Dynamic loading, operating-system sandboxing, and model-runtime selection remain future
-implementation work.
+The Rust host now provides a process-local lifecycle for admitted `LearnedProvider` trait
+objects, reusable snapshot storage, bounded result normalization, timing/copy measurements,
+clean unload, and deterministic failure quarantine. Dynamic shared-library loading, OS
+sandboxing, and a production accelerator backend remain future work. The C ABI v1 remains
+unchanged.
 
 ## Snapshot transport
 
@@ -133,8 +167,8 @@ artifact and does not establish a general language preference.
 ## Delivery sequence
 
 1. Freeze and test the v1 manifest and ABI vocabulary.
-2. Implement a process-local Rust reference provider for a classical baseline.
-3. Add the persistent loader and host-owned output buffer enforcement.
+2. Use the executable Rust HMM reference provider as the classical baseline.
+3. Keep dynamic loading and host-owned ABI output enforcement behind a reviewed boundary.
 4. Add Forge snapshot producers and reuse measurements.
 5. Export one Python-trained neural provider and compare it with the baseline.
 6. Add WASM quarantine only after native measurements establish the overhead budget.

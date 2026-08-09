@@ -66,6 +66,12 @@ useful diagnostic event. An investigator or skeptic must translate an observatio
 a falsifiable hypothesis, and Forge must answer bounded claims through its normal
 verifier boundary.
 
+Provider lifetime and physical placement are separate. The persistent Rust host keeps an
+admitted provider reusable, while its placement policy may select CPU, full CUDA, or
+sequential CPU offload. The latter keeps weights in system RAM and temporarily executes
+modules on CUDA; it does not reload a provider for each query. Placement decisions are
+resource-accounted and diagnostic, never evaluator decisions.
+
 ### Probe plane
 
 Forge supplies small, identity-bearing questions and witnesses. The stable interface is
@@ -121,6 +127,11 @@ Parallel workers must never mutate a shared active candidate in place. Each job 
 
 Workers append results. A separate selector may accept one child transaction; rejected
 children remain available as negative memory.
+
+The local investigator harness now packs eligible records under explicit visibility and
+byte ceilings, separates read-only from proposal workspaces, binds runtime/model/tool
+identities, and creates proposal-only candidate transaction identities. These contracts
+do not grant filesystem or network authority and do not implement unattended execution.
 
 ## Model independence
 

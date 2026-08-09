@@ -44,7 +44,47 @@
         "abi": {"const": "mnel-provider-c-abi/1"},
         "persistent_host": {"const": true},
         "snapshot_transport": {"const": "identity-bound-compact-binary"},
-        "weight_residency": {"const": "resident-on-admission"}
+        "weight_residency": {"const": "resident-on-admission"},
+        "placement": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "execution_device",
+            "offload",
+            "precision",
+            "gpu_reserve_mib",
+            "max_vram_mib",
+            "model_storage_bytes",
+            "workspace_bytes",
+            "host_memory_budget_bytes",
+            "supports_sequential_cpu_offload",
+            "cpu_precisions",
+            "cuda_precisions"
+          ],
+          "properties": {
+            "execution_device": {"enum": ["auto", "cpu", "cuda"]},
+            "offload": {"enum": ["auto", "none", "sequential-cpu"]},
+            "precision": {"enum": ["auto", "float32", "float16", "bfloat16"]},
+            "gpu_reserve_mib": {"type": "integer", "minimum": 0},
+            "max_vram_mib": {"type": ["integer", "null"], "minimum": 1},
+            "model_storage_bytes": {"type": "integer", "minimum": 0},
+            "workspace_bytes": {"type": "integer", "minimum": 0},
+            "host_memory_budget_bytes": {"type": ["integer", "null"], "minimum": 1},
+            "supports_sequential_cpu_offload": {"type": "boolean"},
+            "cpu_precisions": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {"enum": ["auto", "float32", "float16", "bfloat16"]}
+            },
+            "cuda_precisions": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {"enum": ["auto", "float32", "float16", "bfloat16"]}
+            }
+          }
+        }
       }
     },
     "language_exception": {

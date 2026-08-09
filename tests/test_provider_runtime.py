@@ -10,6 +10,7 @@ from mnel.provider_runtime import (
     ProviderRuntimeManifest,
     load_runtime_manifest,
 )
+from mnel.placement import ExecutionDevice, OffloadMode, PlacementPolicy, Precision
 
 
 class ProviderRuntimePolicyTests(unittest.TestCase):
@@ -50,6 +51,24 @@ class ProviderRuntimePolicyTests(unittest.TestCase):
             ),
         )
         self.assertEqual(manifest.execution_tier, ExecutionTier.NATIVE_TRUSTED)
+
+    def test_placement_metadata_round_trips_without_changing_abi(self) -> None:
+        manifest = self.manifest(
+            placement_policy=PlacementPolicy(
+                execution_device=ExecutionDevice.AUTO,
+                offload=OffloadMode.SEQUENTIAL_CPU,
+                precision=Precision.FLOAT16,
+                gpu_reserve_mib=512,
+                max_vram_mib=4096,
+                model_storage_bytes=1024,
+                workspace_bytes=2048,
+            ),
+        )
+        raw = manifest.to_dict()
+        self.assertEqual(raw["runtime"]["abi"], "mnel-provider-c-abi/1")
+        restored = ProviderRuntimeManifest.from_dict(raw)
+        self.assertEqual(restored.placement_policy.offload, OffloadMode.SEQUENTIAL_CPU)
+        self.assertEqual(restored.placement_policy.precision, Precision.FLOAT16)
 
     def test_example_manifest_round_trips(self) -> None:
         path = Path("examples/learned-providers/runtime-manifest.json")

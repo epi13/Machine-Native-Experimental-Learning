@@ -37,12 +37,14 @@ experience, negative memory, causal attribution, transfer-gated principles, reus
 strategies, and append-only candidate lineage rather than relying exclusively on
 conventional neural-weight training.
 
-> **Current status:** functional `0.1.0a0` foundation. The repository implements the
-> core local lifecycle, deterministic evidence ledger, hard-gate evaluator, recursion
-> governor, investigator contracts, a diagnostic-only learned micro-provider registry,
-> and a testable Rust-first provider runtime contract. It does not yet train or execute
-> learned micro-providers, provide unattended model execution, distributed scheduling,
-> protected final custody, formal MNCS/MNCDS conformance, or automatic RAVEL promotion.
+> **Current status:** functional `0.2.0a0` iteration. The repository now includes a
+> backend-neutral accelerator placement policy, optional Torch/Accelerate adapter,
+> process-local persistent Rust host, reusable identity-bound snapshots, bounded and
+> normalized diagnostic results, failure quarantine, an executable Rust HMM baseline,
+> deterministic runtime measurements, and bounded investigator context/workspace
+> contracts. It still does not provide dynamic library loading, process isolation,
+> unattended model execution, distributed scheduling, protected final custody, formal
+> MNCS/MNCDS conformance, or automatic RAVEL promotion.
 
 ## Core rule
 
@@ -86,6 +88,14 @@ copy their authority or silently create substitute implementations.
 - accepted Rust-first runtime architecture decision and versioned C ABI;
 - safe Rust provider SDK, host admission policy, reusable snapshot cache, and runtime
   manifest validation;
+- backend-neutral CPU/full-CUDA/sequential-CPU-offload policy with reserve/cap/workspace
+  accounting, real-probe requirements, precision checks, and bounded AUTO OOM recovery;
+- explicit distinction between persistent provider lifetime and physical weight placement;
+- process-local Rust host lifecycle, snapshot reuse, output-buffer limits, normalized
+  status handling, measurement collection, and deterministic quarantine;
+- executable `mnel-provider-classical` HMM diagnostic provider and host integration tests;
+- eligible-context packing, read-only/proposal workspace models, identity envelopes,
+  candidate transactions, quarantine queues, and deterministic morning-report records;
 - deterministic reference workflow, JSON schemas, mutation-oriented tests, and CI.
 
 ## Install
@@ -132,8 +142,15 @@ mnel learned-provider match \
   --limit 4
 ```
 
-These commands inspect declarations and matching only. They do not download, train, or
-execute any model.
+The catalog commands do not download or train models. The Rust reference provider can be
+measured locally with:
+
+```bash
+cargo run -p mnel-provider-host --example provider-benchmark
+```
+
+The benchmark reports one local observation of host admission and warm invocation timing;
+hardware-independent placement policy tests use fake accelerator diagnostics.
 
 Run the deterministic reference lifecycle:
 
@@ -201,6 +218,15 @@ path.
 See [ADR 0001](docs/decisions/0001-rust-provider-runtime.md) and the
 [learned-provider runtime contract](docs/LEARNED_PROVIDER_RUNTIME.md).
 
+### Placement and residency
+
+Provider admission is persistent, but GPU residency is a separate policy decision.
+`resident-on-admission` means the provider is loaded and reusable; it does not mean all
+weights must remain permanently on a GPU. With sequential CPU offload, weights remain in
+system RAM while individual modules execute temporarily on CUDA, trading VRAM for host
+memory and transfer overhead. Explicit CPU/CUDA/offload choices are honored or rejected;
+only `auto` may use bounded full-CUDA → sequential-offload → CPU recovery.
+
 ## Investigator roles
 
 - **Investigator** — proposes falsifiable hypotheses and bounded interventions.
@@ -239,9 +265,10 @@ state, and failure modes.
 src/mnel/                          Python control plane and executable foundation
 crates/mnel-provider-api/          versioned provider ABI vocabulary
 crates/mnel-provider-sdk/          safe Rust provider authoring surface
-crates/mnel-provider-host/         admission policy and reusable snapshot storage
+crates/mnel-provider-host/         persistent process-local host, policy, and snapshots
+crates/mnel-provider-classical/    executable deterministic HMM diagnostic baseline
 include/                           language-neutral provider ABI header
-schemas/                           machine-readable record vocabulary
+schemas/                           machine-readable record and runtime vocabulary
 docs/                              architecture, decisions, method, boundaries, roadmap
 examples/reference-study/          deterministic lifecycle example
 examples/learned-providers/        architecture catalog and runtime manifest example

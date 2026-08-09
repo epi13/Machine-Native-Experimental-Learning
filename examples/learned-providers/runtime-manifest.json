@@ -10,7 +10,20 @@
     "abi": "mnel-provider-c-abi/1",
     "persistent_host": true,
     "snapshot_transport": "identity-bound-compact-binary",
-    "weight_residency": "resident-on-admission"
+    "weight_residency": "resident-on-admission",
+    "placement": {
+      "execution_device": "auto",
+      "offload": "auto",
+      "precision": "auto",
+      "gpu_reserve_mib": 256,
+      "max_vram_mib": null,
+      "model_storage_bytes": 65536,
+      "workspace_bytes": 268435456,
+      "host_memory_budget_bytes": null,
+      "supports_sequential_cpu_offload": false,
+      "cpu_precisions": ["float32"],
+      "cuda_precisions": ["float32", "float16", "bfloat16"]
+    }
   },
   "authority": "diagnostic-only",
   "verdict_semantics": "not-a-verdict"
