@@ -1,0 +1,23 @@
+[package]
+name = "mnel-provider-loader"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Auditable v1 dynamic-library loader for MNEL diagnostic providers"
+
+[dependencies]
+libloading = "0.8"
+mnel-provider-api = { path = "../mnel-provider-api" }
+mnel-provider-sdk = { path = "../mnel-provider-sdk" }
+sha2 = "0.10"
+
+[dev-dependencies]
+mnel-provider-fixture = { path = "../mnel-provider-fixture" }
+mnel-provider-fixture-invalid = { path = "../mnel-provider-fixture-invalid" }
+mnel-provider-fixture-no-entry = { path = "../mnel-provider-fixture-no-entry" }
+mnel-provider-host = { path = "../mnel-provider-host" }
+
+[lints]
+workspace = true

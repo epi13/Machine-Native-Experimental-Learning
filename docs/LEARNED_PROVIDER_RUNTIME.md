@@ -137,15 +137,21 @@ An admitted host must:
 
 The Rust host now provides a process-local lifecycle for admitted `LearnedProvider` trait
 objects, reusable snapshot storage, bounded result normalization, timing/copy measurements,
-clean unload, and deterministic failure quarantine. Dynamic shared-library loading, OS
-sandboxing, and a production accelerator backend remain future work. The C ABI v1 remains
-unchanged.
+clean unload, and deterministic failure quarantine. `mnel-provider-loader` adds the
+native-trusted dynamic-library increment: it hashes the artifact, resolves
+`mnel_provider_entry_v1`, validates descriptor identities and ABI version, checks query and
+result pointer/length metadata, copies output into host-owned memory, serializes calls, and
+unloads the library with the provider handle. Native code is not sandboxed; OS isolation,
+and a production accelerator backend remain future work. The C ABI v1 remains unchanged.
 
 ## Snapshot transport
 
-Forge or another identified producer should construct an AST, graph, trace, transition,
-pair, tabular, or composite snapshot once. Compatible providers consume borrowed views
-of that immutable payload.
+The initial Python snapshot producers construct bounded transition, pair, or tabular
+snapshots once. Each immutable payload is binary-friendly and carries producer, source,
+dependency, feature-extractor, schema, and payload identities. Compatible deterministic
+probes and learned providers can consume the same payload boundary; changing a material
+dependency changes the content identity and prevents silent reuse. Forge or another
+identified producer can extend this vocabulary to AST, graph, trace, or composite views.
 
 The durable ledger may describe the snapshot with canonical JSON, but the hot path uses
 compact binary bytes with explicit schema and feature-extractor identities. Any material
@@ -168,7 +174,8 @@ artifact and does not establish a general language preference.
 
 1. Freeze and test the v1 manifest and ABI vocabulary.
 2. Use the executable Rust HMM reference provider as the classical baseline.
-3. Keep dynamic loading and host-owned ABI output enforcement behind a reviewed boundary.
+3. Keep dynamic loading and host-owned ABI output enforcement behind the reviewed
+   `mnel-provider-loader` boundary and its native cdylib fixtures.
 4. Add Forge snapshot producers and reuse measurements.
 5. Export one Python-trained neural provider and compare it with the baseline.
 6. Add WASM quarantine only after native measurements establish the overhead budget.

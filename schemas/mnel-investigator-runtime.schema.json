@@ -5,7 +5,11 @@
   "oneOf": [
     {"$ref": "#/$defs/context"},
     {"$ref": "#/$defs/transaction"},
-    {"$ref": "#/$defs/report"}
+    {"$ref": "#/$defs/report"},
+    {"$ref": "#/$defs/request"},
+    {"$ref": "#/$defs/observation"},
+    {"$ref": "#/$defs/materialized"},
+    {"$ref": "#/$defs/run"}
   ],
   "$defs": {
     "context": {
@@ -48,6 +52,81 @@
         "proposal_count": {"type": "integer", "minimum": 0},
         "authority": {"const": "proposal-only"},
         "report_identity": {"type": "string", "minLength": 1}
+      }
+    },
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "task_id", "role", "prompt", "eligible_context_identity", "eligible_record_ids", "allowed_tools", "workspace", "workspace_access", "proposal_only", "timeout_seconds", "authority", "request_identity"],
+      "properties": {
+        "schema": {"const": "mnel-local-investigator-request/0.2"},
+        "task_id": {"type": "string", "minLength": 1},
+        "role": {"type": "string", "minLength": 1},
+        "prompt": {"type": "string", "minLength": 1},
+        "eligible_context_identity": {"type": "string", "minLength": 1},
+        "eligible_record_ids": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+        "allowed_tools": {"type": "array", "items": {"type": "string"}},
+        "workspace": {"type": "string", "minLength": 1},
+        "workspace_access": {"enum": ["read-only", "proposal"]},
+        "proposal_only": {"const": true},
+        "timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 3600},
+        "runtime_identity": {"type": "object", "additionalProperties": {"type": "string"}},
+        "authority": {"const": "proposal-only"},
+        "request_identity": {"type": "string", "minLength": 1}
+      }
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "request_identity", "status", "returncode", "timed_out", "duration_ns", "stdout_bytes", "stderr_bytes", "route", "model_output", "attempts", "harness_successful", "response_identity", "error", "authority", "semantics", "observation_identity"],
+      "properties": {
+        "schema": {"const": "mnel-local-investigator-observation/0.2"},
+        "request_identity": {"type": "string", "minLength": 1},
+        "status": {"enum": ["completed", "unknown", "quarantined"]},
+        "returncode": {"type": ["integer", "null"]},
+        "timed_out": {"type": "boolean"},
+        "duration_ns": {"type": ["integer", "null"], "minimum": 0},
+        "stdout_bytes": {"type": "integer", "minimum": 0},
+        "stderr_bytes": {"type": "integer", "minimum": 0},
+        "route": {"type": ["object", "null"]},
+        "model_output": {"type": "string"},
+        "attempts": {"type": "array", "items": {"type": "object"}, "maxItems": 32},
+        "harness_successful": {"type": ["boolean", "null"]},
+        "response_identity": {"type": ["string", "null"]},
+        "error": {"type": ["string", "null"]},
+        "authority": {"const": "proposal-only"},
+        "semantics": {"const": "diagnostic-only; not-a-verdict"},
+        "observation_identity": {"type": "string", "minLength": 1}
+      }
+    },
+    "materialized": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "source", "path", "transaction", "access", "proposal_only", "materialization_identity"],
+      "properties": {
+        "schema": {"const": "mnel-materialized-worktree/0.2"},
+        "source": {"type": "object"},
+        "path": {"type": "string", "minLength": 1},
+        "transaction": {"$ref": "#/$defs/transaction"},
+        "access": {"const": "proposal"},
+        "proposal_only": {"const": true},
+        "materialization_identity": {"type": "string", "minLength": 1}
+      }
+    },
+    "run": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "source", "context", "worktree", "request", "observation", "authority", "semantics", "run_identity"],
+      "properties": {
+        "schema": {"const": "mnel-local-investigator-run/0.2"},
+        "source": {"type": "object"},
+        "context": {"$ref": "#/$defs/context"},
+        "worktree": {"$ref": "#/$defs/materialized"},
+        "request": {"$ref": "#/$defs/request"},
+        "observation": {"$ref": "#/$defs/observation"},
+        "authority": {"const": "proposal-only"},
+        "semantics": {"const": "diagnostic-only; not-a-verdict"},
+        "run_identity": {"type": "string", "minLength": 1}
       }
     }
   }

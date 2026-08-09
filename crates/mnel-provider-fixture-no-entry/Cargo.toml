@@ -1,0 +1,14 @@
+[package]
+name = "mnel-provider-fixture-no-entry"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "No-entry-symbol cdylib fixture for MNEL loader integration tests"
+
+[lib]
+crate-type = ["cdylib"]
+
+[lints]
+workspace = true

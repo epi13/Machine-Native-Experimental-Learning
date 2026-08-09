@@ -1,0 +1,17 @@
+[package]
+name = "mnel-provider-fixture"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Deterministic native cdylib fixture for MNEL loader integration tests"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+mnel-provider-api = { path = "../mnel-provider-api" }
+
+[lints]
+workspace = true

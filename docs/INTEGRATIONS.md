@@ -2,10 +2,23 @@
 
 ## epi13-local-harness
 
-The local harness is the intended model-routing and bounded-tool substrate. MNEL sends a
-role contract, eligible record identities, task prompt, allowed tools, and workspace.
-The response remains a proposal. The local harness must not receive hidden partitions or
-promotion authority.
+The local harness is the intended model-routing and bounded-tool substrate. MNEL's
+`LocalHarnessAdapter` sends the sibling JSON-line `chat/start` protocol with a role
+contract, eligible-context identity and record identities, runtime identity envelope, task
+prompt, allowed tools, and a detached proposal workspace. The command is an explicit
+argument vector (`shell=False`), and the adapter enforces a timeout and output ceiling.
+
+Responses must contain the expected protocol/method/request identity and bounded route,
+attempt, and model-output fields. Verdict, conformance, promotion, evaluator, hidden
+transfer, and future-final fields are rejected. A harness `successful` flag is retained
+only as a diagnostic execution observation; MNEL emits no evaluator verdict. Malformed,
+failed, or timed-out runs become quarantined or `UNKNOWN` observations and retain their
+worktree until explicit cleanup.
+
+`run_local_investigator` composes context packing, source commit identification, detached
+Git worktree materialization, request execution, and append-only observation records. The
+authoritative checkout is never used as the proposal mutation workspace. Worktree roots
+must be configured outside the source checkout, and cleanup is an explicit operator call.
 
 ## MNCS Forge
 
