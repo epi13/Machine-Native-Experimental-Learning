@@ -1,0 +1,16 @@
+# Operator-only example. Paths refer to external trust material and must not be
+# committed with real certificates, private keys, or worker addresses.
+controller_id = "mnel-controller-example"
+state_path = "build/fabric-controller.jsonl"
+# NetworkFabricBackend requires a verified, pre-staged bundle before dispatch.
+pre_staged_bundle_identity = "sha256:replace-with-the-expected-bundle-identity"
+
+[[workers]]
+worker_id = "worker-a"
+host = "replace-with-operator-endpoint"
+port = 4433
+capabilities = ["python", "os:linux"]
+ca_file = "operator-pki/ca.pem"
+client_cert = "operator-pki/controller.pem"
+client_key = "operator-pki/controller.key"
+trust_store = "build/fabric-trust.jsonl"

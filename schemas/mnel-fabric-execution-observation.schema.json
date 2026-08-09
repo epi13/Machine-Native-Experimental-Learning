@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mnel.dev/schemas/mnel-fabric-execution-observation.schema.json",
+  "title": "MNEL Fabric execution observation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "observation_identity", "workload_identity", "worker_identity", "disposition", "authority", "semantics"],
+  "properties": {
+    "schema": {"const": "mnel-fabric-execution-observation/0.5"},
+    "observation_identity": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "workload_identity": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "worker_identity": {"type": "string", "minLength": 1},
+    "provider_artifact_identity": {"type": ["string", "null"]},
+    "disposition": {"enum": ["completed", "incomplete", "unavailable", "invalid", "quarantined"]},
+    "result": {"type": ["object", "null"]},
+    "fabric_record_identity": {"type": ["string", "null"]},
+    "receipt_identity": {"type": ["string", "null"]},
+    "reason": {"type": ["string", "null"]},
+    "authority": {"const": "diagnostic-only"},
+    "semantics": {"const": "Fabric execution observation; not correctness or evaluator authority"}
+  }
+}

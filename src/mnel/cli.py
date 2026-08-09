@@ -15,6 +15,7 @@ from .distillation import run_reference_distill_study
 from .forge_lifecycle import run_reference_forge_study
 from .provider_study import run_reference_portfolio_study
 from .family_integration import run_reference_family_integration
+from .fabric_execution import run_network_fabric, run_reference_fabric_study
 from .investigators import DEFAULT_ROLE_CONTRACTS
 from .learned_providers import (
     DEFAULT_LEARNED_PROVIDER_REGISTRY,
@@ -34,7 +35,8 @@ def parser() -> argparse.ArgumentParser:
     investigator.add_subparsers(dest="subcommand", required=True).add_parser("list")
 
     learned_provider = commands.add_parser(
-        "learned-provider", description="Inspect diagnostic-only learned micro-provider declarations"
+        "learned-provider",
+        description="Inspect diagnostic-only learned micro-provider declarations",
     )
     learned_commands = learned_provider.add_subparsers(dest="subcommand", required=True)
     learned_commands.add_parser("list")
@@ -78,6 +80,19 @@ def parser() -> argparse.ArgumentParser:
         "family-integration-reference", description="Run the bounded MNCS-family integration study"
     )
     family_integration_reference.add_argument("--workspace", default=None)
+    fabric_reference = commands.add_parser(
+        "fabric-reference",
+        description="Run the deterministic distributed MNEL/Fabric reference study",
+    )
+    fabric_reference.add_argument("--workspace", default=None)
+    fabric_run = commands.add_parser(
+        "fabric-run",
+        description="Dispatch an operator-supplied fixed-argv plan through remote Fabric",
+    )
+    fabric_run.add_argument("--config", required=True)
+    fabric_run.add_argument("--plan", required=True)
+    fabric_run.add_argument("--manifest", required=True)
+    fabric_run.add_argument("--replicas", type=int, default=1)
     return root
 
 
@@ -152,7 +167,25 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(run_reference_portfolio_study(args.workspace), indent=2, sort_keys=True))
         return 0
     if args.command == "family-integration-reference":
-        print(json.dumps(run_reference_family_integration(args.workspace), indent=2, sort_keys=True))
+        print(
+            json.dumps(run_reference_family_integration(args.workspace), indent=2, sort_keys=True)
+        )
+        return 0
+    if args.command == "fabric-reference":
+        print(json.dumps(run_reference_fabric_study(args.workspace), indent=2, sort_keys=True))
+        return 0
+    if args.command == "fabric-run":
+        try:
+            result = run_network_fabric(
+                args.config, args.plan, args.manifest, replicas=args.replicas
+            )
+        except Exception as error:
+            print(
+                json.dumps({"status": "UNKNOWN", "error": str(error)}, indent=2, sort_keys=True),
+                file=sys.stderr,
+            )
+            return 2
+        print(json.dumps(result, indent=2, sort_keys=True))
         return 0
     print(json.dumps(run_reference_study(args.workspace), indent=2, sort_keys=True))
     return 0
