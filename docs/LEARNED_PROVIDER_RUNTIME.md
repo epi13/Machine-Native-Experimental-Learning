@@ -209,3 +209,15 @@ artifact and does not establish a general language preference.
 
 Each stage must preserve the current diagnostic authority boundary and may terminate in
 `UNKNOWN` rather than silently widening capability.
+## Portable transition artifact bridge
+
+The Python transition-frequency reference provider emits a deterministic
+`mnel-learned-provider-artifact/0.4` JSON artifact. `mnel-provider-classical` now contains a
+narrow Rust parser and reference inference surface for that artifact. It verifies the artifact
+and model identities, authority/semantics fields, bounded transition counts, compact `MNEL-T1`
+payload lengths, known-transition scores, and OOD abstention. A checked-in fixture is loaded by
+both the Python and Rust tests.
+
+This is not yet native ABI execution of a Python-trained artifact. ABI v1 has no portable
+model-artifact initialization request, and MNEL does not use ambient paths or global model
+state to bridge that gap. The native export item therefore remains Started.

@@ -10,6 +10,9 @@ description = "Deterministic Rust classical provider baseline for MNEL"
 [dependencies]
 mnel-provider-api = { path = "../mnel-provider-api" }
 mnel-provider-sdk = { path = "../mnel-provider-sdk" }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
 
 [lints]
 workspace = true
