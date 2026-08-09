@@ -75,6 +75,9 @@
 - **Implemented:** provider candidate/admission, transfer-pending, quarantine, retirement,
   and rollback records with explicit evidence checklists;
 - **Started:** broader provider portfolios and native export of Python-trained artifacts;
+- **Implemented:** a bounded Rust parser/reference inference surface for the existing
+  transition-frequency artifact, with checked-in Python/Rust identity and score-equivalence
+  fixtures; ABI v1 host initialization remains open;
 - export Python-trained providers into the versioned native runtime boundary;
 - **Implemented:** compare the reference providers against seeded-random and explicit
   heuristic controls; the Rust HMM remains a separate not-applicable native baseline for
@@ -94,12 +97,13 @@
 
 ## 0.5 — MNCS Fabric execution
 
+- **Started:** content-addressed local experiment material binding to Fabric manifests;
+- **Started:** capability-aware local dispatch through the public `FabricService` boundary;
+- **Started:** typed MNCS execution-receipt collection and MNEL normalization;
+- **Started:** local duplicate/replay and same-node reconciliation evidence;
 - authenticated worker enrollment;
-- content-addressed experiment bundles;
-- capability-aware dispatch;
 - replicated and sharded trial matrices;
-- node-loss, stale-result, duplicate, and replay handling;
-- deterministic reconciliation and scaling measurements;
+- remote node-loss handling, protected custody, and scaling measurements;
 - heterogeneous learned-provider placement by snapshot locality and node capability;
 - ABI compatibility and provider-artifact admission across Fabric nodes.
 

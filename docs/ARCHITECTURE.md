@@ -167,6 +167,20 @@ visibility, budget, lineage, stopping, and rollback invariants. It is not an opt
 A learned router may eventually rank already-compatible providers, but it cannot expand
 capability, authority, disclosure, partition access, or cost ceilings.
 
+### MNCS-family integration plane
+
+Forge is the preferred external control/evidence plane. The `mnel.forge_provider` module
+implements only Provider Protocol 0.1 capabilities and bounded analysis responses. The
+family reference path binds an MNEL study and provider artifact to a Fabric manifest, calls
+the public `FabricService`, consumes the typed experimental execution receipt, and stores a
+companion MNEL observation. Forge controls the declared workflow, Fabric records execution,
+and the receipt preserves its own unasserted claim boundary; none of these records is an
+MNEL evaluator verdict.
+
+Pinned compatibility snapshots for Forge, Fabric, the Complexity Standard, Commons, Language,
+and RAVEL are shape evidence with exact source commits, not vendored implementations or
+conformance claims. Commons output is inert interchange. RAVEL output is proposal context.
+
 ## Concurrency
 
 Parallel workers must never mutate a shared active candidate in place. Each job binds:

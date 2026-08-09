@@ -52,6 +52,13 @@ conventional neural-weight training.
 > unattended model execution, distributed scheduling, protected final custody, formal
 > MNCS/MNCDS conformance, or automatic RAVEL promotion.
 
+The repository also contains a dependency-aware MNCS-family integration reference:
+`mnel family-integration-reference` exposes a Forge Provider Protocol 0.1 adapter, validates
+pinned Forge/Fabric/Commons/RAVEL/Language compatibility shapes, executes a bounded local
+Fabric job through its public service, consumes the experimental MNCS receipt, and records
+the result as diagnostic evidence. Live sibling availability is reported explicitly; no
+external checkout is required for ordinary MNEL CI.
+
 ## Core rule
 
 **Investigators and learned providers may propose knowledge. They may not declare it true.**

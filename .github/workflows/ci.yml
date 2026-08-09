@@ -25,6 +25,8 @@ jobs:
       - run: python -m mnel ledger verify build/demo/evidence.jsonl
       - run: python -m mnel provider-study-reference --workspace build/provider-study-reference
       - run: python -m mnel ledger verify build/provider-study-reference/provider-portfolio-evidence.jsonl
+      - run: python -m mnel family-integration-reference --workspace build/family-integration-reference
+      - run: python -m mnel ledger verify build/family-integration-reference/family-integration-evidence.jsonl
       - run: git diff --check
 
   rust-provider-runtime:

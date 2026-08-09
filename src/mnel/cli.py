@@ -14,6 +14,7 @@ from .core import EvidenceLedger, run_reference_study
 from .distillation import run_reference_distill_study
 from .forge_lifecycle import run_reference_forge_study
 from .provider_study import run_reference_portfolio_study
+from .family_integration import run_reference_family_integration
 from .investigators import DEFAULT_ROLE_CONTRACTS
 from .learned_providers import (
     DEFAULT_LEARNED_PROVIDER_REGISTRY,
@@ -73,6 +74,10 @@ def parser() -> argparse.ArgumentParser:
         "provider-study-reference", description="Run the deterministic heterogeneous provider study"
     )
     provider_study_reference.add_argument("--workspace", default=None)
+    family_integration_reference = commands.add_parser(
+        "family-integration-reference", description="Run the bounded MNCS-family integration study"
+    )
+    family_integration_reference.add_argument("--workspace", default=None)
     return root
 
 
@@ -85,7 +90,7 @@ def main(argv: list[str] | None = None) -> int:
             "python_supported": sys.version_info >= (3, 11),
             "workspace": str(Path(args.workspace).resolve()),
             "commands": {"elh": shutil.which("elh"), "mncs-fabric": shutil.which("mncs-fabric")},
-            "forge": "provider adapter; no local executable assumed",
+            "forge": "MNCS Provider Protocol 0.1 adapter; external Forge remains optional",
         }
         print(json.dumps(result, indent=2, sort_keys=True))
         return 0 if result["python_supported"] else 1
@@ -145,6 +150,9 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.command == "provider-study-reference":
         print(json.dumps(run_reference_portfolio_study(args.workspace), indent=2, sort_keys=True))
+        return 0
+    if args.command == "family-integration-reference":
+        print(json.dumps(run_reference_family_integration(args.workspace), indent=2, sort_keys=True))
         return 0
     print(json.dumps(run_reference_study(args.workspace), indent=2, sort_keys=True))
     return 0

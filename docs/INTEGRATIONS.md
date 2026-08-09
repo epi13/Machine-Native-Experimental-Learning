@@ -33,9 +33,16 @@ verifier declarations, bounded snapshot views, preconditions, witnesses, registe
 mutations, independent comparison, health, and coverage. It is an adapter/test surface,
 not a substitute Forge implementation and does not claim MNCS/MNCDS conformance.
 
-The external `mncs-forge-mcp` checkout is optional. The MNEL adapter contract is
-identity-bound and provider-neutral; no developer-local Forge path is a runtime
-dependency, and no hidden network or model service is invoked by the reference study.
+MNEL also exposes a narrow external Forge Provider Protocol 0.1 adapter in
+`mnel.forge_provider`. Its capabilities, bounded analysis requests, and one-line responses
+are diagnostic-only; malformed, hidden-partition, and authority-expanding requests fail
+closed. The project-scoped `mncs-forge.toml` declares the adapter without making Forge a
+mandatory MNEL installation dependency. The current sibling Forge checkout can validate,
+inspect, probe, and run the declared workflows when invoked with its source on `PYTHONPATH`.
+
+The family integration reference path records a pinned compatibility snapshot and reports
+whether live sibling checkouts are available. A compatibility snapshot is not a conformance
+claim and does not silently accept protocol drift.
 
 The 0.4 distillation study consumes the same identified diagnostic plane but remains an
 MNEL-side research harness. Its groups, strategies, retrieval results, learned-provider
@@ -49,6 +56,17 @@ keep hidden-transfer access outside development study code.
 Fabric distributes identified experiment bundles, captures node capabilities, and
 reconciles observations. MNEL owns experiment semantics; Fabric owns bounded execution
 records. A Fabric `PASS` does not become an MNEL causal claim or formal MNCS result.
+
+`mnel family-integration-reference` uses only Fabric's public `FabricService`: it binds a
+provider-study identity and provider-artifact reference into a content-addressed local
+manifest, executes a bounded local job, consumes the typed experimental receipt, and
+normalizes the observation into the MNEL ledger. Repeated execution is labelled
+`local-in-process-replication`; it is not multi-host independence, authenticated worker
+enrollment, or protected custody.
+
+The same path emits an inert Commons Observation-shaped record and a RAVEL 0.6 proposal
+context fixture. Neither is published or granted trust-domain, evaluator, freeze, selection,
+or promotion authority.
 
 ## RAVEL
 

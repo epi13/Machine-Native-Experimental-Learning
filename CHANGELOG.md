@@ -2,6 +2,15 @@
 
 ## 0.4.0a0 — unreleased
 
+- Add a strict MNCS Forge Provider Protocol 0.1 adapter and project-scoped Forge config;
+  capabilities and analysis responses are bounded, one-line, diagnostic-only records.
+- Add pinned MNCS-family compatibility snapshots and a `family-integration-reference`
+  path using the public Fabric service, typed execution receipts, MNEL normalization,
+  inert Commons interchange, and RAVEL 0.6 proposal-context fixtures.
+- Add a bounded Rust parser/reference inference surface for the existing transition-frequency
+  artifact, with a checked-in fixture loaded by both Python and Rust; ABI v1 export remains
+  explicitly open because it lacks portable artifact initialization.
+
 - Complete bounded deterministic skeptic discovery for verifier gaps, disagreements,
   abstentions, missing counterfactuals, learned-provider disagreement, and verifier
   health holes. Candidates remain proposal-only and carry visible evidence lineage.
