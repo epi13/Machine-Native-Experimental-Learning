@@ -84,7 +84,7 @@ surfaces.
 
 | Project | MNEL role |
 |---|---|
-| `MNEL-local-harness` | Routes work across local models and exposes bounded tools to investigator roles |
+| MNCS Harness | Optional sibling that routes work across local models and exposes bounded tools to investigator roles |
 | MNCS Forge | Supplies provider-neutral micro-verifiers, diagnostic probes, snapshots, and counterfactual witnesses |
 | MNCS Fabric | Executes and reconciles content-addressed experiments across machines |
 | RAVEL | Supplies the adaptive mechanism and consumes governed experience or candidate proposals |

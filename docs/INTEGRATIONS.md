@@ -1,9 +1,13 @@
 # Project-family integrations
 
-## epi13-local-harness
+## MNCS Harness
 
-The local harness is the intended model-routing and bounded-tool substrate. MNEL's
-`LocalHarnessAdapter` sends the sibling JSON-line `chat/start` protocol with a role
+The former `epi13-local-harness` repository is now
+[MNCS Harness](https://github.com/epi13/mncs-harness). Checkout directories named
+`mncs-harness` replace the old `epi13-local-harness` path. Harness is an optional
+sibling routing and tool substrate, not a normative MNCS or MNEL requirement.
+
+MNEL's `LocalHarnessAdapter` still sends the sibling JSON-line `chat/start` protocol with a role
 contract, eligible-context identity and record identities, runtime identity envelope, task
 prompt, allowed tools, and a detached proposal workspace. The command is an explicit
 argument vector (`shell=False`), and the adapter enforces a timeout and output ceiling.
@@ -86,5 +90,7 @@ or an external candidate lifecycle evaluates it transactionally.
 ## MNCDS and MNCS
 
 MNCDS records development evidence, feedback eligibility, lineage, and same-epoch repair
-restrictions. MNCS evaluates a frozen implementation claim. MNEL should export eligible
-records to those protocols rather than inventing a second conformance authority.
+restrictions. MNCS evaluates a frozen implementation claim. MNCDS is maintained as the
+sibling [Machine-Native Complexity Development Specification](https://github.com/epi13/machine-native-complexity-development-specification);
+it is not a submodule of MNCS. MNEL should export eligible records to those protocols
+rather than inventing a second conformance authority.
