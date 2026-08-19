@@ -1,0 +1,230 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/epi13/Machine-Native-Experimental-Learning/schemas/mnel-inline-completion.schema.json",
+  "title": "MNEL Inline Completion Protocol 0.1",
+  "description": "Proposal-only Forge-to-MNEL inline completion request and response contract.",
+  "oneOf": [
+    { "$ref": "#/$defs/request" },
+    { "$ref": "#/$defs/response" }
+  ],
+  "$defs": {
+    "identity": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 256
+    },
+    "language": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "operation": {
+      "enum": [
+        "inline-completion",
+        "infill",
+        "repair",
+        "refactor",
+        "proof-completion",
+        "api-completion",
+        "optimization",
+        "control-flow-construction",
+        "branch-mask-construction",
+        "contract-satisfaction",
+        "lowering"
+      ]
+    },
+    "representation": {
+      "enum": [
+        "source-text",
+        "ast",
+        "typed-ast",
+        "cfg",
+        "ssa-use-def",
+        "proof-state",
+        "mncs-hir",
+        "composite"
+      ]
+    },
+    "cursor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["byte_offset"],
+      "properties": {
+        "byte_offset": { "type": "integer", "minimum": 0 },
+        "replace_start": { "type": "integer", "minimum": 0 },
+        "replace_end": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "budgets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["latency_ms", "memory_bytes", "output_bytes", "max_candidates"],
+      "properties": {
+        "latency_ms": { "type": "integer", "minimum": 1 },
+        "memory_bytes": { "type": "integer", "minimum": 1 },
+        "output_bytes": { "type": "integer", "minimum": 1 },
+        "max_candidates": { "type": "integer", "minimum": 1, "maximum": 16 }
+      }
+    },
+    "routing_constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "preferred_architecture_families": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1, "maxLength": 96 },
+          "uniqueItems": true
+        },
+        "excluded_provider_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "uniqueItems": true
+        },
+        "local_only": { "type": "boolean" },
+        "diverse": { "type": "boolean" }
+      }
+    },
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol",
+        "kind",
+        "request_identity",
+        "artifact_identity",
+        "source_identity",
+        "source_language",
+        "context_representation",
+        "operation",
+        "cursor",
+        "semantic_context_identity",
+        "required_evidence",
+        "budgets",
+        "authority"
+      ],
+      "properties": {
+        "protocol": { "const": "mnel-inline-completion/0.1" },
+        "kind": { "const": "completion-request" },
+        "request_identity": { "$ref": "#/$defs/identity" },
+        "artifact_identity": { "$ref": "#/$defs/identity" },
+        "source_identity": { "$ref": "#/$defs/identity" },
+        "source_language": { "$ref": "#/$defs/language" },
+        "context_representation": { "$ref": "#/$defs/representation" },
+        "operation": { "$ref": "#/$defs/operation" },
+        "cursor": { "$ref": "#/$defs/cursor" },
+        "semantic_context_identity": { "$ref": "#/$defs/identity" },
+        "snapshot_identities": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/identity" },
+          "uniqueItems": true
+        },
+        "required_evidence": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "parse",
+              "compile",
+              "type-check",
+              "static-analysis",
+              "unit-test",
+              "property-test",
+              "proof-check",
+              "contract-check"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "routing": { "$ref": "#/$defs/routing_constraints" },
+        "budgets": { "$ref": "#/$defs/budgets" },
+        "authority": { "const": "proposal-only" }
+      }
+    },
+    "runtime_measurements": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "queue_us": { "type": "integer", "minimum": 0 },
+        "inference_us": { "type": "integer", "minimum": 0 },
+        "total_us": { "type": "integer", "minimum": 0 },
+        "bytes_copied": { "type": "integer", "minimum": 0 },
+        "resident_memory_bytes": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_identity",
+        "provider_id",
+        "provider_declaration_identity",
+        "model_identity",
+        "representation",
+        "content",
+        "finish_reason",
+        "authority",
+        "verdict_semantics"
+      ],
+      "properties": {
+        "candidate_identity": { "$ref": "#/$defs/identity" },
+        "provider_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "provider_declaration_identity": { "$ref": "#/$defs/identity" },
+        "model_identity": { "$ref": "#/$defs/identity" },
+        "representation": { "$ref": "#/$defs/representation" },
+        "content": { "type": "string" },
+        "finish_reason": {
+          "enum": ["complete", "abstained", "truncated", "unsupported", "budget-exceeded", "error"]
+        },
+        "ranking_score": { "type": "number" },
+        "calibration_band": { "type": "string", "maxLength": 128 },
+        "out_of_distribution": { "type": "boolean" },
+        "limitations": {
+          "type": "array",
+          "items": { "type": "string", "maxLength": 512 }
+        },
+        "measurements": { "$ref": "#/$defs/runtime_measurements" },
+        "authority": { "const": "proposal-only" },
+        "verdict_semantics": { "const": "not-a-verdict" }
+      }
+    },
+    "response": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol",
+        "kind",
+        "request_identity",
+        "routing_identity",
+        "status",
+        "candidates",
+        "authority",
+        "verdict_semantics"
+      ],
+      "properties": {
+        "protocol": { "const": "mnel-inline-completion/0.1" },
+        "kind": { "const": "completion-response" },
+        "request_identity": { "$ref": "#/$defs/identity" },
+        "routing_identity": { "$ref": "#/$defs/identity" },
+        "status": {
+          "enum": ["completed", "abstained", "unsupported", "budget-exceeded", "error"]
+        },
+        "eligible_provider_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "uniqueItems": true
+        },
+        "selected_provider_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "uniqueItems": true
+        },
+        "candidates": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/candidate" },
+          "maxItems": 16
+        },
+        "authority": { "const": "proposal-only" },
+        "verdict_semantics": { "const": "not-a-verdict" }
+      }
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "mnel-completion-provider-registry/0.1",
+  "providers": [
+    {
+      "provider_id": "code.rust.fim-tiny",
+      "version": "0.1.0",
+      "architecture_family": "tiny-fill-in-the-middle-transformer",
+      "objective_family": "source-local-completion",
+      "supported_operations": [
+        "inline-completion",
+        "infill",
+        "repair"
+      ],
+      "source_languages": ["rust"],
+      "accepted_representations": ["source-text", "typed-ast", "composite"],
+      "emitted_representations": ["source-text"],
+      "required_evidence_views": ["types", "compiler-diagnostics"],
+      "max_context_bytes": 65536,
+      "max_output_bytes": 8192,
+      "runtime_tier": "native-trusted",
+      "latency_class": "interactive",
+      "placement_compatibility": ["cpu", "cuda"],
+      "weight_residency": "resident-on-admission",
+      "calibration_required": true,
+      "abstention_supported": true,
+      "architecture_rationale": "Bootstrap source-language specialist for low-latency local Rust completion while MNCS-language/HIR coverage matures.",
+      "limitations": [
+        "Source-language model; does not provide proof or verifier authority.",
+        "Long-range repository reasoning is outside the intended hot-path context."
+      ],
+      "authority": "proposal-only",
+      "verdict_semantics": "not-a-verdict"
+    },
+    {
+      "provider_id": "mncs.control-flow.graph-jepa",
+      "version": "0.1.0-experimental",
+      "architecture_family": "graph-jepa",
+      "objective_family": "semantic-control-flow-construction",
+      "supported_operations": [
+        "control-flow-construction",
+        "branch-mask-construction",
+        "repair"
+      ],
+      "source_languages": ["mncs-language", "representation-neutral"],
+      "accepted_representations": ["mncs-hir", "cfg", "composite"],
+      "emitted_representations": ["mncs-hir"],
+      "required_evidence_views": ["types", "contracts", "static-analysis"],
+      "max_context_bytes": 131072,
+      "max_output_bytes": 16384,
+      "runtime_tier": "external-experimental",
+      "latency_class": "near-interactive",
+      "placement_compatibility": ["cpu", "cuda", "sequential-cpu-offload"],
+      "weight_residency": "experimental",
+      "calibration_required": true,
+      "abstention_supported": true,
+      "architecture_rationale": "Demonstrates the intended long-term shift from human-language token completion toward operation-specialized semantic/HIR construction.",
+      "limitations": [
+        "Experimental placeholder declaration; no production artifact is implied.",
+        "Generated HIR requires independent Forge/validator checking and lowering."
+      ],
+      "authority": "proposal-only",
+      "verdict_semantics": "not-a-verdict"
+    }
+  ]
+}
