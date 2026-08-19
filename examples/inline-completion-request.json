@@ -1,0 +1,33 @@
+{
+  "protocol": "mnel-inline-completion/0.1",
+  "kind": "completion-request",
+  "request_identity": "sha256:example-request-000000000000000000000000000000000000000000000000",
+  "artifact_identity": "sha256:example-artifact-00000000000000000000000000000000000000000000000",
+  "source_identity": "sha256:example-source-000000000000000000000000000000000000000000000000",
+  "source_language": "rust",
+  "context_representation": "typed-ast",
+  "operation": "inline-completion",
+  "cursor": {
+    "byte_offset": 418
+  },
+  "semantic_context_identity": "sha256:example-context-00000000000000000000000000000000000000000000000",
+  "snapshot_identities": [
+    "sha256:example-types-0000000000000000000000000000000000000000000000000"
+  ],
+  "required_evidence": [
+    "parse",
+    "compile",
+    "type-check"
+  ],
+  "routing": {
+    "local_only": true,
+    "diverse": false
+  },
+  "budgets": {
+    "latency_ms": 40,
+    "memory_bytes": 536870912,
+    "output_bytes": 4096,
+    "max_candidates": 2
+  },
+  "authority": "proposal-only"
+}
