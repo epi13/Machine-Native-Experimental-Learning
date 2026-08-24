@@ -25,6 +25,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_MNCS = (
     REPO_ROOT.parent / "mncs-language" / "target" / "debug" / "mncs"
 )
+DEFAULT_SOURCE = REPO_ROOT / "mncs" / "source" / "mnel" / "all.mncs"
 
 
 def mncs_bin() -> Path | None:
@@ -37,8 +38,8 @@ def mncs_bin() -> Path | None:
 class MncsReconstructionTests(unittest.TestCase):
     def setUp(self) -> None:
         self.mncs = str(mncs_bin())
-        self.source = REPO_ROOT / "mncs" / "source" / "mnel-core.mncs"
-        self.assertTrue(self.source.exists(), "mnel-core.mncs missing")
+        self.source = Path(os.environ.get("MNCS_ENTRY", str(DEFAULT_SOURCE)))
+        self.assertTrue(self.source.exists(), f"entry source missing: {self.source}")
 
     def test_source_studies_cleanly_with_only_conservative_obligations(self) -> None:
         completed = subprocess.run(
