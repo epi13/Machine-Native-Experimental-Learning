@@ -1,0 +1,36 @@
+mncs 0.5;
+
+// Negative fixture: the caller declares the capability but pairs it with the
+// wrong authorization. Authority closure must still fail because the declared
+// effect pair does not match the callee's requirement.
+module mnel.negative.authority_mismatch;
+
+enum Verdict { PASS, FAIL, UNKNOWN }
+
+record GateInput {
+    present: bool,
+    observed: i64,
+    threshold: i64,
+}
+
+fn evaluate_gate(input: GateInput) -> (verdict: Verdict)
+    capability hard_gate_authority
+    effect derive_verdict authorized_by hard_gate_authority
+{
+    let comparable: bool = input.present;
+    if comparable {
+        let holds: bool = input.observed >= input.threshold;
+        if holds {
+            return Verdict.PASS;
+        }
+        return Verdict.FAIL;
+    }
+    return Verdict.UNKNOWN;
+}
+
+fn mismatched_verdict(input: GateInput) -> (verdict: Verdict)
+    capability hard_gate_authority
+    effect derive_verdict authorized_by some_other_authority
+{
+    return evaluate_gate(input);
+}

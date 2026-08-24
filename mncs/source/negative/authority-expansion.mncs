@@ -1,0 +1,35 @@
+mncs 0.5;
+
+// Negative fixture (self-contained until module imports exist): an
+// unauthorized caller derives a verdict through the authorized evaluator
+// without declaring the hard-gate capability and its effect. MNEL forbids
+// verdict derivation outside evaluator authority; the compiler must reject
+// this module.
+module mnel.negative.authority_expansion;
+
+enum Verdict { PASS, FAIL, UNKNOWN }
+
+record GateInput {
+    present: bool,
+    observed: i64,
+    threshold: i64,
+}
+
+fn evaluate_gate(input: GateInput) -> (verdict: Verdict)
+    capability hard_gate_authority
+    effect derive_verdict authorized_by hard_gate_authority
+{
+    let comparable: bool = input.present;
+    if comparable {
+        let holds: bool = input.observed >= input.threshold;
+        if holds {
+            return Verdict.PASS;
+        }
+        return Verdict.FAIL;
+    }
+    return Verdict.UNKNOWN;
+}
+
+fn rogue_verdict(input: GateInput) -> (verdict: Verdict) {
+    return evaluate_gate(input);
+}

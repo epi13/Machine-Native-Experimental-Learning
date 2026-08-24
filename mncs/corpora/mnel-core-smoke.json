@@ -1,0 +1,152 @@
+{
+ "schema_version": "0.1",
+ "name": "mnel-core-smoke-v1",
+ "cases": [
+  {
+   "id": "combine-fail-dominates",
+   "request": {
+    "schema_version": "0.1",
+    "target": {
+     "module": "mnel.core",
+     "function": "combine_verdict"
+    },
+    "arguments": [
+     {
+      "finite": {
+       "type_identity": "mncs:0.2:finite-type:mnel.core::Verdict",
+       "variant_identity": "mncs:0.2:finite-variant:mnel.core::Verdict::FAIL",
+       "discriminant": 1
+      }
+     },
+     {
+      "finite": {
+       "type_identity": "mncs:0.2:finite-type:mnel.core::Verdict",
+       "variant_identity": "mncs:0.2:finite-variant:mnel.core::Verdict::PASS",
+       "discriminant": 0
+      }
+     }
+    ],
+    "step_budget": 512
+   },
+   "expected": [
+    {
+     "finite": {
+      "type_identity": "mncs:0.2:finite-type:mnel.core::Verdict",
+      "variant_identity": "mncs:0.2:finite-variant:mnel.core::Verdict::FAIL",
+      "discriminant": 1
+     }
+    }
+   ]
+  },
+  {
+   "id": "combine-unknown-holds-pass",
+   "request": {
+    "schema_version": "0.1",
+    "target": {
+     "module": "mnel.core",
+     "function": "combine_verdict"
+    },
+    "arguments": [
+     {
+      "finite": {
+       "type_identity": "mncs:0.2:finite-type:mnel.core::Verdict",
+       "variant_identity": "mncs:0.2:finite-variant:mnel.core::Verdict::PASS",
+       "discriminant": 0
+      }
+     },
+     {
+      "finite": {
+       "type_identity": "mncs:0.2:finite-type:mnel.core::Verdict",
+       "variant_identity": "mncs:0.2:finite-variant:mnel.core::Verdict::UNKNOWN",
+       "discriminant": 2
+      }
+     }
+    ],
+    "step_budget": 512
+   },
+   "expected": [
+    {
+     "finite": {
+      "type_identity": "mncs:0.2:finite-type:mnel.core::Verdict",
+      "variant_identity": "mncs:0.2:finite-variant:mnel.core::Verdict::UNKNOWN",
+      "discriminant": 2
+     }
+    }
+   ]
+  },
+  {
+   "id": "gate-absent-metric-is-unknown",
+   "request": {
+    "schema_version": "0.1",
+    "target": {
+     "module": "mnel.core",
+     "function": "evaluate_gate"
+    },
+    "arguments": [
+     {
+      "record": {
+       "type_identity": "mncs:0.2:record-type:mnel.core::GateInput::observed%3Ai64%3Boperator%3AGateOperator%3Bpresent%3AMetricPresence%3Bthreshold%3Ai64%3B",
+       "name": "GateInput",
+       "fields": [
+        [
+         "observed",
+         {
+          "integer": {
+           "value": 0,
+           "type": {
+            "bits": 64,
+            "signed": true
+           }
+          }
+         }
+        ],
+        [
+         "operator",
+         {
+          "finite": {
+           "type_identity": "mncs:0.2:finite-type:mnel.core::GateOperator",
+           "variant_identity": "mncs:0.2:finite-variant:mnel.core::GateOperator::GE",
+           "discriminant": 0
+          }
+         }
+        ],
+        [
+         "present",
+         {
+          "finite": {
+           "type_identity": "mncs:0.2:finite-type:mnel.core::MetricPresence",
+           "variant_identity": "mncs:0.2:finite-variant:mnel.core::MetricPresence::ABSENT",
+           "discriminant": 1
+          }
+         }
+        ],
+        [
+         "threshold",
+         {
+          "integer": {
+           "value": 90,
+           "type": {
+            "bits": 64,
+            "signed": true
+           }
+          }
+         }
+        ]
+       ]
+      }
+     }
+    ],
+    "step_budget": 512
+   },
+   "expected": [
+    {
+     "finite": {
+      "type_identity": "mncs:0.2:finite-type:mnel.core::Verdict",
+      "variant_identity": "mncs:0.2:finite-variant:mnel.core::Verdict::UNKNOWN",
+      "discriminant": 2
+     }
+    }
+   ]
+  }
+ ]
+}

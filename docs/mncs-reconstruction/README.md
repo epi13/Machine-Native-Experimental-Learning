@@ -1,0 +1,105 @@
+# MNEL reconstruction in the MNCS language
+
+Status: **started — core decision spine exercised, bounded reference agreement.**
+
+This directory tracks the reconstruction of MNEL (Machine-Native Experimental
+Learning) as a native MNCS-language application, using the existing Python/Rust
+implementation in this repository as the behavioral reference and control.
+
+## What exists now
+
+### `source/mnel-core.mncs` — MNEL's decision spine as language-native semantics
+
+A Source Profile 0.5 module (`mnel.core`) expressing:
+
+- the PASS / FAIL / UNKNOWN evidence lattice with FAIL-dominant combination;
+- hard-gate evaluation guarded by `capability hard_gate_authority` and an
+  explicit `derive_verdict` effect, so verdict derivation is compiler-enforced
+  evaluator authority (callers must re-declare the authority chain; undeclared
+  or mismatched authority fails compilation with MNE134);
+- the experiment lifecycle state machine including the budget-exceeded path to
+  REJECTED and explicit rejection of illegal transitions;
+- the visibility ladder with fail-closed access decisions for every purpose,
+  including the structurally-unreachable future-final tier;
+- transfer-gated maturity demotion (requested SUPPORTED collapses to
+  PROVISIONAL without held-out transfer support);
+- preregistration-plan validation rejecting promotion authority, unknown
+  governors, forbidden visibility, zero budgets, and in-place candidate edits;
+- negative-memory context conflicts and retrieval-score demotion (-6) that
+  demote without deleting lineage;
+- bounded metric re-probing whose exhausted bound stays ABSENT (evaluated as
+  UNKNOWN downstream, never PASS);
+- an end-to-end `run_reference_experiment` spine mirroring
+  `mnel.core.ExperimentCoordinator.run()`.
+
+The existing Python/Rust implementation remains the reference/control; nothing
+here replaces it.
+
+### Corpora and differential studies
+
+- `corpora/mnel-core-reference.json`: 160 frozen-input cases whose expected
+  values are computed by the reference implementation
+  (`tools/generate_mncs_core_corpus.py`). Oracles are labeled per case:
+  - `reference-code` — expected values produced by executing real MNEL classes
+    (`HardGateEvaluator`, `StudyDataAccess`, `RecursionGovernor`,
+    `VerifiedExperienceDistiller`);
+  - `derived-table` — expected values encode documented MNEL behavior with
+    source citations, used where MNEL enforces rules structurally
+    (construction-time rejection) rather than computationally.
+- `tools/run_mncs_differential.py`: runs the corpus through MNCS compiler
+  backends and writes a machine-readable evidence record to
+  `evidence/`. Observed status: research-bytecode executes all 160 cases with
+  full case-level agreement and an honest overall UNKNOWN (two retained
+  obligations); portable-wasm refuses the module fail-closed (CGN301/CGN302:
+  record values may not cross function ABI boundaries in that realization).
+  Backend refusal is recorded as its own outcome — it is not disagreement.
+- `tools/check_mncs_negative_fixtures.py` + `source/negative/*.mncs`:
+  authority-expansion fixtures that must fail compilation (they do: MNE134).
+
+Evidence records live in `evidence/`. Every record carries explicit non-claims:
+observed agreement is not proof; UNKNOWN stays UNKNOWN; the implementation does
+not certify itself.
+
+## Language findings forced by this reconstruction (so far)
+
+1. No cross-module imports: one file is one module, and cross-module name
+   references do not exist. The negative fixtures had to be self-contained.
+   Multi-module MNEL requires real import/linking semantics in mncs-language.
+2. Enum variants carry no payloads; "result-or-reason" shapes degrade into
+   wide records with placeholder conventions (`TransitionOutcome`).
+3. Match patterns accept bare variant identifiers only — no wildcards, no
+   qualified patterns, no binding patterns; exhaustive enumeration is verbose
+   but honest.
+4. Boolean literals cannot be match patterns (`true`/`false` are keywords),
+   so boolean destructuring needs helper functions.
+5. No string type, no hashing/canonical-JSON primitives, no collections:
+   content identities (sha256-style), ledger records, and evidence text remain
+   outside the language surface for now and stay at the native boundary.
+6. No constants; no bitwise/div/mod integer operators (negative-memory masks
+   became named-context records).
+
+## What is intentionally NOT reconstructed yet
+
+- evidence ledger mechanics (hash-chained JSONL persistence),
+- Forge diagnostic lifecycle / snapshots / witnesses,
+- provider declarations, routing, portfolio studies,
+- Fabric execution, replication, reconciliation,
+- distillation study arms/ablations beyond maturity gating.
+
+These remain at the native boundary or await language capabilities (modules,
+strings/hashing or identity primitives, collections, persistence).
+
+## How to run
+
+```bash
+# generate corpora from the reference implementation
+python3 tools/generate_mncs_core_corpus.py
+
+# run the bounded differential study (requires mncs CLI)
+python3 tools/run_mncs_differential.py --mncs-bin <path-to-mncs>
+
+# assert negative fixtures keep failing closed
+python3 tools/check_mncs_negative_fixtures.py <path-to-mncs>
+```
+
+Or simply: `python -m unittest tests.test_mncs_reconstruction -v`
