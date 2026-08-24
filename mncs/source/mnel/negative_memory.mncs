@@ -1,0 +1,34 @@
+mncs 0.6;
+
+// Negative memory over a bounded set of named learning contexts. A hit
+// demotes retrieval scoring; it never deletes positive lineage.
+module mnel.negative_memory;
+
+use mnel.logic;
+
+record ContextMembership {
+    retrieval: bool,
+    planning: bool,
+    transfer: bool,
+    monitoring: bool,
+}
+
+fn negative_memory_conflicts(rule: ContextMembership, context: ContextMembership) -> (hit: bool) {
+    let retrieval_hit: bool = both(rule.retrieval, context.retrieval);
+    let planning_hit: bool = both(rule.planning, context.planning);
+    let transfer_hit: bool = both(rule.transfer, context.transfer);
+    let monitoring_hit: bool = both(rule.monitoring, context.monitoring);
+    let first_pair: bool = either(retrieval_hit, planning_hit);
+    let second_pair: bool = either(transfer_hit, monitoring_hit);
+    return either(first_pair, second_pair);
+}
+
+// A conflicting negative memory subtracts six points from the candidate
+// score, matching the reference study weights.
+fn retrieval_score(base: i64, rule: ContextMembership, context: ContextMembership) -> (score: i64) {
+    let conflicted: bool = negative_memory_conflicts(rule, context);
+    if conflicted {
+        return base - 6;
+    }
+    return base;
+}

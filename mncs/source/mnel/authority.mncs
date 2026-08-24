@@ -1,0 +1,65 @@
+mncs 0.6;
+
+// Preregistration-plan validation against governor authority rules.
+// Promotion authority can never be granted inside an experiment plan; an
+// evaluated candidate may not be edited in place; hidden material may not be
+// consumed; budgets must be nonzero; the governor identity must be known.
+module mnel.authority;
+
+use mnel.rejection;
+use mnel.logic;
+
+record PlanFacts {
+    governor_known: bool,
+    promotion_authorized: bool,
+    operations_budget: i64,
+    most_hidden_rank_requested: i64,
+    parent_matches_child: bool,
+}
+
+record PlanDecision {
+    accepted: bool,
+    reason: RejectionReason,
+}
+
+fn validate_plan(facts: PlanFacts) -> (decision: PlanDecision) {
+    if facts.promotion_authorized {
+        return PlanDecision {
+            accepted: false,
+            reason: RejectionReason.AUTHORITY_EXPANSION,
+        };
+    }
+    if facts.parent_matches_child {
+        return PlanDecision {
+            accepted: false,
+            reason: RejectionReason.IN_PLACE_EDIT,
+        };
+    }
+    let visibility_open_enough: bool = facts.most_hidden_rank_requested <= 1;
+    if visibility_open_enough {
+        let governor_ok: bool = facts.governor_known;
+        let budget_ok: bool = facts.operations_budget > 0;
+        let admissible: bool = both(governor_ok, budget_ok);
+        if admissible {
+            return PlanDecision {
+                accepted: true,
+                reason: RejectionReason.NONE,
+            };
+        }
+        let missing_budget: bool = not(budget_ok);
+        if missing_budget {
+            return PlanDecision {
+                accepted: false,
+                reason: RejectionReason.BUDGET_EXHAUSTED,
+            };
+        }
+        return PlanDecision {
+            accepted: false,
+            reason: RejectionReason.AUTHORITY_EXPANSION,
+        };
+    }
+    return PlanDecision {
+        accepted: false,
+        reason: RejectionReason.VISIBILITY_VIOLATION,
+    };
+}

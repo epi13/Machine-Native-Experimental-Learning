@@ -1,0 +1,60 @@
+mncs 0.6;
+
+// Bounded probe: retry an unavailable metric across at most three rounds,
+// returning as soon as it is present. Exhausting the bound leaves ABSENT,
+// which downstream evaluation reports as UNKNOWN, never PASS.
+module mnel.probe;
+
+use mnel.gates;
+
+enum ProbeRound { R1, R2, R3 }
+
+record ProbeState {
+    round: ProbeRound,
+    presence: MetricPresence,
+}
+
+fn probe_metric_availability(
+    round_one: bool,
+    round_two: bool,
+    round_three: bool,
+) -> (presence: MetricPresence)
+    capability forge_probe_authority
+    effect observe authorized_by forge_probe_authority
+{
+    iterate probes up_to 3 carrying state: ProbeState = ProbeState {
+        round: ProbeRound.R1,
+        presence: MetricPresence.ABSENT,
+    } {
+        let available_now: bool = match state.round {
+            R1 => round_one,
+            R2 => round_two,
+            R3 => round_three,
+        };
+        let seen: MetricPresence = presence_from(available_now);
+        let resolved: bool = match seen {
+            PRESENT => true,
+            ABSENT => false,
+        };
+        if resolved {
+            return seen;
+        }
+        let next_round: ProbeRound = match state.round {
+            R1 => ProbeRound.R2,
+            R2 => ProbeRound.R3,
+            R3 => ProbeRound.R3,
+        };
+        next state = ProbeState {
+            round: next_round,
+            presence: seen,
+        };
+    }
+    return state.presence;
+}
+
+fn presence_from(available: bool) -> (presence: MetricPresence) {
+    if available {
+        return MetricPresence.PRESENT;
+    }
+    return MetricPresence.ABSENT;
+}

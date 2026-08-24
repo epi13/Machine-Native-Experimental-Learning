@@ -1,0 +1,14 @@
+mncs 0.6;
+
+// Shared rejection vocabulary for MNEL decision points. Every rejection
+// carries an explicit reason; nothing fails silently.
+module mnel.rejection;
+
+enum RejectionReason {
+    NONE,
+    INVALID_TRANSITION,
+    BUDGET_EXHAUSTED,
+    AUTHORITY_EXPANSION,
+    VISIBILITY_VIOLATION,
+    IN_PLACE_EDIT,
+}

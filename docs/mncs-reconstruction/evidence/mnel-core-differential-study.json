@@ -1,0 +1,46 @@
+{
+ "schema_version": "0.1",
+ "identity_kind": "bounded-differential-study-record",
+ "study": "mnel-core-concept-reconstruction",
+ "runner_identity": "mnel-mncs-differential-runner/0.1",
+ "interpretation": "bounded_observational_agreement_over_declared_corpus; not_universal_equivalence_not_conformance_not_assurance",
+ "reference_side": {
+  "implementation": "Machine-Native-Experimental-Learning src/mnel (Python control plane)",
+  "corpus": "mncs/corpora/mnel-core-reference.json",
+  "corpus_sha256": "0f0510e8eb5e8522ba935ba7c22d67f9209e0c462a9c5866fba3c2e60d444541",
+  "cases": 160,
+  "oracle_kinds": [
+   "derived-table",
+   "reference-code"
+  ]
+ },
+ "mncs_side": {
+  "source": "mncs/source/mnel/all.mncs",
+  "source_sha256": "93edf3cb10c7098ff255e8a4067356a394c75a88389e61047d043ddd8fdf2a7d",
+  "module": "mnel.core",
+  "language_profile": "0.5"
+ },
+ "backends": [
+  {
+   "backend": "mncs-research-bytecode",
+   "outcome": "corpus-executed",
+   "summary": {
+    "exit_code": 0,
+    "cases_total": 160,
+    "cases_met": 160,
+    "experiment_status": "UNKNOWN",
+    "unresolved_reasons": [
+     "compilation retained required unresolved obligations"
+    ]
+   }
+  }
+ ],
+ "comparison_status": "AGREEMENT_OVER_CORPUS",
+ "disagreements": [],
+ "non_claims": [
+  "observed agreement is not proof of semantic equivalence",
+  "the corpus covers a bounded slice of MNEL concepts only",
+  "backend envelope refusals are recorded, not resolved",
+  "unresolved obligations remain UNKNOWN; nothing here certifies the MNCS implementation against the reference beyond the corpus"
+ ]
+}

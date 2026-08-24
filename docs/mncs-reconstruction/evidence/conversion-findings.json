@@ -1,0 +1,192 @@
+{
+ "schema_version": "0.1",
+ "record_kind": "concept-reconstruction-evidence",
+ "study": "mnel-core-concept-reconstruction",
+ "producer_identity": "mnel-mncs-reconstruction-record/0.1",
+ "interpretation": "bounded_development_evidence_about_one_conversion; not_conformance_not_equivalence_proof",
+ "reference_implementation": {
+  "repository": "epi13/Machine-Native-Experimental-Learning",
+  "components": [
+   "src/mnel/core.py HardGateEvaluator (verdict derivation)",
+   "src/mnel/core.py ExperimentCoordinator (lifecycle)",
+   "src/mnel/core.py RecursionGovernor + AuthorityBoundary (plan authority)",
+   "src/mnel/distillation.py StudyDataAccess (visibility views)",
+   "src/mnel/distillation.py VerifiedExperienceDistiller.propose_principle (maturity demotion)",
+   "src/mnel/distillation.py RetrievalIndex scoring (negative memory demotion)"
+  ]
+ },
+ "mncs_implementation": {
+  "repository": "epi13/Machine-Native-Experimental-Learning",
+  "location": "mncs/source/mnel/*.mncs",
+  "modules": [
+   {"module": "mnel.logic", "profile": "0.6"},
+   {"module": "mnel.rejection", "profile": "0.6", "note": "declaration-only module (shared vocabulary)"},
+   {"module": "mnel.verdict", "profile": "0.6"},
+   {"module": "mnel.gates", "profile": "0.6", "authority": "capability hard_gate_authority + effect derive_verdict"},
+   {"module": "mnel.lifecycle", "profile": "0.6"},
+   {"module": "mnel.visibility", "profile": "0.6"},
+   {"module": "mnel.transfer", "profile": "0.6"},
+   {"module": "mnel.authority", "profile": "0.6"},
+   {"module": "mnel.negative_memory", "profile": "0.6"},
+   {"module": "mnel.probe", "profile": "0.6", "authority": "capability forge_probe_authority + effect observe"},
+   {"module": "mnel.core", "profile": "0.6", "note": "end-to-end spine run_reference_experiment"},
+   {"module": "mnel.all", "profile": "0.6", "note": "aggregate root for corpora"}
+  ],
+  "entry_source_identity_note": "see corpora provenance for combined source sha256"
+ },
+ "language_profile": {
+  "identity": "mncs source profiles 0.1-0.6",
+  "compiler": "mncs-language ReferenceCompiler (research)",
+  "backends_exercised": ["mncs-research-bytecode", "mncs-portable-wasm-mvp"]
+ },
+ "concepts": [
+  {
+   "concept": "PASS/FAIL/UNKNOWN verdict lattice",
+   "mncs_form": "enum Verdict; combine_verdict with FAIL-dominant exhaustive matches",
+   "comparison": {
+    "corpus_cases": 9,
+    "observed_reference_behavior": "HardGateEvaluator aggregation: any FAIL -> FAIL; else UNKNOWN -> UNKNOWN",
+    "observed_mncs_behavior": "identical over all corpus cases on research bytecode",
+    "status": "agreement-over-corpus"
+   }
+  },
+  {
+   "concept": "hard-gate evaluation under evaluator authority",
+   "mncs_form": "evaluate_gate/evaluate_gates declare capability hard_gate_authority and effect derive_verdict authorized_by it; every caller must re-declare both or compilation fails (MNE134)",
+   "comparison": {
+    "corpus_cases": 37,
+    "oracle": "real HardGateEvaluator calls including absent metrics as UNKNOWN",
+    "status": "agreement-over-corpus"
+   },
+   "language_benefit": "MNEL enforces evaluator identity by runtime string comparison in coordinator.run(); MNCS moves the boundary into the compiler: role authority becomes a type-and-effect fact checked at build time across modules."
+  },
+  {
+   "concept": "experiment lifecycle state machine",
+   "mncs_form": "transition(state, event) returning TransitionOutcome {advanced, next_state, reason}",
+   "comparison": {
+    "corpus_cases": 63,
+    "oracle": "derived table citing ExperimentCoordinator.run() transition calls",
+    "disagreement_notes": [],
+    "status": "agreement-over-derived-table"
+   },
+   "friction": "no payload-carrying enum variants: result-or-reason shapes degrade to wide records with placeholder conventions; no wildcard/binding match patterns force full enumeration (verbose but exhaustive)"
+  },
+  {
+   "concept": "visibility ladder with fail-closed access",
+   "mncs_form": "visibility_rank + access_granted(purpose, requested); future-final refused for all purposes",
+   "comparison": {
+    "corpus_cases": 8,
+    "oracle": "real StudyDataAccess.development/.transfer_evaluator probes via .get(); FUTURE_FINAL derived from constructor rejection",
+    "caught_during_design": "initial MNCS version granted only DEVELOPMENT_VISIBLE to development studies; the real reference view also allows SELECTION_OBSERVED - fixed before first run",
+    "status": "agreement-after-oracle-alignment"
+   }
+  },
+  {
+   "concept": "plan validation / promotion authority refusal",
+   "mncs_form": "validate_plan(PlanFacts) -> PlanDecision; promotion_authorized always yields AUTHORITY_EXPANSION rejection",
+   "comparison": {
+    "corpus_cases": 7,
+    "oracle": "real RecursionGovernor.validate_plan over constructed ExperimentPlans; structural rejections (AuthorityBoundary promotion ban, Intervention in-place ban) encoded as cited derived-table cases",
+    "layer_difference": "MNEL rejects those plans at construction time by raising; the MNCS slice reports an explicit rejection decision instead - same boundary, different layer, recorded rather than hidden",
+    "status": "agreement-with-layer-difference-documented"
+   }
+  },
+  {
+   "concept": "transfer-gated maturity demotion",
+   "mncs_form": "effective_maturity(requested, transfer): SUPPORTED request collapses to PROVISIONAL without SUPPORTED transfer",
+   "comparison": {
+    "corpus_cases": 20,
+    "oracle": "real VerifiedExperienceDistiller.propose_principle calls",
+    "status": "agreement-over-reference-code"
+   }
+  },
+  {
+   "concept": "negative memory retrieval demotion",
+   "mncs_form": "ContextMembership records + retrieval_score(base-6 on conflict)",
+   "comparison": {
+    "corpus_cases": 18,
+    "oracle": "derived table citing distillation.py retrieval scoring weights",
+    "friction": "no bitwise AND/OR, no div/mod: bitmask contexts became named-context records over a bounded context set",
+    "status": "agreement-over-derived-table"
+   }
+  },
+  {
+   "concept": "bounded metric re-probing",
+   "mncs_form": "probe_metric_availability via iterate up_to 3 carrying ProbeState record; exhaustion stays ABSENT (evaluates as UNKNOWN downstream)",
+   "comparison": {
+    "corpus_cases": 5,
+    "status": "agreement-over-derived-table"
+   },
+   "note": "record values flow through bounded iteration state and function boundaries on research bytecode; portable WASM refuses them at ABI crossings (CGN301/302) - fail closed, recorded as envelope refusal"
+  },
+  {
+   "concept": "end-to-end reference experiment spine",
+   "mncs_form": "run_reference_experiment composing plan validation, lifecycle walk, authorized gate evaluation, attribution step, and transfer-gated maturity",
+   "comparison": {
+    "corpus_cases": 5,
+    "oracle": "composition of real evaluator + distiller + coordinator flow",
+    "key_property_preserved": "UNKNOWN verdict never produces SUPPORTED maturity; rejected plan never reaches evaluation",
+    "status": "agreement-over-composition"
+   }
+  }
+ ],
+ "differential_summary": {
+  "total_corpus_cases": 160,
+  "research_bytecode": "160/160 expectation_met; overall experiment status UNKNOWN (two retained obligations: integer-overflow evidence, iteration exact-cost) - honest unresolved, not claimed PASS",
+  "portable_wasm": "fail-closed refusal (CGN301 selected SSA outside WASM MVP subset; CGN302 record values crossing function parameters/results/carried block params) - recorded as refusal, not disagreement",
+  "modularization_invariance": "the same 160 frozen inputs agree before and after splitting one monolithic module into eleven linked modules; only per-declaration home-module identities changed in the corpus encoding"
+ },
+ "authority_boundary_findings": [
+  "role authority (evaluator/probe) is expressible as capability+effect declarations and is compiler-enforced through module composition (MNE134 negative fixtures pass-to-fail as designed)",
+  "promotion authority remains structurally impossible inside the slice: validate_plan refuses it; nothing in the language can override a returned rejection",
+  "UNKNOWN is preserved end to end: missing metrics evaluate UNKNOWN, exhausted probes stay ABSENT->UNKNOWN, retained obligations keep overall status UNKNOWN"
+ ],
+ "language_changes_required": [
+  {
+   "change": "Source Profile 0.6: use-declaration module imports with elaboration-time linking",
+   "trigger": "one-file-per-module made MNEL's shared vocabulary impossible; negative fixtures could not reference mnel.core types",
+   "upstream": "mncs-language PR #67 (merged, initial) and #68 (full fixes: declaration-only modules, home-module identity provenance, diamond re-export rules, strict local/import collisions)"
+  },
+  {
+   "change": "Function.home_module + Program.dependencies: linked declarations keep declaring-module identity",
+   "trigger": "recomputing identities from the root module collided across import paths and broke body/SSA/graph validation and executors",
+   "upstream": "#68"
+  },
+  {
+   "change": "per-module execution targets in body/SSA executors; home-namespace call resolution",
+   "trigger": "corpora address functions in non-root modules of one linked program",
+   "upstream": "#68"
+  },
+  {
+   "change": "declaration-only modules allowed (MNP006 generalized)",
+   "trigger": "vocabulary modules like mnel.rejection contain only enums",
+   "upstream": "#68"
+  },
+  {
+   "change": "fix: layered execution agreement compares logical record values",
+   "trigger": "any record-returning corpus case reported false three-layer divergence",
+   "upstream": "PR #66 (merged)"
+  }
+ ],
+ "service_changes_required": [
+  {
+   "change": "StoreResolver + dependency-aware snapshot invalidation",
+   "trigger": "resident analyses ignored imports and stayed stale when dependencies changed",
+   "upstream": "mncs-language-service PR #5"
+  }
+ ],
+ "remaining_friction_non_claims": [
+  "no strings/hashing/canonical-JSON primitives: content identities, ledger records, and evidence text remain outside the language surface and stay at the native boundary",
+  "no payload enum variants, no wildcard/binding patterns, no boolean operators beyond conditions, no constants, no bitwise/div/mod ops, no collections",
+  "no cross-module qualified call syntax (flat post-link namespace chosen deliberately)",
+  "portable-WASM record ABI unsupported by design (fail closed); LLVM/C11/Cranelift record support likewise refused",
+  "observed agreement covers this 160-case bounded corpus only; no universal equivalence is claimed",
+  "execution records here are language observations, never independent evaluation of MNEL methodology"
+ ],
+ "next_steps": [
+  "merge #68 and flip service dependency back to main; merge service PR #5",
+  "extend corpus generator oracle coverage: drive full ExperimentCoordinator.run() end-to-end against a fixture ledger for spine-level differential",
+  "payload enums / richer patterns RFC if MNEL's result-or-reason friction persists in larger slices",
+  "Forge diagnostic lifecycle and witness comparison slices; provider declarations; Fabric execution receipts remain unstarted"
+ ]
+}

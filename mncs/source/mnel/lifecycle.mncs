@@ -1,0 +1,149 @@
+mncs 0.6;
+
+// The experiment lifecycle state machine. Illegal transitions do not
+// silently succeed: they return an explicit rejection preserving the state.
+// Budget exhaustion during RUNNING terminates the experiment as REJECTED.
+module mnel.lifecycle;
+
+use mnel.rejection;
+
+enum ExperimentState {
+    DRAFT,
+    PREREGISTERED,
+    RUNNING,
+    OBSERVED,
+    EVALUATED,
+    ATTRIBUTED,
+    DISTILLED_PROPOSAL,
+    REJECTED,
+    UNKNOWN,
+}
+
+enum LifecycleEvent {
+    PREREGISTER,
+    BEGIN_EXECUTION,
+    BUDGET_WITHIN_LIMITS,
+    BUDGET_EXCEEDED,
+    EVALUATOR_VERDICT,
+    RECORD_ATTRIBUTION,
+    PROPOSE_DISTILLATION,
+}
+
+record TransitionOutcome {
+    advanced: bool,
+    next_state: ExperimentState,
+    reason: RejectionReason,
+}
+
+fn transition(current: ExperimentState, event: LifecycleEvent) -> (outcome: TransitionOutcome) {
+    return match current {
+        DRAFT => advance_or_reject(
+            match event {
+                PREREGISTER => true,
+                BEGIN_EXECUTION => false,
+                BUDGET_WITHIN_LIMITS => false,
+                BUDGET_EXCEEDED => false,
+                EVALUATOR_VERDICT => false,
+                RECORD_ATTRIBUTION => false,
+                PROPOSE_DISTILLATION => false,
+            },
+            current,
+            ExperimentState.PREREGISTERED,
+        ),
+        PREREGISTERED => advance_or_reject(
+            match event {
+                PREREGISTER => false,
+                BEGIN_EXECUTION => true,
+                BUDGET_WITHIN_LIMITS => false,
+                BUDGET_EXCEEDED => false,
+                EVALUATOR_VERDICT => false,
+                RECORD_ATTRIBUTION => false,
+                PROPOSE_DISTILLATION => false,
+            },
+            current,
+            ExperimentState.RUNNING,
+        ),
+        RUNNING => match event {
+            BUDGET_WITHIN_LIMITS => TransitionOutcome {
+                advanced: true,
+                next_state: ExperimentState.OBSERVED,
+                reason: RejectionReason.NONE,
+            },
+            BUDGET_EXCEEDED => TransitionOutcome {
+                advanced: true,
+                next_state: ExperimentState.REJECTED,
+                reason: RejectionReason.BUDGET_EXHAUSTED,
+            },
+            PREREGISTER => rejected_transition(current),
+            BEGIN_EXECUTION => rejected_transition(current),
+            EVALUATOR_VERDICT => rejected_transition(current),
+            RECORD_ATTRIBUTION => rejected_transition(current),
+            PROPOSE_DISTILLATION => rejected_transition(current),
+        },
+        OBSERVED => advance_or_reject(
+            match event {
+                PREREGISTER => false,
+                BEGIN_EXECUTION => false,
+                BUDGET_WITHIN_LIMITS => false,
+                BUDGET_EXCEEDED => false,
+                EVALUATOR_VERDICT => true,
+                RECORD_ATTRIBUTION => false,
+                PROPOSE_DISTILLATION => false,
+            },
+            current,
+            ExperimentState.EVALUATED,
+        ),
+        EVALUATED => advance_or_reject(
+            match event {
+                PREREGISTER => false,
+                BEGIN_EXECUTION => false,
+                BUDGET_WITHIN_LIMITS => false,
+                BUDGET_EXCEEDED => false,
+                EVALUATOR_VERDICT => false,
+                RECORD_ATTRIBUTION => true,
+                PROPOSE_DISTILLATION => false,
+            },
+            current,
+            ExperimentState.ATTRIBUTED,
+        ),
+        ATTRIBUTED => advance_or_reject(
+            match event {
+                PREREGISTER => false,
+                BEGIN_EXECUTION => false,
+                BUDGET_WITHIN_LIMITS => false,
+                BUDGET_EXCEEDED => false,
+                EVALUATOR_VERDICT => false,
+                RECORD_ATTRIBUTION => false,
+                PROPOSE_DISTILLATION => true,
+            },
+            current,
+            ExperimentState.DISTILLED_PROPOSAL,
+        ),
+        DISTILLED_PROPOSAL => rejected_transition(current),
+        REJECTED => rejected_transition(current),
+        UNKNOWN => rejected_transition(current),
+    };
+}
+
+fn advance_or_reject(
+    event_applies: bool,
+    current: ExperimentState,
+    following: ExperimentState,
+) -> (outcome: TransitionOutcome) {
+    if event_applies {
+        return TransitionOutcome {
+            advanced: true,
+            next_state: following,
+            reason: RejectionReason.NONE,
+        };
+    }
+    return rejected_transition(current);
+}
+
+fn rejected_transition(current: ExperimentState) -> (outcome: TransitionOutcome) {
+    return TransitionOutcome {
+        advanced: false,
+        next_state: current,
+        reason: RejectionReason.INVALID_TRANSITION,
+    };
+}

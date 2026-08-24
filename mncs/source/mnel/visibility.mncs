@@ -1,0 +1,37 @@
+mncs 0.6;
+
+// The visibility ladder and fail-closed data access. Future-final material
+// is inaccessible for every purpose; development studies may not read
+// transfer-hidden material; the transfer evaluator sees transfer-hidden
+// material and nothing more open.
+module mnel.visibility;
+
+enum Visibility {
+    DEVELOPMENT_VISIBLE,
+    SELECTION_OBSERVED_NOT_REPAIRABLE,
+    TRANSFER_HIDDEN,
+    FUTURE_FINAL_INACCESSIBLE,
+}
+
+enum AccessPurpose { DEVELOPMENT_STUDY, TRANSFER_EVALUATOR }
+
+fn visibility_rank(level: Visibility) -> (rank: i64) {
+    return match level {
+        DEVELOPMENT_VISIBLE => 0,
+        SELECTION_OBSERVED_NOT_REPAIRABLE => 1,
+        TRANSFER_HIDDEN => 2,
+        FUTURE_FINAL_INACCESSIBLE => 3,
+    };
+}
+
+fn access_granted(purpose: AccessPurpose, requested: Visibility) -> (granted: bool) {
+    let requested_rank: i64 = visibility_rank(requested);
+    let future_final: bool = requested_rank == 3;
+    if future_final {
+        return false;
+    }
+    return match purpose {
+        DEVELOPMENT_STUDY => requested_rank <= 1,
+        TRANSFER_EVALUATOR => requested_rank == 2,
+    };
+}

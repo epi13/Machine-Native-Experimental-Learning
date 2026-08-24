@@ -1,0 +1,12 @@
+mncs 0.6;
+
+// Negative fixture: an unauthorized caller derives a verdict through the
+// imported evaluator across a module boundary. Authority closure applies
+// through links; the compiler must reject this module with MNE134.
+module mnel.negative.cross_module_authority;
+
+use mnel.gates;
+
+fn rogue(first: GateInput, second: GateInput, third: GateInput, fourth: GateInput) -> (verdict: Verdict) {
+    return evaluate_gates(first, second, third, fourth);
+}
