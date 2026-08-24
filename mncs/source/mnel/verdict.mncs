@@ -1,0 +1,31 @@
+mncs 0.6;
+
+// The evidence lattice: FAIL dominates, UNKNOWN dominates PASS, PASS alone
+// survives. Missing evidence can never be promoted to success by combining.
+module mnel.verdict;
+
+enum Verdict { PASS, FAIL, UNKNOWN }
+
+fn combine_verdict(left: Verdict, right: Verdict) -> (result: Verdict) {
+    return match left {
+        PASS => right,
+        FAIL => Verdict.FAIL,
+        UNKNOWN => demote_pass(right),
+    };
+}
+
+fn demote_pass(value: Verdict) -> (result: Verdict) {
+    return match value {
+        PASS => Verdict.UNKNOWN,
+        FAIL => Verdict.FAIL,
+        UNKNOWN => Verdict.UNKNOWN,
+    };
+}
+
+fn verdict_is_known(value: Verdict) -> (known: bool) {
+    return match value {
+        PASS => true,
+        FAIL => true,
+        UNKNOWN => false,
+    };
+}

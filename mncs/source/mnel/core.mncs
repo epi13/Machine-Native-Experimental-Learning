@@ -1,0 +1,87 @@
+mncs 0.6;
+
+// The reference experiment spine, mirroring MNEL's deterministic demo run:
+// a validated plan advances through the lifecycle, the authorized evaluator
+// derives the overall verdict from four preregistered gates, attribution is
+// recorded, and a distillation proposal carries transfer-gated maturity.
+//
+// Authority note: investigators and learned providers may propose knowledge.
+// They may not declare it true. An UNKNOWN verdict can reach DISTILLED_
+// PROPOSAL, but its principle stays PROVISIONAL: unknown results propose
+// nothing strong.
+module mnel.core;
+
+use mnel.authority;
+use mnel.gates;
+use mnel.lifecycle;
+use mnel.logic;
+use mnel.rejection;
+use mnel.transfer;
+use mnel.verdict;
+
+record ExperimentOutcome {
+    final_state: ExperimentState,
+    verdict: Verdict,
+    principle_maturity: Maturity,
+}
+
+fn run_reference_experiment(
+    plan: PlanFacts,
+    first: GateInput,
+    second: GateInput,
+    third: GateInput,
+    fourth: GateInput,
+    transfer: TransferStatus,
+    requested_maturity: Maturity,
+) -> (outcome: ExperimentOutcome)
+    capability hard_gate_authority
+    effect derive_verdict authorized_by hard_gate_authority
+{
+    let admission: PlanDecision = validate_plan(plan);
+    let admitted: bool = admission.accepted;
+    if admitted {
+        let preregistration: TransitionOutcome =
+            transition(ExperimentState.DRAFT, LifecycleEvent.PREREGISTER);
+        let execution_start: TransitionOutcome = transition(
+            preregistration.next_state,
+            LifecycleEvent.BEGIN_EXECUTION,
+        );
+        let observation: TransitionOutcome = transition(
+            execution_start.next_state,
+            LifecycleEvent.BUDGET_WITHIN_LIMITS,
+        );
+        let overall: Verdict = evaluate_gates(first, second, third, fourth);
+        let evaluated: TransitionOutcome = transition(
+            observation.next_state,
+            LifecycleEvent.EVALUATOR_VERDICT,
+        );
+        let attributed: TransitionOutcome = transition(
+            evaluated.next_state,
+            LifecycleEvent.RECORD_ATTRIBUTION,
+        );
+        let distilled: TransitionOutcome = transition(
+            attributed.next_state,
+            LifecycleEvent.PROPOSE_DISTILLATION,
+        );
+        let known_verdict: bool = verdict_is_known(overall);
+        let gated_request: Maturity = request_when_known(known_verdict, requested_maturity);
+        let maturity: Maturity = effective_maturity(gated_request, transfer);
+        return ExperimentOutcome {
+            final_state: distilled.next_state,
+            verdict: overall,
+            principle_maturity: maturity,
+        };
+    }
+    return ExperimentOutcome {
+        final_state: ExperimentState.REJECTED,
+        verdict: Verdict.UNKNOWN,
+        principle_maturity: Maturity.PROVISIONAL,
+    };
+}
+
+fn request_when_known(known: bool, requested: Maturity) -> (maturity: Maturity) {
+    if known {
+        return requested;
+    }
+    return Maturity.PROVISIONAL;
+}

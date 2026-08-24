@@ -46,10 +46,23 @@ from mnel.core import (  # noqa: E402
 )
 from mnel.distillation import StudyDataAccess, StudyRecord, VisibilityViolation  # noqa: E402
 
-SOURCE_PATH = REPO_ROOT / "mncs" / "source" / "mnel-core.mncs"
+SOURCE_PATH = REPO_ROOT / "mncs" / "source" / "mnel" / "all.mncs"
+SOURCES = sorted((REPO_ROOT / "mncs" / "source" / "mnel").glob("*.mncs"))
 OUTPUT_PATH = REPO_ROOT / "mncs" / "corpora" / "mnel-core-reference.json"
 
-MODULE = "mnel.core"
+# Home modules after the modularization of the reconstruction: every
+# declaration's identity is anchored to the module that declares it.
+MODULE_CORE = "mnel.core"
+MODULE_VERDICT = "mnel.verdict"
+MODULE_GATES = "mnel.gates"
+MODULE_LIFECYCLE = "mnel.lifecycle"
+MODULE_VISIBILITY = "mnel.visibility"
+MODULE_TRANSFER = "mnel.transfer"
+MODULE_AUTHORITY = "mnel.authority"
+MODULE_NEGATIVE_MEMORY = "mnel.negative_memory"
+MODULE_PROBE = "mnel.probe"
+MODULE_REJECTION = "mnel.rejection"
+
 STEP_BUDGET = 512
 
 GENERATOR_IDENTITY = "mnel-mncs-corpus-generator/0.1"
@@ -63,6 +76,7 @@ ORACLE_DERIVED_TABLE = "derived-table"
 # ---------------------------------------------------------------------------
 
 def encode_component(value: str) -> str:
+    # unchanged helper; see identity.rs encode_component
     out = []
     for byte in value.encode("utf-8"):
         ch = chr(byte)
@@ -73,31 +87,80 @@ def encode_component(value: str) -> str:
     return "".join(out)
 
 
-def finite_type_id(name: str) -> str:
-    return f"mncs:0.2:finite-type:{encode_component(MODULE)}::{encode_component(name)}"
+TYPE_HOME_MODULE = {
+    "Verdict": MODULE_VERDICT,
+    "GateOperator": MODULE_GATES,
+    "MetricPresence": MODULE_GATES,
+    "GateInput": MODULE_GATES,
+    "ExperimentState": MODULE_LIFECYCLE,
+    "LifecycleEvent": MODULE_LIFECYCLE,
+    "TransitionOutcome": MODULE_LIFECYCLE,
+    "PlanFacts": MODULE_AUTHORITY,
+    "PlanDecision": MODULE_AUTHORITY,
+    "ContextMembership": MODULE_NEGATIVE_MEMORY,
+    "ExperimentOutcome": MODULE_CORE,
+    "RejectionReason": MODULE_REJECTION,
+    "Visibility": MODULE_VISIBILITY,
+    "AccessPurpose": MODULE_VISIBILITY,
+    "TransferStatus": MODULE_TRANSFER,
+    "Maturity": MODULE_TRANSFER,
+}
+
+FUNCTION_HOME_MODULE = {
+    "combine_verdict": MODULE_VERDICT,
+    "verdict_is_known": MODULE_VERDICT,
+    "evaluate_gate": MODULE_GATES,
+    "evaluate_gates": MODULE_GATES,
+    "access_granted": MODULE_VISIBILITY,
+    "validate_plan": MODULE_AUTHORITY,
+    "transition": MODULE_LIFECYCLE,
+    "effective_maturity": MODULE_TRANSFER,
+    "retrieval_score": MODULE_NEGATIVE_MEMORY,
+    "probe_metric_availability": MODULE_PROBE,
+    "run_reference_experiment": MODULE_CORE,
+}
 
 
-def finite_variant_id(type_name: str, variant: str) -> str:
+def finite_type_id(module_name: str, name: str) -> str:
+    return f"mncs:0.2:finite-type:{encode_component(module_name)}::{encode_component(name)}"
+
+
+def finite_variant_id(module_name: str, type_name: str, variant: str) -> str:
     return (
-        f"mncs:0.2:finite-variant:{encode_component(MODULE)}"
+        f"mncs:0.2:finite-variant:{encode_component(module_name)}"
         f"::{encode_component(type_name)}::{encode_component(variant)}"
     )
 
 
-def record_type_id(name: str, fields: list[tuple[str, str]]) -> str:
+def record_type_id(module_name: str, name: str, fields: list[tuple[str, str]]) -> str:
     canonical = sorted(fields)
     joined = "".join(f"{fname}:{ftype};" for fname, ftype in canonical)
     return (
-        f"mncs:0.2:record-type:{encode_component(MODULE)}"
+        f"mncs:0.2:record-type:{encode_component(module_name)}"
         f"::{encode_component(name)}::{encode_component(joined)}"
     )
 
 
+def type_module(type_name: str) -> str:
+    try:
+        return TYPE_HOME_MODULE[type_name]
+    except KeyError:
+        raise AssertionError(f"declare the home module for type {type_name}")
+
+
+def fn_module(function: str) -> str:
+    try:
+        return FUNCTION_HOME_MODULE[function]
+    except KeyError:
+        raise AssertionError(f"declare the home module for function {function}")
+
+
 def finite(type_name: str, variant: str, discriminant: int) -> dict:
+    home = type_module(type_name)
     return {
         "finite": {
-            "type_identity": finite_type_id(type_name),
-            "variant_identity": finite_variant_id(type_name, variant),
+            "type_identity": finite_type_id(home, type_name),
+            "variant_identity": finite_variant_id(home, type_name, variant),
             "discriminant": discriminant,
         }
     }
@@ -114,7 +177,7 @@ def boolean(value: bool) -> dict:
 def record(name: str, fields: list[tuple[str, str]], values: dict) -> dict:
     return {
         "record": {
-            "type_identity": record_type_id(name, fields),
+            "type_identity": record_type_id(type_module(name), name, fields),
             "name": name,
             "fields": [[fname, values[fname]] for fname in sorted(values)],
         }
@@ -125,7 +188,7 @@ def case(case_id: str, function: str, arguments: list, expected: list, *, oracle
          oracle_citation: str, expected_status: str | None = None) -> dict:
     request = {
         "schema_version": "0.1",
-        "target": {"module": MODULE, "function": function},
+        "target": {"module": fn_module(function), "function": function},
         "arguments": arguments,
         "step_budget": STEP_BUDGET,
     }
@@ -794,8 +857,8 @@ def build_cases() -> list[dict]:
 
 
 def main() -> int:
-    source_bytes = SOURCE_PATH.read_bytes()
-    source_digest = hashlib.sha256(source_bytes).hexdigest()
+    combined = b"".join(p.read_bytes() for p in SOURCES)
+    sources_digest = hashlib.sha256(combined).hexdigest()
     cases = build_cases()
     corpus = {
         "schema_version": "0.1",
@@ -804,8 +867,8 @@ def main() -> int:
         "provenance": {
             "generator_identity": GENERATOR_IDENTITY,
             "reference_package": "mnel (Machine-Native-Experimental-Learning)",
-            "mncs_source": "mncs/source/mnel-core.mncs",
-            "mncs_source_sha256": source_digest,
+            "mncs_sources": [str(p.relative_to(REPO_ROOT)) for p in SOURCES],
+            "mncs_sources_sha256": sources_digest,
             "oracle_kinds": {
                 "reference-code": "expected values produced by executing MNEL classes",
                 "derived-table": "expected values encode documented MNEL behavior with "
@@ -817,7 +880,7 @@ def main() -> int:
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_PATH.write_text(json.dumps(corpus, indent=1, sort_keys=False) + "\n")
     print(f"wrote {len(cases)} cases to {OUTPUT_PATH.relative_to(REPO_ROOT)}")
-    print(f"source sha256: {source_digest}")
+    print(f"combined source sha256: {sources_digest}")
     return 0
 
 

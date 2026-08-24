@@ -7,7 +7,7 @@
  "reference_side": {
   "implementation": "Machine-Native-Experimental-Learning src/mnel (Python control plane)",
   "corpus": "mncs/corpora/mnel-core-reference.json",
-  "corpus_sha256": "6be55258abe26c155723c18797b44be7fbf5111ae813e377a9ef07ea912a290d",
+  "corpus_sha256": "0f0510e8eb5e8522ba935ba7c22d67f9209e0c462a9c5866fba3c2e60d444541",
   "cases": 160,
   "oracle_kinds": [
    "derived-table",
@@ -15,8 +15,8 @@
   ]
  },
  "mncs_side": {
-  "source": "mncs/source/mnel-core.mncs",
-  "source_sha256": "264367a9720108e93d10a1933a67961d8286aa59522fb3b64bae999a4164eb92",
+  "source": "mncs/source/mnel/all.mncs",
+  "source_sha256": "93edf3cb10c7098ff255e8a4067356a394c75a88389e61047d043ddd8fdf2a7d",
   "module": "mnel.core",
   "language_profile": "0.5"
  },
@@ -33,6 +33,49 @@
      "compilation retained required unresolved obligations"
     ]
    }
+  },
+  {
+   "backend": "mncs-portable-wasm-mvp",
+   "outcome": "backend-refused-out-of-envelope",
+   "summary": {
+    "exit_code": 1,
+    "compilation_status": "completed_with_unresolved_obligations"
+   },
+   "refusal_diagnostics": [
+    {
+     "code": "CGN301",
+     "message": "selected SSA is outside the portable WASM MVP subset"
+    },
+    {
+     "code": "CGN302",
+     "message": "mncs:0.4:ssa:function:626ca20cd4363bfb260981010da96a2914bdb499401addb20715667509b14fb7: record value (TransitionOutcome) cannot be a function result of this realization"
+    },
+    {
+     "code": "CGN302",
+     "message": "mncs:0.4:ssa:function:4ca6de39380e352b8454a0ad82536d1aa7941d670995413576124cedac087e14: record value (GateInput) cannot be a function parameter of this realization"
+    },
+    {
+     "code": "CGN302",
+     "message": "mncs:0.4:ssa:function:4ebcc603b019c4d4a31d273d2a4721e66a3e8bbacd219e5bd0492bd54ebec3c1: record value (GateInput) cannot be a function parameter of this realization"
+    },
+    {
+     "code": "CGN302",
+     "message": "mncs:0.4:ssa:function:51515ab6b1d25e8453b377fb64628386375fa7d2eba9435c1a911c55d0044453: record value (ContextMembership) cannot be a function parameter of this realization"
+    },
+    {
+     "code": "CGN302",
+     "message": "mncs:0.4:ssa:function:2a8adc80825d35eac5ac3977d8e2937ef2265be2a7270c4a2f05bc368fa2c46b: record value (ProbeState) cannot be carried through a block parameter of this realization"
+    },
+    {
+     "code": "CGN302",
+     "message": "mncs:0.4:ssa:function:081124e633c7d8e68caf02c1918c946a9644f4a5360788d9b8bea18f4bb5c359: record value (TransitionOutcome) cannot be a function result of this realization"
+    },
+    {
+     "code": "CGN302",
+     "message": "mncs:0.4:ssa:function:6015abb53185c7acc1b6db64ba7ddf123c513d81fd3e8d8d69087990db8c8e8b: record value (ContextMembership) cannot be a function parameter of this realization"
+    }
+   ],
+   "interpretation": "fail-closed envelope refusal; absence of execution is not disagreement"
   }
  ],
  "comparison_status": "AGREEMENT_OVER_CORPUS",

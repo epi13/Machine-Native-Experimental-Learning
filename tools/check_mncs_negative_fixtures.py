@@ -21,6 +21,7 @@ NEGATIVE_DIR = REPO_ROOT / "mncs" / "source" / "negative"
 EXPECTED_ERRORS = {
     "authority-expansion": ["MNE134"],
     "authority-type-mismatch": ["MNE134"],
+    "cross-module-authority": ["MNE134"],
 }
 
 

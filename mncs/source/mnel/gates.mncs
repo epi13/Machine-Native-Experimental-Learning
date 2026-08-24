@@ -1,0 +1,70 @@
+mncs 0.6;
+
+// Hard-gate evaluation. Only an authorized evaluator derives verdicts; the
+// derive_verdict effect carries that authority through every caller.
+module mnel.gates;
+
+use mnel.verdict;
+use mnel.logic;
+
+enum GateOperator { GE, GT, LE, LT, EQ }
+
+enum MetricPresence { PRESENT, ABSENT }
+
+record GateInput {
+    present: MetricPresence,
+    operator: GateOperator,
+    observed: i64,
+    threshold: i64,
+}
+
+fn evaluate_gate(input: GateInput) -> (verdict: Verdict)
+    capability hard_gate_authority
+    effect derive_verdict authorized_by hard_gate_authority
+{
+    let comparable: bool = match input.present {
+        PRESENT => true,
+        ABSENT => false,
+    };
+    if comparable {
+        let holds: bool = match input.operator {
+            GE => input.observed >= input.threshold,
+            GT => input.observed > input.threshold,
+            LE => input.observed <= input.threshold,
+            LT => input.observed < input.threshold,
+            EQ => input.observed == input.threshold,
+        };
+        if holds {
+            return Verdict.PASS;
+        }
+        return Verdict.FAIL;
+    }
+    return Verdict.UNKNOWN;
+}
+
+fn aggregate_four(
+    first: Verdict,
+    second: Verdict,
+    third: Verdict,
+    fourth: Verdict,
+) -> (overall: Verdict) {
+    let left_combined: Verdict = combine_verdict(first, second);
+    let right_combined: Verdict = combine_verdict(third, fourth);
+    return combine_verdict(left_combined, right_combined);
+}
+
+fn evaluate_gates(
+    first: GateInput,
+    second: GateInput,
+    third: GateInput,
+    fourth: GateInput,
+) -> (overall: Verdict)
+    capability hard_gate_authority
+    effect derive_verdict authorized_by hard_gate_authority
+{
+    let first_verdict: Verdict = evaluate_gate(first);
+    let second_verdict: Verdict = evaluate_gate(second);
+    let third_verdict: Verdict = evaluate_gate(third);
+    let fourth_verdict: Verdict = evaluate_gate(fourth);
+    return aggregate_four(first_verdict, second_verdict, third_verdict, fourth_verdict);
+}

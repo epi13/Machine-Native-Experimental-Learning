@@ -31,7 +31,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 CORPUS_PATH = REPO_ROOT / "mncs" / "corpora" / "mnel-core-reference.json"
-SOURCE_PATH = REPO_ROOT / "mncs" / "source" / "mnel-core.mncs"
+SOURCE_PATH = REPO_ROOT / "mncs" / "source" / "mnel" / "all.mncs"
 EVIDENCE_DIR = REPO_ROOT / "docs" / "mncs-reconstruction" / "evidence"
 
 RUNNER_IDENTITY = "mnel-mncs-differential-runner/0.1"

@@ -8,9 +8,27 @@ implementation in this repository as the behavioral reference and control.
 
 ## What exists now
 
-### `source/mnel-core.mncs` — MNEL's decision spine as language-native semantics
+### `source/mnel/*.mncs` — MNEL's decision spine as native MNCS modules
 
-A Source Profile 0.5 module (`mnel.core`) expressing:
+Source Profile 0.6 modules linked by real `use` imports (module-import
+semantics were added to mncs-language for this reconstruction):
+
+| module | concepts |
+|---|---|
+| `mnel.logic` | exhaustive-match boolean algebra |
+| `mnel.rejection` | shared rejection vocabulary |
+| `mnel.verdict` | PASS/FAIL/UNKNOWN lattice, FAIL-dominant combination |
+| `mnel.gates` | hard gates under `hard_gate_authority` with a deriving effect |
+| `mnel.lifecycle` | experiment state machine incl. budget rejection path |
+| `mnel.visibility` | visibility ladder, fail-closed access decisions |
+| `mnel.transfer` | transfer-gated maturity demotion |
+| `mnel.authority` | plan validation; promotion authority refused |
+| `mnel.negative_memory` | context conflicts, retrieval demotion (-6) |
+| `mnel.probe` | bounded metric re-probing; exhaustion stays ABSENT/UNKNOWN |
+| `mnel.core` | end-to-end reference experiment spine |
+| `mnel.all` | aggregate root used by differential corpora |
+
+Concepts expressed as language-native semantics:
 
 - the PASS / FAIL / UNKNOWN evidence lattice with FAIL-dominant combination;
 - hard-gate evaluation guarded by `capability hard_gate_authority` and an

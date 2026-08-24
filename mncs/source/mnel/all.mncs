@@ -1,0 +1,17 @@
+mncs 0.6;
+
+// Aggregate root used by differential corpora: binds every mnel.* module so
+// one MNCS program carries the full slice. Declares nothing itself.
+module mnel.all;
+
+use mnel.authority;
+use mnel.core;
+use mnel.gates;
+use mnel.lifecycle;
+use mnel.logic;
+use mnel.negative_memory;
+use mnel.probe;
+use mnel.rejection;
+use mnel.transfer;
+use mnel.verdict;
+use mnel.visibility;

@@ -1,0 +1,29 @@
+mncs 0.6;
+
+// Transfer-gated maturity: requested SUPPORTED status survives only when
+// held-out transfer actually supports the proposal; every other transfer
+// state demotes the request to PROVISIONAL.
+module mnel.transfer;
+
+enum TransferStatus { UNTESTED, FAILED, PARTIAL, SUPPORTED }
+
+enum Maturity { PROVISIONAL, SUPPORTED, CHALLENGED, REJECTED, RETIRED }
+
+fn effective_maturity(requested: Maturity, transfer: TransferStatus) -> (maturity: Maturity) {
+    let supported_transfer: bool = match transfer {
+        UNTESTED => false,
+        FAILED => false,
+        PARTIAL => false,
+        SUPPORTED => true,
+    };
+    if supported_transfer {
+        return requested;
+    }
+    return match requested {
+        PROVISIONAL => Maturity.PROVISIONAL,
+        SUPPORTED => Maturity.PROVISIONAL,
+        CHALLENGED => Maturity.CHALLENGED,
+        REJECTED => Maturity.REJECTED,
+        RETIRED => Maturity.RETIRED,
+    };
+}
