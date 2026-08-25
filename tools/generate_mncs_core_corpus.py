@@ -53,7 +53,8 @@ OUTPUT_PATH = REPO_ROOT / "mncs" / "corpora" / "mnel-core-reference.json"
 # Home modules after the modularization of the reconstruction: every
 # declaration's identity is anchored to the module that declares it.
 MODULE_CORE = "mnel.core"
-MODULE_VERDICT = "mnel.verdict"
+MODULE_STATUS_STD = "mncs.core.status.v1"
+MODULE_LOGIC_STD = "mncs.core.logic.v1"
 MODULE_GATES = "mnel.gates"
 MODULE_LIFECYCLE = "mnel.lifecycle"
 MODULE_VISIBILITY = "mnel.visibility"
@@ -88,7 +89,7 @@ def encode_component(value: str) -> str:
 
 
 TYPE_HOME_MODULE = {
-    "Verdict": MODULE_VERDICT,
+    "Status": MODULE_STATUS_STD,
     "GateOperator": MODULE_GATES,
     "MetricPresence": MODULE_GATES,
     "GateInput": MODULE_GATES,
@@ -107,8 +108,11 @@ TYPE_HOME_MODULE = {
 }
 
 FUNCTION_HOME_MODULE = {
-    "combine_verdict": MODULE_VERDICT,
-    "verdict_is_known": MODULE_VERDICT,
+    "dominate": MODULE_STATUS_STD,
+    "is_decided": MODULE_STATUS_STD,
+    "bool_and": MODULE_LOGIC_STD,
+    "bool_or": MODULE_LOGIC_STD,
+    "bool_not": MODULE_LOGIC_STD,
     "evaluate_gate": MODULE_GATES,
     "evaluate_gates": MODULE_GATES,
     "access_granted": MODULE_VISIBILITY,
@@ -264,7 +268,7 @@ CONTEXT_FIELDS = [
 ]
 OUTCOME_FIELDS = [
     ("final_state", "ExperimentState"),
-    ("verdict", "Verdict"),
+    ("verdict", "Status"),
     ("principle_maturity", "Maturity"),
 ]
 
@@ -284,7 +288,7 @@ def gate_input(present: bool, op: str, observed: int, threshold: int) -> dict:
 
 
 def verdict_value(verdict_text: str) -> dict:
-    return finite("Verdict", verdict_text, VERDICT[verdict_text])
+    return finite("Status", verdict_text, VERDICT[verdict_text])
 
 
 def transition_outcome(advanced: bool, next_state: str, reason: str) -> dict:
@@ -542,13 +546,50 @@ def build_cases() -> list[dict]:
                     combined = right
             cases.append(case(
                 f"combine-{left.lower()}-{right.lower()}",
-                "combine_verdict",
-                [finite("Verdict", left, VERDICT[left]), finite("Verdict", right, VERDICT[right])],
+                "dominate",
+                [finite("Status", left, VERDICT[left]), finite("Status", right, VERDICT[right])],
                 [verdict_value(combined)],
                 oracle=ORACLE_DERIVED_TABLE,
                 oracle_citation="HardGateEvaluator aggregation rule "
                                 "(src/mnel/core.py evaluate): any FAIL => FAIL; else any "
                                 "UNKNOWN => UNKNOWN; else PASS.",
+            ))
+
+    # --- Boolean algebra binding to mncs.core.logic.v1 ----------------------
+    # The reconstruction previously carried local helpers `both`/`either`/`not`
+    # (mnel.logic, if/else truth tables). They are replaced by the canonical
+    # standard-library operations; these cases pin that replacement to the
+    # exact truth tables the reference modules used.
+    for a in (False, True):
+        for b in (False, True):
+            cases.append(case(
+                f"bool-and-{int(a)}-{int(b)}",
+                "bool_and",
+                [boolean(a), boolean(b)],
+                [boolean(a and b)],
+                oracle=ORACLE_DERIVED_TABLE,
+                oracle_citation="former mnel.logic.both "
+                                "(mncs/source/mnel/logic.mncs before stdlib binding): "
+                                "if left { right } else false.",
+            ))
+            cases.append(case(
+                f"bool-or-{int(a)}-{int(b)}",
+                "bool_or",
+                [boolean(a), boolean(b)],
+                [boolean(a or b)],
+                oracle=ORACLE_DERIVED_TABLE,
+                oracle_citation="former mnel.logic.either "
+                                "(mncs/source/mnel/logic.mncs before stdlib binding): "
+                                "if left { true } else right.",
+            ))
+            cases.append(case(
+                f"bool-not-{int(a)}-{b and 1 or 0}",
+                "bool_not",
+                [boolean(a)],
+                [boolean(not a)],
+                oracle=ORACLE_DERIVED_TABLE,
+                oracle_citation="former mnel.logic.not "
+                                "(mncs/source/mnel/logic.mncs before stdlib binding).",
             ))
 
     # --- Hard gates (real evaluator) ---------------------------------------

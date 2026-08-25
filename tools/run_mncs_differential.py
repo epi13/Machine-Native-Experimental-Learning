@@ -25,6 +25,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -44,14 +45,27 @@ INTERPRETATION = (
 BACKENDS = {
     "mncs-research-bytecode": "bytecode",
     "mncs-portable-wasm-mvp": "wasm",
+    "mncs-c11": "c11",
+    "mncs-llvm-ir": "llvm",
+    "mncs-cranelift": "cranelift",
+    "mncs-riscv32": "riscv32",
+    "mncs-ebpf": "ebpf",
+    "mncs-ptx64": "ptx64",
 }
+
+# The MNEL modules bind to mncs.core.* standard-library sources shipped in
+# the sibling language repository; resolution degrades to an honest
+# unresolvable-import failure when this default does not exist.
+DEFAULT_LIBRARY_ROOT = REPO_ROOT.parent / "mncs-language" / "library"
 
 
 def sha256_file(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def run_mncs(mncs_bin: list[str], backend: str, out_dir: Path) -> tuple[int, dict | None]:
+def run_mncs(
+    mncs_bin: list[str], backend: str, out_dir: Path, library_path: str | None
+) -> tuple[int, dict | None]:
     out_dir.mkdir(parents=True, exist_ok=True)
     command = [
         *mncs_bin,
@@ -65,7 +79,10 @@ def run_mncs(mncs_bin: list[str], backend: str, out_dir: Path) -> tuple[int, dic
         "--output-dir",
         str(out_dir),
     ]
-    completed = subprocess.run(command, capture_output=True, text=True)
+    environment = None
+    if library_path:
+        environment = {**os.environ, "MNCS_LIBRARY_PATH": library_path}
+    completed = subprocess.run(command, capture_output=True, text=True, env=environment)
     stdout = completed.stdout
     try:
         payload = json.loads(stdout[stdout.find("{"):])
@@ -115,6 +132,13 @@ def main() -> int:
     )
     parser.add_argument("--backend", choices=sorted(BACKENDS), action="append",
                         help="restrict to one backend (repeatable)")
+    parser.add_argument(
+        "--library-path",
+        type=Path,
+        default=DEFAULT_LIBRARY_ROOT if DEFAULT_LIBRARY_ROOT.is_dir() else None,
+        help="MNCS_LIBRARY_PATH root exposing mncs.core.* (default: sibling "
+             "mncs-language checkout)",
+    )
     args = parser.parse_args()
 
     if not CORPUS_PATH.exists():
@@ -128,7 +152,8 @@ def main() -> int:
     disagreements = []
     for backend in selected_backends:
         tag = BACKENDS[backend]
-        rc, payload = run_mncs(args.mncs_bin, backend, args.work_dir / tag)
+        library = str(args.library_path) if args.library_path else None
+        rc, payload = run_mncs(args.mncs_bin, backend, args.work_dir / tag, library)
         outcome, details_list, summary = classify_backend_result(rc, payload)
         observation = {
             "backend": backend,
@@ -183,8 +208,13 @@ def main() -> int:
         "mncs_side": {
             "source": str(SOURCE_PATH.relative_to(REPO_ROOT)),
             "source_sha256": sha256_file(SOURCE_PATH),
-            "module": "mnel.core",
-            "language_profile": "0.5",
+            "module": "mnel.all",
+            "language_profile": "0.6",
+            "standard_library_bindings": [
+                "mncs.core.status.v1",
+                "mncs.core.logic.v1",
+            ],
+            "library_path": str(args.library_path) if args.library_path else None,
         },
         "backends": backend_observations,
         "comparison_status": comparison_status,

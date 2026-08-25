@@ -26,6 +26,15 @@ DEFAULT_MNCS = (
     REPO_ROOT.parent / "mncs-language" / "target" / "debug" / "mncs"
 )
 DEFAULT_SOURCE = REPO_ROOT / "mncs" / "source" / "mnel" / "all.mncs"
+# The reconstruction binds to mncs.core.* modules shipped with the language
+# repository; this root makes those sources resolvable during elaboration.
+DEFAULT_LIBRARY_ROOT = REPO_ROOT.parent / "mncs-language" / "library"
+
+
+def library_env() -> dict:
+    if DEFAULT_LIBRARY_ROOT.is_dir():
+        return {**os.environ, "MNCS_LIBRARY_PATH": str(DEFAULT_LIBRARY_ROOT)}
+    return dict(os.environ)
 
 
 def mncs_bin() -> Path | None:
@@ -47,6 +56,7 @@ class MncsReconstructionTests(unittest.TestCase):
             capture_output=True,
             text=True,
             check=True,
+            env=library_env(),
         )
         payload = json.loads(completed.stdout[completed.stdout.find("{"):])
         errors = [
@@ -67,7 +77,9 @@ class MncsReconstructionTests(unittest.TestCase):
         work = REPO_ROOT / "target" / "mncs-differential-unittest"
         completed = subprocess.run(
             ["python3", str(runner), "--mncs-bin", self.mncs,
-             "--backend", "mncs-research-bytecode", "--work-dir", str(work)],
+             "--backend", "mncs-research-bytecode",
+             "--backend", "mncs-portable-wasm-mvp",
+             "--work-dir", str(work)],
             cwd=str(REPO_ROOT),
             capture_output=True,
             text=True,
@@ -78,6 +90,48 @@ class MncsReconstructionTests(unittest.TestCase):
              "mnel-core-differential-study.json").read_text()
         )
         self.assertEqual(evidence["comparison_status"], "AGREEMENT_OVER_CORPUS")
+
+    def test_mnel_consumes_canonical_standard_library(self) -> None:
+        """Phase-2 architecture check: mnel.gates must elaborate through a
+        real import of mncs.core.status.v1, not a local copy of the lattice."""
+        if not DEFAULT_LIBRARY_ROOT.is_dir():
+            self.skipTest("sibling mncs-language library tree unavailable")
+        gates = REPO_ROOT / "mncs" / "source" / "mnel" / "gates.mncs"
+        source = gates.read_text()
+        self.assertIn("use mncs.core.status.v1;", source)
+        self.assertNotIn("enum Verdict", source)
+        for retired in ("logic.mncs", "verdict.mncs"):
+            self.assertFalse(
+                (REPO_ROOT / "mncs" / "source" / "mnel" / retired).exists(),
+                f"{retired} should be replaced by standard-library consumption",
+            )
+        # The imported module must resolve through the library path and
+        # elaborate cleanly together with its consumer.
+        completed = subprocess.run(
+            [self.mncs, "source-study", str(gates), "--node-id", "unittest-gates"],
+            capture_output=True,
+            text=True,
+            env=library_env(),
+        )
+        payload = json.loads(completed.stdout[completed.stdout.find("{"):])
+        errors = [
+            d for d in payload.get("diagnostics", []) if d.get("severity") == "error"
+        ]
+        self.assertEqual(errors, [])
+        corpus = json.loads(
+            (REPO_ROOT / "mncs" / "corpora" / "mnel-core-reference.json").read_text()
+        )
+        bindings = {
+            case_["request"]["target"]["module"] for case_ in corpus["cases"]
+        }
+        self.assertIn(
+            "mncs.core.status.v1", bindings,
+            "corpus must exercise the canonical status module directly",
+        )
+        self.assertIn(
+            "mncs.core.logic.v1", bindings,
+            "corpus must exercise the canonical logic module directly",
+        )
 
     def test_negative_fixtures_are_rejected(self) -> None:
         checker = REPO_ROOT / "tools" / "check_mncs_negative_fixtures.py"

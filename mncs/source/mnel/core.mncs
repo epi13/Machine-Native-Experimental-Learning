@@ -14,14 +14,13 @@ module mnel.core;
 use mnel.authority;
 use mnel.gates;
 use mnel.lifecycle;
-use mnel.logic;
+use mncs.core.status.v1;
 use mnel.rejection;
 use mnel.transfer;
-use mnel.verdict;
 
 record ExperimentOutcome {
     final_state: ExperimentState,
-    verdict: Verdict,
+    verdict: Status,
     principle_maturity: Maturity,
 }
 
@@ -50,7 +49,7 @@ fn run_reference_experiment(
             execution_start.next_state,
             LifecycleEvent.BUDGET_WITHIN_LIMITS,
         );
-        let overall: Verdict = evaluate_gates(first, second, third, fourth);
+        let overall: Status = evaluate_gates(first, second, third, fourth);
         let evaluated: TransitionOutcome = transition(
             observation.next_state,
             LifecycleEvent.EVALUATOR_VERDICT,
@@ -63,7 +62,7 @@ fn run_reference_experiment(
             attributed.next_state,
             LifecycleEvent.PROPOSE_DISTILLATION,
         );
-        let known_verdict: bool = verdict_is_known(overall);
+        let known_verdict: bool = is_decided(overall);
         let gated_request: Maturity = request_when_known(known_verdict, requested_maturity);
         let maturity: Maturity = effective_maturity(gated_request, transfer);
         return ExperimentOutcome {
@@ -74,7 +73,7 @@ fn run_reference_experiment(
     }
     return ExperimentOutcome {
         final_state: ExperimentState.REJECTED,
-        verdict: Verdict.UNKNOWN,
+        verdict: Status.UNKNOWN,
         principle_maturity: Maturity.PROVISIONAL,
     };
 }

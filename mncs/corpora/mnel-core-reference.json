@@ -7,21 +7,21 @@
    "request": {
     "schema_version": "0.1",
     "target": {
-     "module": "mnel.verdict",
-     "function": "combine_verdict"
+     "module": "mncs.core.status.v1",
+     "function": "dominate"
     },
     "arguments": [
      {
       "finite": {
-       "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-       "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::PASS",
+       "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+       "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::PASS",
        "discriminant": 0
       }
      },
      {
       "finite": {
-       "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-       "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::PASS",
+       "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+       "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::PASS",
        "discriminant": 0
       }
      }
@@ -31,8 +31,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::PASS",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::PASS",
       "discriminant": 0
      }
     }
@@ -47,21 +47,21 @@
    "request": {
     "schema_version": "0.1",
     "target": {
-     "module": "mnel.verdict",
-     "function": "combine_verdict"
+     "module": "mncs.core.status.v1",
+     "function": "dominate"
     },
     "arguments": [
      {
       "finite": {
-       "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-       "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::PASS",
+       "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+       "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::PASS",
        "discriminant": 0
       }
      },
      {
       "finite": {
-       "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-       "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::FAIL",
+       "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+       "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::FAIL",
        "discriminant": 1
       }
      }
@@ -71,8 +71,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::FAIL",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::FAIL",
       "discriminant": 1
      }
     }
@@ -87,21 +87,21 @@
    "request": {
     "schema_version": "0.1",
     "target": {
-     "module": "mnel.verdict",
-     "function": "combine_verdict"
+     "module": "mncs.core.status.v1",
+     "function": "dominate"
     },
     "arguments": [
      {
       "finite": {
-       "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-       "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::PASS",
+       "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+       "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::PASS",
        "discriminant": 0
       }
      },
      {
       "finite": {
-       "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-       "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::UNKNOWN",
+       "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+       "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::UNKNOWN",
        "discriminant": 2
       }
      }
@@ -111,8 +111,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::UNKNOWN",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::UNKNOWN",
       "discriminant": 2
      }
     }
@@ -127,21 +127,21 @@
    "request": {
     "schema_version": "0.1",
     "target": {
-     "module": "mnel.verdict",
-     "function": "combine_verdict"
+     "module": "mncs.core.status.v1",
+     "function": "dominate"
     },
     "arguments": [
      {
       "finite": {
-       "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-       "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::FAIL",
+       "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+       "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::FAIL",
        "discriminant": 1
       }
      },
      {
       "finite": {
-       "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-       "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::PASS",
+       "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+       "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::PASS",
        "discriminant": 0
       }
      }
@@ -151,8 +151,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::FAIL",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::FAIL",
       "discriminant": 1
      }
     }
@@ -167,21 +167,21 @@
    "request": {
     "schema_version": "0.1",
     "target": {
-     "module": "mnel.verdict",
-     "function": "combine_verdict"
+     "module": "mncs.core.status.v1",
+     "function": "dominate"
     },
     "arguments": [
      {
       "finite": {
-       "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-       "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::FAIL",
+       "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+       "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::FAIL",
        "discriminant": 1
       }
      },
      {
       "finite": {
-       "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-       "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::FAIL",
+       "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+       "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::FAIL",
        "discriminant": 1
       }
      }
@@ -191,8 +191,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::FAIL",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::FAIL",
       "discriminant": 1
      }
     }
@@ -207,21 +207,21 @@
    "request": {
     "schema_version": "0.1",
     "target": {
-     "module": "mnel.verdict",
-     "function": "combine_verdict"
+     "module": "mncs.core.status.v1",
+     "function": "dominate"
     },
     "arguments": [
      {
       "finite": {
-       "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-       "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::FAIL",
+       "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+       "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::FAIL",
        "discriminant": 1
       }
      },
      {
       "finite": {
-       "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-       "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::UNKNOWN",
+       "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+       "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::UNKNOWN",
        "discriminant": 2
       }
      }
@@ -231,8 +231,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::FAIL",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::FAIL",
       "discriminant": 1
      }
     }
@@ -247,21 +247,21 @@
    "request": {
     "schema_version": "0.1",
     "target": {
-     "module": "mnel.verdict",
-     "function": "combine_verdict"
+     "module": "mncs.core.status.v1",
+     "function": "dominate"
     },
     "arguments": [
      {
       "finite": {
-       "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-       "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::UNKNOWN",
+       "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+       "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::UNKNOWN",
        "discriminant": 2
       }
      },
      {
       "finite": {
-       "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-       "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::PASS",
+       "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+       "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::PASS",
        "discriminant": 0
       }
      }
@@ -271,8 +271,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::UNKNOWN",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::UNKNOWN",
       "discriminant": 2
      }
     }
@@ -287,21 +287,21 @@
    "request": {
     "schema_version": "0.1",
     "target": {
-     "module": "mnel.verdict",
-     "function": "combine_verdict"
+     "module": "mncs.core.status.v1",
+     "function": "dominate"
     },
     "arguments": [
      {
       "finite": {
-       "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-       "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::UNKNOWN",
+       "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+       "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::UNKNOWN",
        "discriminant": 2
       }
      },
      {
       "finite": {
-       "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-       "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::FAIL",
+       "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+       "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::FAIL",
        "discriminant": 1
       }
      }
@@ -311,8 +311,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::FAIL",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::FAIL",
       "discriminant": 1
      }
     }
@@ -327,21 +327,21 @@
    "request": {
     "schema_version": "0.1",
     "target": {
-     "module": "mnel.verdict",
-     "function": "combine_verdict"
+     "module": "mncs.core.status.v1",
+     "function": "dominate"
     },
     "arguments": [
      {
       "finite": {
-       "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-       "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::UNKNOWN",
+       "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+       "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::UNKNOWN",
        "discriminant": 2
       }
      },
      {
       "finite": {
-       "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-       "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::UNKNOWN",
+       "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+       "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::UNKNOWN",
        "discriminant": 2
       }
      }
@@ -351,8 +351,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::UNKNOWN",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::UNKNOWN",
       "discriminant": 2
      }
     }
@@ -360,6 +360,394 @@
    "oracle": {
     "kind": "derived-table",
     "citation": "HardGateEvaluator aggregation rule (src/mnel/core.py evaluate): any FAIL => FAIL; else any UNKNOWN => UNKNOWN; else PASS."
+   }
+  },
+  {
+   "id": "bool-and-0-0",
+   "request": {
+    "schema_version": "0.1",
+    "target": {
+     "module": "mncs.core.logic.v1",
+     "function": "bool_and"
+    },
+    "arguments": [
+     {
+      "boolean": {
+       "value": false
+      }
+     },
+     {
+      "boolean": {
+       "value": false
+      }
+     }
+    ],
+    "step_budget": 512
+   },
+   "expected": [
+    {
+     "boolean": {
+      "value": false
+     }
+    }
+   ],
+   "oracle": {
+    "kind": "derived-table",
+    "citation": "former mnel.logic.both (mncs/source/mnel/logic.mncs before stdlib binding): if left { right } else false."
+   }
+  },
+  {
+   "id": "bool-or-0-0",
+   "request": {
+    "schema_version": "0.1",
+    "target": {
+     "module": "mncs.core.logic.v1",
+     "function": "bool_or"
+    },
+    "arguments": [
+     {
+      "boolean": {
+       "value": false
+      }
+     },
+     {
+      "boolean": {
+       "value": false
+      }
+     }
+    ],
+    "step_budget": 512
+   },
+   "expected": [
+    {
+     "boolean": {
+      "value": false
+     }
+    }
+   ],
+   "oracle": {
+    "kind": "derived-table",
+    "citation": "former mnel.logic.either (mncs/source/mnel/logic.mncs before stdlib binding): if left { true } else right."
+   }
+  },
+  {
+   "id": "bool-not-0-0",
+   "request": {
+    "schema_version": "0.1",
+    "target": {
+     "module": "mncs.core.logic.v1",
+     "function": "bool_not"
+    },
+    "arguments": [
+     {
+      "boolean": {
+       "value": false
+      }
+     }
+    ],
+    "step_budget": 512
+   },
+   "expected": [
+    {
+     "boolean": {
+      "value": true
+     }
+    }
+   ],
+   "oracle": {
+    "kind": "derived-table",
+    "citation": "former mnel.logic.not (mncs/source/mnel/logic.mncs before stdlib binding)."
+   }
+  },
+  {
+   "id": "bool-and-0-1",
+   "request": {
+    "schema_version": "0.1",
+    "target": {
+     "module": "mncs.core.logic.v1",
+     "function": "bool_and"
+    },
+    "arguments": [
+     {
+      "boolean": {
+       "value": false
+      }
+     },
+     {
+      "boolean": {
+       "value": true
+      }
+     }
+    ],
+    "step_budget": 512
+   },
+   "expected": [
+    {
+     "boolean": {
+      "value": false
+     }
+    }
+   ],
+   "oracle": {
+    "kind": "derived-table",
+    "citation": "former mnel.logic.both (mncs/source/mnel/logic.mncs before stdlib binding): if left { right } else false."
+   }
+  },
+  {
+   "id": "bool-or-0-1",
+   "request": {
+    "schema_version": "0.1",
+    "target": {
+     "module": "mncs.core.logic.v1",
+     "function": "bool_or"
+    },
+    "arguments": [
+     {
+      "boolean": {
+       "value": false
+      }
+     },
+     {
+      "boolean": {
+       "value": true
+      }
+     }
+    ],
+    "step_budget": 512
+   },
+   "expected": [
+    {
+     "boolean": {
+      "value": true
+     }
+    }
+   ],
+   "oracle": {
+    "kind": "derived-table",
+    "citation": "former mnel.logic.either (mncs/source/mnel/logic.mncs before stdlib binding): if left { true } else right."
+   }
+  },
+  {
+   "id": "bool-not-0-1",
+   "request": {
+    "schema_version": "0.1",
+    "target": {
+     "module": "mncs.core.logic.v1",
+     "function": "bool_not"
+    },
+    "arguments": [
+     {
+      "boolean": {
+       "value": false
+      }
+     }
+    ],
+    "step_budget": 512
+   },
+   "expected": [
+    {
+     "boolean": {
+      "value": true
+     }
+    }
+   ],
+   "oracle": {
+    "kind": "derived-table",
+    "citation": "former mnel.logic.not (mncs/source/mnel/logic.mncs before stdlib binding)."
+   }
+  },
+  {
+   "id": "bool-and-1-0",
+   "request": {
+    "schema_version": "0.1",
+    "target": {
+     "module": "mncs.core.logic.v1",
+     "function": "bool_and"
+    },
+    "arguments": [
+     {
+      "boolean": {
+       "value": true
+      }
+     },
+     {
+      "boolean": {
+       "value": false
+      }
+     }
+    ],
+    "step_budget": 512
+   },
+   "expected": [
+    {
+     "boolean": {
+      "value": false
+     }
+    }
+   ],
+   "oracle": {
+    "kind": "derived-table",
+    "citation": "former mnel.logic.both (mncs/source/mnel/logic.mncs before stdlib binding): if left { right } else false."
+   }
+  },
+  {
+   "id": "bool-or-1-0",
+   "request": {
+    "schema_version": "0.1",
+    "target": {
+     "module": "mncs.core.logic.v1",
+     "function": "bool_or"
+    },
+    "arguments": [
+     {
+      "boolean": {
+       "value": true
+      }
+     },
+     {
+      "boolean": {
+       "value": false
+      }
+     }
+    ],
+    "step_budget": 512
+   },
+   "expected": [
+    {
+     "boolean": {
+      "value": true
+     }
+    }
+   ],
+   "oracle": {
+    "kind": "derived-table",
+    "citation": "former mnel.logic.either (mncs/source/mnel/logic.mncs before stdlib binding): if left { true } else right."
+   }
+  },
+  {
+   "id": "bool-not-1-0",
+   "request": {
+    "schema_version": "0.1",
+    "target": {
+     "module": "mncs.core.logic.v1",
+     "function": "bool_not"
+    },
+    "arguments": [
+     {
+      "boolean": {
+       "value": true
+      }
+     }
+    ],
+    "step_budget": 512
+   },
+   "expected": [
+    {
+     "boolean": {
+      "value": false
+     }
+    }
+   ],
+   "oracle": {
+    "kind": "derived-table",
+    "citation": "former mnel.logic.not (mncs/source/mnel/logic.mncs before stdlib binding)."
+   }
+  },
+  {
+   "id": "bool-and-1-1",
+   "request": {
+    "schema_version": "0.1",
+    "target": {
+     "module": "mncs.core.logic.v1",
+     "function": "bool_and"
+    },
+    "arguments": [
+     {
+      "boolean": {
+       "value": true
+      }
+     },
+     {
+      "boolean": {
+       "value": true
+      }
+     }
+    ],
+    "step_budget": 512
+   },
+   "expected": [
+    {
+     "boolean": {
+      "value": true
+     }
+    }
+   ],
+   "oracle": {
+    "kind": "derived-table",
+    "citation": "former mnel.logic.both (mncs/source/mnel/logic.mncs before stdlib binding): if left { right } else false."
+   }
+  },
+  {
+   "id": "bool-or-1-1",
+   "request": {
+    "schema_version": "0.1",
+    "target": {
+     "module": "mncs.core.logic.v1",
+     "function": "bool_or"
+    },
+    "arguments": [
+     {
+      "boolean": {
+       "value": true
+      }
+     },
+     {
+      "boolean": {
+       "value": true
+      }
+     }
+    ],
+    "step_budget": 512
+   },
+   "expected": [
+    {
+     "boolean": {
+      "value": true
+     }
+    }
+   ],
+   "oracle": {
+    "kind": "derived-table",
+    "citation": "former mnel.logic.either (mncs/source/mnel/logic.mncs before stdlib binding): if left { true } else right."
+   }
+  },
+  {
+   "id": "bool-not-1-1",
+   "request": {
+    "schema_version": "0.1",
+    "target": {
+     "module": "mncs.core.logic.v1",
+     "function": "bool_not"
+    },
+    "arguments": [
+     {
+      "boolean": {
+       "value": true
+      }
+     }
+    ],
+    "step_budget": 512
+   },
+   "expected": [
+    {
+     "boolean": {
+      "value": false
+     }
+    }
+   ],
+   "oracle": {
+    "kind": "derived-table",
+    "citation": "former mnel.logic.not (mncs/source/mnel/logic.mncs before stdlib binding)."
    }
   },
   {
@@ -585,8 +973,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::PASS",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::PASS",
       "discriminant": 0
      }
     }
@@ -663,8 +1051,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::PASS",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::PASS",
       "discriminant": 0
      }
     }
@@ -741,8 +1129,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::PASS",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::PASS",
       "discriminant": 0
      }
     }
@@ -819,8 +1207,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::PASS",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::PASS",
       "discriminant": 0
      }
     }
@@ -897,8 +1285,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::PASS",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::PASS",
       "discriminant": 0
      }
     }
@@ -1131,8 +1519,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::FAIL",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::FAIL",
       "discriminant": 1
      }
     }
@@ -1209,8 +1597,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::FAIL",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::FAIL",
       "discriminant": 1
      }
     }
@@ -1287,8 +1675,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::PASS",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::PASS",
       "discriminant": 0
      }
     }
@@ -1365,8 +1753,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::PASS",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::PASS",
       "discriminant": 0
      }
     }
@@ -1443,8 +1831,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::PASS",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::PASS",
       "discriminant": 0
      }
     }
@@ -1677,8 +2065,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::UNKNOWN",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::UNKNOWN",
       "discriminant": 2
      }
     }
@@ -1755,8 +2143,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::UNKNOWN",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::UNKNOWN",
       "discriminant": 2
      }
     }
@@ -1833,8 +2221,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::PASS",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::PASS",
       "discriminant": 0
      }
     }
@@ -1911,8 +2299,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::PASS",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::PASS",
       "discriminant": 0
      }
     }
@@ -1989,8 +2377,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::PASS",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::PASS",
       "discriminant": 0
      }
     }
@@ -2223,8 +2611,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::FAIL",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::FAIL",
       "discriminant": 1
      }
     }
@@ -2301,8 +2689,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::UNKNOWN",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::UNKNOWN",
       "discriminant": 2
      }
     }
@@ -2379,8 +2767,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::FAIL",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::FAIL",
       "discriminant": 1
      }
     }
@@ -2457,8 +2845,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::PASS",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::PASS",
       "discriminant": 0
      }
     }
@@ -2535,8 +2923,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::PASS",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::PASS",
       "discriminant": 0
      }
     }
@@ -2769,8 +3157,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::UNKNOWN",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::UNKNOWN",
       "discriminant": 2
      }
     }
@@ -2847,8 +3235,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::PASS",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::PASS",
       "discriminant": 0
      }
     }
@@ -2925,8 +3313,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::PASS",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::PASS",
       "discriminant": 0
      }
     }
@@ -3003,8 +3391,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::PASS",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::PASS",
       "discriminant": 0
      }
     }
@@ -3081,8 +3469,8 @@
    "expected": [
     {
      "finite": {
-      "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-      "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::UNKNOWN",
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::UNKNOWN",
       "discriminant": 2
      }
     }
@@ -11854,7 +12242,7 @@
    "expected": [
     {
      "record": {
-      "type_identity": "mncs:0.2:record-type:mnel.core::ExperimentOutcome::final_state%3AExperimentState%3Bprinciple_maturity%3AMaturity%3Bverdict%3AVerdict%3B",
+      "type_identity": "mncs:0.2:record-type:mnel.core::ExperimentOutcome::final_state%3AExperimentState%3Bprinciple_maturity%3AMaturity%3Bverdict%3AStatus%3B",
       "name": "ExperimentOutcome",
       "fields": [
        [
@@ -11881,8 +12269,8 @@
         "verdict",
         {
          "finite": {
-          "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-          "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::PASS",
+          "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+          "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::PASS",
           "discriminant": 0
          }
         }
@@ -12189,7 +12577,7 @@
    "expected": [
     {
      "record": {
-      "type_identity": "mncs:0.2:record-type:mnel.core::ExperimentOutcome::final_state%3AExperimentState%3Bprinciple_maturity%3AMaturity%3Bverdict%3AVerdict%3B",
+      "type_identity": "mncs:0.2:record-type:mnel.core::ExperimentOutcome::final_state%3AExperimentState%3Bprinciple_maturity%3AMaturity%3Bverdict%3AStatus%3B",
       "name": "ExperimentOutcome",
       "fields": [
        [
@@ -12216,8 +12604,8 @@
         "verdict",
         {
          "finite": {
-          "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-          "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::PASS",
+          "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+          "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::PASS",
           "discriminant": 0
          }
         }
@@ -12524,7 +12912,7 @@
    "expected": [
     {
      "record": {
-      "type_identity": "mncs:0.2:record-type:mnel.core::ExperimentOutcome::final_state%3AExperimentState%3Bprinciple_maturity%3AMaturity%3Bverdict%3AVerdict%3B",
+      "type_identity": "mncs:0.2:record-type:mnel.core::ExperimentOutcome::final_state%3AExperimentState%3Bprinciple_maturity%3AMaturity%3Bverdict%3AStatus%3B",
       "name": "ExperimentOutcome",
       "fields": [
        [
@@ -12551,8 +12939,8 @@
         "verdict",
         {
          "finite": {
-          "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-          "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::FAIL",
+          "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+          "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::FAIL",
           "discriminant": 1
          }
         }
@@ -12859,7 +13247,7 @@
    "expected": [
     {
      "record": {
-      "type_identity": "mncs:0.2:record-type:mnel.core::ExperimentOutcome::final_state%3AExperimentState%3Bprinciple_maturity%3AMaturity%3Bverdict%3AVerdict%3B",
+      "type_identity": "mncs:0.2:record-type:mnel.core::ExperimentOutcome::final_state%3AExperimentState%3Bprinciple_maturity%3AMaturity%3Bverdict%3AStatus%3B",
       "name": "ExperimentOutcome",
       "fields": [
        [
@@ -12886,8 +13274,8 @@
         "verdict",
         {
          "finite": {
-          "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-          "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::UNKNOWN",
+          "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+          "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::UNKNOWN",
           "discriminant": 2
          }
         }
@@ -13194,7 +13582,7 @@
    "expected": [
     {
      "record": {
-      "type_identity": "mncs:0.2:record-type:mnel.core::ExperimentOutcome::final_state%3AExperimentState%3Bprinciple_maturity%3AMaturity%3Bverdict%3AVerdict%3B",
+      "type_identity": "mncs:0.2:record-type:mnel.core::ExperimentOutcome::final_state%3AExperimentState%3Bprinciple_maturity%3AMaturity%3Bverdict%3AStatus%3B",
       "name": "ExperimentOutcome",
       "fields": [
        [
@@ -13221,8 +13609,8 @@
         "verdict",
         {
          "finite": {
-          "type_identity": "mncs:0.2:finite-type:mnel.verdict::Verdict",
-          "variant_identity": "mncs:0.2:finite-variant:mnel.verdict::Verdict::UNKNOWN",
+          "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+          "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::UNKNOWN",
           "discriminant": 2
          }
         }
@@ -13246,15 +13634,13 @@
    "mncs/source/mnel/core.mncs",
    "mncs/source/mnel/gates.mncs",
    "mncs/source/mnel/lifecycle.mncs",
-   "mncs/source/mnel/logic.mncs",
    "mncs/source/mnel/negative_memory.mncs",
    "mncs/source/mnel/probe.mncs",
    "mncs/source/mnel/rejection.mncs",
    "mncs/source/mnel/transfer.mncs",
-   "mncs/source/mnel/verdict.mncs",
    "mncs/source/mnel/visibility.mncs"
   ],
-  "mncs_sources_sha256": "0e03b72be26a195415d66a9e7fccd6aae4ef651798af5726225afa122aa83240",
+  "mncs_sources_sha256": "167bd33cbd44fdb329f39663c920143ef89433b932859baacb5eaac66c399dbe",
   "oracle_kinds": {
    "reference-code": "expected values produced by executing MNEL classes",
    "derived-table": "expected values encode documented MNEL behavior with citations; MNEL enforces these structurally"
