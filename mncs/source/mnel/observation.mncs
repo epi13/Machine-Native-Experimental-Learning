@@ -1,0 +1,95 @@
+mncs 0.6;
+
+// Observation admission and causal attribution.
+//
+// Mirrors RecursionGovernor.check_budget and the ExperimentCoordinator
+// attribution step (src/mnel/core.py): an observation is admitted only when
+// its measured resource consumption stays within the preregistered budget,
+// and the recorded disposition follows the evaluated verdict — never the
+// investigator's preference.
+//
+// Layer note: the reference governor rejects an over-budget observation by
+// raising inside coordinator.run(); this slice reports the same boundary as
+// an explicit admission decision the caller must handle, so the rejection is
+// a value that corpora can differentiate against.
+module mnel.observation;
+
+use mnel.rejection;
+use mncs.core.status.v1;
+
+enum OutcomeClass { SUCCESS, ERROR, NEUTRAL, ABSTENTION }
+
+record ObservationFacts {
+    outcome_class: OutcomeClass,
+    operations_used: i64,
+    wall_milli_seconds: i64,
+}
+
+record BudgetLimits {
+    max_operations: i64,
+    max_wall_milli_seconds: i64,
+}
+
+record AdmissionDecision {
+    admitted: bool,
+    reason: RejectionReason,
+}
+
+fn check_observation_budget(
+    observation: ObservationFacts,
+    limits: BudgetLimits,
+) -> (decision: AdmissionDecision) {
+    if observation.operations_used > limits.max_operations {
+        return AdmissionDecision {
+            admitted: false,
+            reason: RejectionReason.BUDGET_EXHAUSTED,
+        };
+    }
+    if observation.wall_milli_seconds > limits.max_wall_milli_seconds {
+        return AdmissionDecision {
+            admitted: false,
+            reason: RejectionReason.BUDGET_EXHAUSTED,
+        };
+    }
+    return AdmissionDecision {
+        admitted: true,
+        reason: RejectionReason.NONE,
+    };
+}
+
+enum Disposition { SUPPORTED_WITH_ALTERNATIVES, INCONCLUSIVE }
+
+record AttributionRecord {
+    disposition: Disposition,
+    credit_immediate: bool,
+    credit_retention: bool,
+    verdict_known: bool,
+}
+
+// Attribution mirrors the coordinator step: only a PASS evaluation supports
+// the intervention, and even then alternatives stay listed. UNKNOWN and FAIL
+// attribute nothing; they are recorded as inconclusive so downstream
+// consumers can never read promotion out of missing evidence.
+fn attribute(verdict: Status) -> (attribution: AttributionRecord) {
+    let known: bool = is_decided(verdict);
+    return match verdict {
+        Status.PASS => AttributionRecord {
+            disposition: Disposition.SUPPORTED_WITH_ALTERNATIVES,
+            credit_immediate: true,
+            credit_retention: true,
+            verdict_known: known,
+        },
+        Status.FAIL => AttributionRecord {
+            disposition: Disposition.INCONCLUSIVE,
+            credit_immediate: false,
+            credit_retention: false,
+            verdict_known: known,
+        },
+        Status.UNKNOWN => AttributionRecord {
+            disposition: Disposition.INCONCLUSIVE,
+            credit_immediate: false,
+            credit_retention: false,
+            verdict_known: known,
+        },
+    };
+}

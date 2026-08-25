@@ -1,9 +1,11 @@
 mncs 0.6;
 
 // The reference experiment spine, mirroring MNEL's deterministic demo run:
-// a validated plan advances through the lifecycle, the authorized evaluator
+// a validated plan advances through the lifecycle, the observation is
+// admitted against the preregistered budget, the authorized evaluator
 // derives the overall verdict from four preregistered gates, attribution is
-// recorded, and a distillation proposal carries transfer-gated maturity.
+// recorded from the verdict alone, and a distillation proposal carries
+// transfer-gated maturity.
 //
 // Authority note: investigators and learned providers may propose knowledge.
 // They may not declare it true. An UNKNOWN verdict can reach DISTILLED_
@@ -14,6 +16,7 @@ module mnel.core;
 use mnel.authority;
 use mnel.gates;
 use mnel.lifecycle;
+use mnel.observation;
 use mncs.core.status.v1;
 use mnel.rejection;
 use mnel.transfer;
@@ -21,11 +24,14 @@ use mnel.transfer;
 record ExperimentOutcome {
     final_state: ExperimentState,
     verdict: Status,
+    disposition: Disposition,
     principle_maturity: Maturity,
 }
 
 fn run_reference_experiment(
     plan: PlanFacts,
+    observation: ObservationFacts,
+    limits: BudgetLimits,
     first: GateInput,
     second: GateInput,
     third: GateInput,
@@ -45,35 +51,62 @@ fn run_reference_experiment(
             preregistration.next_state,
             LifecycleEvent.BEGIN_EXECUTION,
         );
-        let observation: TransitionOutcome = transition(
-            execution_start.next_state,
-            LifecycleEvent.BUDGET_WITHIN_LIMITS,
-        );
-        let overall: Status = evaluate_gates(first, second, third, fourth);
-        let evaluated: TransitionOutcome = transition(
-            observation.next_state,
-            LifecycleEvent.EVALUATOR_VERDICT,
-        );
-        let attributed: TransitionOutcome = transition(
-            evaluated.next_state,
-            LifecycleEvent.RECORD_ATTRIBUTION,
-        );
-        let distilled: TransitionOutcome = transition(
-            attributed.next_state,
-            LifecycleEvent.PROPOSE_DISTILLATION,
-        );
-        let known_verdict: bool = is_decided(overall);
-        let gated_request: Maturity = request_when_known(known_verdict, requested_maturity);
-        let maturity: Maturity = effective_maturity(gated_request, transfer);
-        return ExperimentOutcome {
-            final_state: distilled.next_state,
-            verdict: overall,
-            principle_maturity: maturity,
-        };
+        let budget_decision: AdmissionDecision =
+            check_observation_budget(observation, limits);
+        if budget_decision.admitted {
+            let observation_step: TransitionOutcome = transition(
+                execution_start.next_state,
+                LifecycleEvent.BUDGET_WITHIN_LIMITS,
+            );
+            let overall: Status = evaluate_gates(first, second, third, fourth);
+            let evaluated: TransitionOutcome = transition(
+                observation_step.next_state,
+                LifecycleEvent.EVALUATOR_VERDICT,
+            );
+            let attribution: AttributionRecord = attribute(overall);
+            let attributed: TransitionOutcome = transition(
+                evaluated.next_state,
+                LifecycleEvent.RECORD_ATTRIBUTION,
+            );
+            let distilled: TransitionOutcome = transition(
+                attributed.next_state,
+                LifecycleEvent.PROPOSE_DISTILLATION,
+            );
+            let known_verdict: bool = is_decided(overall);
+            let gated_request: Maturity =
+                request_when_known(known_verdict, requested_maturity);
+            let maturity: Maturity = effective_maturity(gated_request, transfer);
+            return ExperimentOutcome {
+                final_state: distilled.next_state,
+                verdict: overall,
+                disposition: attribution.disposition,
+                principle_maturity: maturity,
+            };
+        }
+        return budget_rejected(execution_start.next_state);
     }
+    return rejected_outcome();
+}
+
+// Over-budget observations never reach evaluation. The state machine walks
+// the explicit BUDGET_EXCEEDED path to REJECTED; the verdict stays UNKNOWN
+// because no gate ever ran, and nothing can be attributed.
+fn budget_rejected(current: ExperimentState) -> (outcome: ExperimentOutcome) {
+    let exceeded: TransitionOutcome =
+        transition(current, LifecycleEvent.BUDGET_EXCEEDED);
+    return ExperimentOutcome {
+        final_state: exceeded.next_state,
+        verdict: Status.UNKNOWN,
+        disposition: Disposition.INCONCLUSIVE,
+        principle_maturity: Maturity.PROVISIONAL,
+    };
+}
+
+fn rejected_outcome() -> (outcome: ExperimentOutcome) {
     return ExperimentOutcome {
         final_state: ExperimentState.REJECTED,
         verdict: Status.UNKNOWN,
+        disposition: Disposition.INCONCLUSIVE,
         principle_maturity: Maturity.PROVISIONAL,
     };
 }

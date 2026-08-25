@@ -9,6 +9,7 @@ use mnel.core;
 use mnel.gates;
 use mnel.lifecycle;
 use mnel.negative_memory;
+use mnel.observation;
 use mnel.probe;
 use mnel.rejection;
 use mnel.transfer;
