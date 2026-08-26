@@ -113,6 +113,30 @@
 - **Started:** authenticated worker enrollment consumption and provider-artifact admission
   across physical nodes; live remote execution remains operator-only and unverified here.
 
+## Cross-cutting — MNCS-native training and lineage closure
+
+See [MNCS-native training pipeline](MNCS_NATIVE_TRAINING_PIPELINE.md).
+
+- make MNCS the semantic source of truth for dataset construction, transforms, training,
+  checkpointing, evaluation, promotion, and model-artifact creation;
+- retain external numerical and accelerator runtimes as implementation backends where
+  useful without letting them own the canonical training semantics;
+- treat every training run as an evidence-producing computation with stable identities
+  for data, transforms, model architecture, optimization policy, backend/runtime,
+  checkpoints, evaluation, and resulting artifacts;
+- define training-lineage records that `mncs-lineage` can consume so deployed models can
+  be traced through quantization/distillation/checkpoint ancestry to source observations;
+- use MNEL training as a deliberate stress test for `mncs-language`, its compiler, and
+  the standard library;
+- promote broadly useful primitives discovered by training work into shared MNCS layers
+  instead of hiding numeric, graph, streaming, parallel, checkpoint, artifact, or
+  observability capabilities inside MNEL;
+- begin with MNCS-owned training manifests and lineage over existing trainers, then move
+  dataset/evaluation semantics, training primitives, backend lowering, and selected
+  micro-model training into MNCS in phases;
+- preserve existing diagnostic-only learned-provider authority, hard-gate evaluation,
+  quarantine, rollback, and explicit UNKNOWN semantics throughout the migration.
+
 ## 0.6 — RAVEL integration study
 
 - RAVEL episode ingestion and candidate proposal API;
