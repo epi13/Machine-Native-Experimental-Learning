@@ -13632,15 +13632,18 @@
    "mncs/source/mnel/all.mncs",
    "mncs/source/mnel/authority.mncs",
    "mncs/source/mnel/core.mncs",
+   "mncs/source/mnel/dataset.mncs",
    "mncs/source/mnel/gates.mncs",
    "mncs/source/mnel/lifecycle.mncs",
    "mncs/source/mnel/negative_memory.mncs",
+   "mncs/source/mnel/observation.mncs",
    "mncs/source/mnel/probe.mncs",
    "mncs/source/mnel/rejection.mncs",
+   "mncs/source/mnel/training.mncs",
    "mncs/source/mnel/transfer.mncs",
    "mncs/source/mnel/visibility.mncs"
   ],
-  "mncs_sources_sha256": "167bd33cbd44fdb329f39663c920143ef89433b932859baacb5eaac66c399dbe",
+  "mncs_sources_sha256": "0e5b61440462ad287a0821ef14adf40b74ee519d9eede37fd4a0c905c328f2e0",
   "oracle_kinds": {
    "reference-code": "expected values produced by executing MNEL classes",
    "derived-table": "expected values encode documented MNEL behavior with citations; MNEL enforces these structurally"

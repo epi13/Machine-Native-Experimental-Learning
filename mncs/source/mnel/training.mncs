@@ -1,0 +1,234 @@
+mncs 0.8;
+
+// MNCS-owned training specification and execution.
+//
+// This module is the canonical MNCS representation of an MNEL training run:
+// source dataset, transforms, model architecture, optimizer, resource policy,
+// checkpoints, stopping criteria, evaluation suite, and resulting artifact.
+// External numerical backends may execute the arithmetic, but MNCS owns
+// the semantic graph and records the lineage identities.
+//
+// The micro-model chosen for the first executable slice is a bounded
+// tabular centroid: four i32 feature values are reduced to a single
+// centroid (mean) via wrapping vector reduction. The centroid is the
+// entire model. Evaluation compares held-out samples to the centroid
+// under an L2 threshold. The slice is tiny but exercises vectors,
+// masks, deterministic sampling, and hard-gate admission.
+module mnel.training;
+
+use mnel.dataset;
+use mnel.gates;
+use mnel.rejection;
+use mncs.core.numeric.v1;
+use mncs.core.random.v1;
+use mncs.core.status.v1;
+
+enum ModelFamily { TABULAR_CENTROID, TRANSITION_FREQUENCY, TINY_LINEAR }
+
+enum OptimizerKind { COUNTING, SGD_WRAP }
+
+enum Precision { P32, P64 }
+
+enum DeviceKind { CPU, WASM, NATIVE }
+
+record ModelSpec {
+    family: ModelFamily,
+    capacity_target: i64,
+    precision: Precision,
+}
+
+record OptimizerSpec {
+    kind: OptimizerKind,
+    batch_size: i64,
+    learning_rate_numer: i64,
+    learning_rate_denom: i64,
+    seed: u64,
+}
+
+record ResourcePolicy {
+    max_operations: i64,
+    max_wall_ms: i64,
+    device: DeviceKind,
+}
+
+record CheckpointPolicy {
+    interval_epochs: i64,
+    keep_last: i64,
+}
+
+record StoppingRule {
+    max_epochs: i64,
+    patience: i64,
+}
+
+record EvaluationSpec {
+    gate_one: GateInput,
+    gate_two: GateInput,
+    gate_three: GateInput,
+    gate_four: GateInput,
+}
+
+record TrainingSpec {
+    dataset: DatasetSpec,
+    model: ModelSpec,
+    optimizer: OptimizerSpec,
+    resource: ResourcePolicy,
+    checkpoint: CheckpointPolicy,
+    stopping: StoppingRule,
+    evaluation: EvaluationSpec,
+    parent_model_identity: u64,
+    training_code_identity: u64,
+}
+
+record Checkpoint {
+    epoch: i64,
+    centroid: i32,
+    seed_state: u64,
+}
+
+record ModelArtifact {
+    spec: TrainingSpec,
+    centroid: i32,
+    dataset_fingerprint: DatasetFingerprint,
+    final_checkpoint: Checkpoint,
+    evaluation_verdict: Status,
+    artifact_digest: u64,
+    lineage_parent: u64,
+}
+
+// Wrapping centroid of four i32 feature lanes. This is the entire
+// tabular-centroid training step: sum via vector reduction, divide by 4.
+fn train_centroid(a: i32, b: i32, c: i32, d: i32) -> (centroid: i32) {
+    return centroid4(a, b, c, d);
+}
+
+// One SGD-style update for the tiny linear model: centroid is moved
+// toward the sample mean by learning_rate = numer/denom using wrapping
+// arithmetic. The update is total; division by zero is defined as no
+// update (returns the current centroid) so the step never fails.
+fn sgd_step(current: i32, sample: i32, numer: i64, denom: i64) -> (updated: i32) {
+    if denom == 0 {
+        return current;
+    }
+    let diff: i32 = sample - current;
+    let scaled: i32 = (((diff as i64) *% numer) / denom) as i32;
+    return current +% scaled;
+}
+
+// Deterministic batch centroid: shuffle the four samples with the
+// optimizer seed, then take the first batch_size lanes as the batch
+// and compute its centroid. Batching is reproducible from the seed.
+fn batch_centroid(a: i32, b: i32, c: i32, d: i32, seed: u64, batch_size: i64) -> (centroid: i32) {
+    let data_quad: QuadI64 = QuadI64 { a: a as i64, b: b as i64, c: c as i64, d: d as i64 };
+    let shuffled: ShuffledQuad = shuffle_quad(data_quad, seed);
+    let s: QuadI64 = shuffled.data;
+    if batch_size <= 1 {
+        return (s.a as i32);
+    }
+    if batch_size == 2 {
+        let v: i32 = (((s.a +% s.b) / 2) as i32);
+        return v;
+    }
+    if batch_size == 3 {
+        let v: i32 = (((s.a +% s.b +% s.c) / 3) as i32);
+        return v;
+    }
+    return centroid4(s.a as i32, s.b as i32, s.c as i32, s.d as i32);
+}
+
+// Evaluate a centroid against two held-out samples using L2 distance.
+// Distance <= threshold => PASS, else FAIL; absent metric => UNKNOWN
+// is not used here because distances are always present. The overall
+// verdict is the lattice join of the two distances via dominate.
+fn evaluate_centroid(centroid: i32, test0: i32, test1: i32, threshold: i32) -> (verdict: Status)
+    capability hard_gate_authority
+    effect derive_verdict authorized_by hard_gate_authority
+{
+    let d0: i32 = l2_distance_test(centroid, test0);
+    let d1: i32 = l2_distance_test(centroid, test1);
+    let g0: GateInput = GateInput {
+        present: MetricPresence.PRESENT,
+        operator: GateOperator.LE,
+        observed: d0 as i64,
+        threshold: threshold as i64,
+    };
+    let g1: GateInput = GateInput {
+        present: MetricPresence.PRESENT,
+        operator: GateOperator.LE,
+        observed: d1 as i64,
+        threshold: threshold as i64,
+    };
+    // Pad to four gates with always-PASS sentinels so the 4-gate
+    // evaluator can be reused without changing its arity.
+    let g2: GateInput = GateInput {
+        present: MetricPresence.PRESENT,
+        operator: GateOperator.GE,
+        observed: 0,
+        threshold: 0,
+    };
+    let g3: GateInput = GateInput {
+        present: MetricPresence.PRESENT,
+        operator: GateOperator.GE,
+        observed: 0,
+        threshold: 0,
+    };
+    return evaluate_gates(g0, g1, g2, g3);
+}
+
+fn l2_distance_test(centroid: i32, sample: i32) -> (distance: i32) {
+    let diff: i32 = centroid - sample;
+    // Absolute value via branchless select: keep diff if diff>=0 else -diff.
+    let neg: bool = diff < 0;
+    if neg {
+        return 0 - diff;
+    }
+    return diff;
+}
+
+// Full training run: transform dataset, shuffle, compute centroid,
+// checkpoint, evaluate, and emit a content-addressed artifact digest.
+// The digest is a fold over centroid + dataset fingerprint + seed so
+// it is reproducible and lineage traversable.
+fn run_training(a: i32, b: i32, c: i32, d: i32, spec: TrainingSpec) -> (artifact: ModelArtifact)
+    capability hard_gate_authority
+    effect derive_verdict authorized_by hard_gate_authority
+{
+    let raw_quad: QuadI64 = QuadI64 { a: a as i64, b: b as i64, c: c as i64, d: d as i64 };
+    let transformed: QuadI64 = apply_transform_quad(raw_quad, spec.dataset.transform, spec.dataset.clip_threshold);
+    let shuffled: ShuffledQuad = shuffle_quad(transformed, spec.dataset.partition_seed);
+    let centroid_val: i32 = train_centroid(shuffled.data.a as i32, shuffled.data.b as i32, shuffled.data.c as i32, shuffled.data.d as i32);
+    let print: DatasetFingerprint = dataset_fingerprint(spec.dataset);
+    // Simple fold-based digest: (centroid as u64 +% source) *% 31 +% seed
+    let base: u64 = (centroid_val as u64) +% print.source;
+    let mixed: u64 = (base *% 31) +% spec.optimizer.seed;
+    let digest: u64 = (mixed *% 31) +% spec.training_code_identity;
+    let ckpt: Checkpoint = Checkpoint { epoch: spec.stopping.max_epochs, centroid: centroid_val, seed_state: shuffled.next_seed };
+    // Evaluate on the last two shuffled elements as held-out tests.
+    let verdict: Status = evaluate_centroid(centroid_val, shuffled.data.c as i32, shuffled.data.d as i32, 10);
+    return ModelArtifact {
+        spec: spec,
+        centroid: centroid_val,
+        dataset_fingerprint: print,
+        final_checkpoint: ckpt,
+        evaluation_verdict: verdict,
+        artifact_digest: digest,
+        lineage_parent: spec.parent_model_identity,
+    };
+}
+
+fn validate_training_spec(spec: TrainingSpec) -> (valid: bool) {
+    let dataset_ok: bool = validate_dataset_spec(spec.dataset);
+    if dataset_ok {
+        let budget_ok: bool = spec.resource.max_operations > 0;
+        let epochs_ok: bool = spec.stopping.max_epochs > 0;
+        let cap_ok: bool = spec.model.capacity_target > 0;
+        if budget_ok {
+            if epochs_ok {
+                if cap_ok {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}

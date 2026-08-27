@@ -1,0 +1,199 @@
+mncs 0.8;
+
+// MNEL dataset construction: MNCS-owned filtering, transforms,
+// deterministic sampling, and partitioning.
+//
+// Every decision here leaves an identity: source fingerprint, transform
+// kind and parameters, partition seed, and resulting split counts.
+// External runtimes may execute the transform, but MNCS owns the
+// specification.
+module mnel.dataset;
+
+use mncs.core.random.v1;
+use mncs.core.status.v1;
+use mnel.rejection;
+
+enum TransformKind { IDENTITY, CLIP }
+
+enum PartitionKind { TRAIN_TEST }
+
+record DatasetSpec {
+    source_identity: u64,
+    transform: TransformKind,
+    clip_threshold: i64,
+    partition_seed: u64,
+    train_numer: i64,
+    train_denom: i64,
+}
+
+record DatasetFingerprint {
+    source: u64,
+    transform: TransformKind,
+    seed: u64,
+    train_numer: i64,
+    train_denom: i64,
+    threshold: i64,
+}
+
+record SplitCounts {
+    train_count: i64,
+    test_count: i64,
+}
+
+record QuadI64 {
+    a: i64,
+    b: i64,
+    c: i64,
+    d: i64,
+}
+
+record ShuffledQuad {
+    data: QuadI64,
+    next_seed: u64,
+}
+
+// Apply the declared transform to each lane. CLIP clamps to
+// [-threshold, threshold]; IDENTITY passes through.
+fn apply_transform_quad(data: QuadI64, kind: TransformKind, threshold: i64) -> (result: QuadI64) {
+    let t: i64 = threshold;
+    let out0: i64 = match kind {
+        IDENTITY => data.a,
+        CLIP => clamp_one(data.a, t),
+    };
+    let out1: i64 = match kind {
+        IDENTITY => data.b,
+        CLIP => clamp_one(data.b, t),
+    };
+    let out2: i64 = match kind {
+        IDENTITY => data.c,
+        CLIP => clamp_one(data.c, t),
+    };
+    let out3: i64 = match kind {
+        IDENTITY => data.d,
+        CLIP => clamp_one(data.d, t),
+    };
+    return QuadI64 { a: out0, b: out1, c: out2, d: out3 };
+}
+
+
+
+fn clamp_one(value: i64, bound: i64) -> (result: i64) {
+    let neg: i64 = 0 - bound;
+    if value < neg {
+        return neg;
+    }
+    if value > bound {
+        return bound;
+    }
+    return value;
+}
+
+// Quad-based shuffle is the portable envelope: it avoids the
+// sequence-typed boundary that scalar backends refuse and is exercised
+// by the differential corpus for cross-backend agreement.
+fn shuffle_quad(data: QuadI64, seed: u64) -> (result: ShuffledQuad) {
+    let step0: BoundedDraw = lcg_next_bounded(seed, 4);
+    let idx0: u64 = step0.value;
+    let s1: u64 = step0.next_state;
+    let after0: QuadI64 = swap_quad(data, 0, idx0);
+
+    let step1: BoundedDraw = lcg_next_bounded(s1, 4);
+    let idx1: u64 = step1.value;
+    let s2: u64 = step1.next_state;
+    let after1: QuadI64 = swap_quad(after0, 1, idx1);
+
+    let step2: BoundedDraw = lcg_next_bounded(s2, 4);
+    let idx2: u64 = step2.value;
+    let s3: u64 = step2.next_state;
+    let after2: QuadI64 = swap_quad(after1, 2, idx2);
+
+    return ShuffledQuad { data: after2, next_seed: s3 };
+}
+
+fn swap_quad(base: QuadI64, a: u64, b: u64) -> (result: QuadI64) {
+    if a == b {
+        return base;
+    }
+    if a == 0 {
+        if b == 1 {
+            return QuadI64 { a: base.b, b: base.a, c: base.c, d: base.d };
+        }
+        if b == 2 {
+            return QuadI64 { a: base.c, b: base.b, c: base.a, d: base.d };
+        }
+        return QuadI64 { a: base.d, b: base.b, c: base.c, d: base.a };
+    }
+    if a == 1 {
+        if b == 0 {
+            return QuadI64 { a: base.b, b: base.a, c: base.c, d: base.d };
+        }
+        if b == 2 {
+            return QuadI64 { a: base.a, b: base.c, c: base.b, d: base.d };
+        }
+        return QuadI64 { a: base.a, b: base.d, c: base.c, d: base.b };
+    }
+    if a == 2 {
+        if b == 0 {
+            return QuadI64 { a: base.c, b: base.b, c: base.a, d: base.d };
+        }
+        if b == 1 {
+            return QuadI64 { a: base.a, b: base.c, c: base.b, d: base.d };
+        }
+        return QuadI64 { a: base.a, b: base.b, c: base.d, d: base.c };
+    }
+    // a == 3
+    if b == 0 {
+        return QuadI64 { a: base.d, b: base.b, c: base.c, d: base.a };
+    }
+    if b == 1 {
+        return QuadI64 { a: base.a, b: base.d, c: base.c, d: base.b };
+    }
+    if b == 2 {
+        return QuadI64 { a: base.a, b: base.b, c: base.d, d: base.c };
+    }
+    return base;
+}
+
+
+
+// Deterministic train/test split. After shuffling, the first
+// train_count elements are the train split. Counts are derived from
+// the ratio train_numer/train_denom over the fixed length 4.
+fn split_counts(train_numer: i64, train_denom: i64) -> (counts: SplitCounts) {
+    if train_denom == 0 {
+        return SplitCounts { train_count: 0, test_count: 4 };
+    }
+    if train_numer < 0 {
+        return SplitCounts { train_count: 0, test_count: 4 };
+    }
+    if train_numer > train_denom {
+        return SplitCounts { train_count: 4, test_count: 0 };
+    }
+    let train: i64 = (4 *% train_numer) / train_denom;
+    let test: i64 = 4 -% train;
+    return SplitCounts { train_count: train, test_count: test };
+}
+
+fn dataset_fingerprint(spec: DatasetSpec) -> (print: DatasetFingerprint) {
+    return DatasetFingerprint {
+        source: spec.source_identity,
+        transform: spec.transform,
+        seed: spec.partition_seed,
+        train_numer: spec.train_numer,
+        train_denom: spec.train_denom,
+        threshold: spec.clip_threshold,
+    };
+}
+
+// Admission check for a dataset spec: source must be non-zero and
+// denominator must be non-zero; transform threshold is allowed to be
+// any i64.
+fn validate_dataset_spec(spec: DatasetSpec) -> (decision: bool) {
+    if spec.source_identity == 0 {
+        return false;
+    }
+    if spec.train_denom == 0 {
+        return false;
+    }
+    return true;
+}

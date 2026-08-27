@@ -1,0 +1,1259 @@
+{
+ "schema_version": "0.1",
+ "name": "mnel-training-reference-v1",
+ "cases": [
+  {
+   "id": "clamp-one-5-10",
+   "request": {
+    "schema_version": "0.1",
+    "target": {
+     "module": "mnel.dataset",
+     "function": "clamp_one"
+    },
+    "arguments": [
+     {
+      "integer": {
+       "value": 5,
+       "type": {
+        "bits": 64,
+        "signed": true
+       }
+      }
+     },
+     {
+      "integer": {
+       "value": 10,
+       "type": {
+        "bits": 64,
+        "signed": true
+       }
+      }
+     }
+    ],
+    "step_budget": 512
+   },
+   "expected": [
+    {
+     "integer": {
+      "value": 5,
+      "type": {
+       "bits": 64,
+       "signed": true
+      }
+     }
+    }
+   ],
+   "oracle": {
+    "kind": "reference-code",
+    "citation": "mnel.dataset.clamp_one: clamp to [-bound, bound] via comparisons"
+   }
+  },
+  {
+   "id": "apply-transform-quad-identity-1-10",
+   "request": {
+    "schema_version": "0.1",
+    "target": {
+     "module": "mnel.dataset",
+     "function": "apply_transform_quad"
+    },
+    "arguments": [
+     {
+      "record": {
+       "type_identity": "mncs:0.2:record-type:mnel.dataset::QuadI64::a%3Ai64%3Bb%3Ai64%3Bc%3Ai64%3Bd%3Ai64%3B",
+       "name": "QuadI64",
+       "fields": [
+        [
+         "a",
+         {
+          "integer": {
+           "value": 1,
+           "type": {
+            "bits": 64,
+            "signed": true
+           }
+          }
+         }
+        ],
+        [
+         "b",
+         {
+          "integer": {
+           "value": 2,
+           "type": {
+            "bits": 64,
+            "signed": true
+           }
+          }
+         }
+        ],
+        [
+         "c",
+         {
+          "integer": {
+           "value": 3,
+           "type": {
+            "bits": 64,
+            "signed": true
+           }
+          }
+         }
+        ],
+        [
+         "d",
+         {
+          "integer": {
+           "value": 4,
+           "type": {
+            "bits": 64,
+            "signed": true
+           }
+          }
+         }
+        ]
+       ]
+      }
+     },
+     {
+      "finite": {
+       "type_identity": "mncs:0.2:finite-type:mnel.dataset::TransformKind",
+       "variant_identity": "mncs:0.2:finite-variant:mnel.dataset::TransformKind::IDENTITY",
+       "discriminant": 0
+      }
+     },
+     {
+      "integer": {
+       "value": 10,
+       "type": {
+        "bits": 64,
+        "signed": true
+       }
+      }
+     }
+    ],
+    "step_budget": 512
+   },
+   "expected": [
+    {
+     "record": {
+      "type_identity": "mncs:0.2:record-type:mnel.dataset::QuadI64::a%3Ai64%3Bb%3Ai64%3Bc%3Ai64%3Bd%3Ai64%3B",
+      "name": "QuadI64",
+      "fields": [
+       [
+        "a",
+        {
+         "integer": {
+          "value": 1,
+          "type": {
+           "bits": 64,
+           "signed": true
+          }
+         }
+        }
+       ],
+       [
+        "b",
+        {
+         "integer": {
+          "value": 2,
+          "type": {
+           "bits": 64,
+           "signed": true
+          }
+         }
+        }
+       ],
+       [
+        "c",
+        {
+         "integer": {
+          "value": 3,
+          "type": {
+           "bits": 64,
+           "signed": true
+          }
+         }
+        }
+       ],
+       [
+        "d",
+        {
+         "integer": {
+          "value": 4,
+          "type": {
+           "bits": 64,
+           "signed": true
+          }
+         }
+        }
+       ]
+      ]
+     }
+    }
+   ],
+   "oracle": {
+    "kind": "reference-code",
+    "citation": "mnel.dataset.apply_transform_quad: per-lane IDENTITY vs CLIP"
+   }
+  },
+  {
+   "id": "apply-transform-quad-clip-15-10",
+   "request": {
+    "schema_version": "0.1",
+    "target": {
+     "module": "mnel.dataset",
+     "function": "apply_transform_quad"
+    },
+    "arguments": [
+     {
+      "record": {
+       "type_identity": "mncs:0.2:record-type:mnel.dataset::QuadI64::a%3Ai64%3Bb%3Ai64%3Bc%3Ai64%3Bd%3Ai64%3B",
+       "name": "QuadI64",
+       "fields": [
+        [
+         "a",
+         {
+          "integer": {
+           "value": 15,
+           "type": {
+            "bits": 64,
+            "signed": true
+           }
+          }
+         }
+        ],
+        [
+         "b",
+         {
+          "integer": {
+           "value": 20,
+           "type": {
+            "bits": 64,
+            "signed": true
+           }
+          }
+         }
+        ],
+        [
+         "c",
+         {
+          "integer": {
+           "value": 5,
+           "type": {
+            "bits": 64,
+            "signed": true
+           }
+          }
+         }
+        ],
+        [
+         "d",
+         {
+          "integer": {
+           "value": 0,
+           "type": {
+            "bits": 64,
+            "signed": true
+           }
+          }
+         }
+        ]
+       ]
+      }
+     },
+     {
+      "finite": {
+       "type_identity": "mncs:0.2:finite-type:mnel.dataset::TransformKind",
+       "variant_identity": "mncs:0.2:finite-variant:mnel.dataset::TransformKind::CLIP",
+       "discriminant": 1
+      }
+     },
+     {
+      "integer": {
+       "value": 10,
+       "type": {
+        "bits": 64,
+        "signed": true
+       }
+      }
+     }
+    ],
+    "step_budget": 512
+   },
+   "expected": [
+    {
+     "record": {
+      "type_identity": "mncs:0.2:record-type:mnel.dataset::QuadI64::a%3Ai64%3Bb%3Ai64%3Bc%3Ai64%3Bd%3Ai64%3B",
+      "name": "QuadI64",
+      "fields": [
+       [
+        "a",
+        {
+         "integer": {
+          "value": 10,
+          "type": {
+           "bits": 64,
+           "signed": true
+          }
+         }
+        }
+       ],
+       [
+        "b",
+        {
+         "integer": {
+          "value": 10,
+          "type": {
+           "bits": 64,
+           "signed": true
+          }
+         }
+        }
+       ],
+       [
+        "c",
+        {
+         "integer": {
+          "value": 5,
+          "type": {
+           "bits": 64,
+           "signed": true
+          }
+         }
+        }
+       ],
+       [
+        "d",
+        {
+         "integer": {
+          "value": 0,
+          "type": {
+           "bits": 64,
+           "signed": true
+          }
+         }
+        }
+       ]
+      ]
+     }
+    }
+   ],
+   "oracle": {
+    "kind": "reference-code",
+    "citation": "mnel.dataset.apply_transform_quad: per-lane IDENTITY vs CLIP"
+   }
+  },
+  {
+   "id": "shuffle-quad-0-1",
+   "request": {
+    "schema_version": "0.1",
+    "target": {
+     "module": "mnel.dataset",
+     "function": "shuffle_quad"
+    },
+    "arguments": [
+     {
+      "record": {
+       "type_identity": "mncs:0.2:record-type:mnel.dataset::QuadI64::a%3Ai64%3Bb%3Ai64%3Bc%3Ai64%3Bd%3Ai64%3B",
+       "name": "QuadI64",
+       "fields": [
+        [
+         "a",
+         {
+          "integer": {
+           "value": 1,
+           "type": {
+            "bits": 64,
+            "signed": true
+           }
+          }
+         }
+        ],
+        [
+         "b",
+         {
+          "integer": {
+           "value": 2,
+           "type": {
+            "bits": 64,
+            "signed": true
+           }
+          }
+         }
+        ],
+        [
+         "c",
+         {
+          "integer": {
+           "value": 3,
+           "type": {
+            "bits": 64,
+            "signed": true
+           }
+          }
+         }
+        ],
+        [
+         "d",
+         {
+          "integer": {
+           "value": 4,
+           "type": {
+            "bits": 64,
+            "signed": true
+           }
+          }
+         }
+        ]
+       ]
+      }
+     },
+     {
+      "integer": {
+       "value": 0,
+       "type": {
+        "bits": 64,
+        "signed": false
+       }
+      }
+     }
+    ],
+    "step_budget": 512
+   },
+   "expected": [
+    {
+     "record": {
+      "type_identity": "mncs:0.2:record-type:mnel.dataset::ShuffledQuad::data%3AQuadI64%3Bnext_seed%3Au64%3B",
+      "name": "ShuffledQuad",
+      "fields": [
+       [
+        "data",
+        {
+         "record": {
+          "type_identity": "mncs:0.2:record-type:mnel.dataset::QuadI64::a%3Ai64%3Bb%3Ai64%3Bc%3Ai64%3Bd%3Ai64%3B",
+          "name": "QuadI64",
+          "fields": [
+           [
+            "a",
+            {
+             "integer": {
+              "value": 4,
+              "type": {
+               "bits": 64,
+               "signed": true
+              }
+             }
+            }
+           ],
+           [
+            "b",
+            {
+             "integer": {
+              "value": 2,
+              "type": {
+               "bits": 64,
+               "signed": true
+              }
+             }
+            }
+           ],
+           [
+            "c",
+            {
+             "integer": {
+              "value": 3,
+              "type": {
+               "bits": 64,
+               "signed": true
+              }
+             }
+            }
+           ],
+           [
+            "d",
+            {
+             "integer": {
+              "value": 1,
+              "type": {
+               "bits": 64,
+               "signed": true
+              }
+             }
+            }
+           ]
+          ]
+         }
+        }
+       ],
+       [
+        "next_seed",
+        {
+         "integer": {
+          "value": 11166244414315200793,
+          "type": {
+           "bits": 64,
+           "signed": false
+          }
+         }
+        }
+       ]
+      ]
+     }
+    }
+   ],
+   "oracle": {
+    "kind": "reference-code",
+    "citation": "mnel.dataset.shuffle_quad: deterministic LCG permutation over 4 lanes"
+   }
+  },
+  {
+   "id": "split-counts-2-4",
+   "request": {
+    "schema_version": "0.1",
+    "target": {
+     "module": "mnel.dataset",
+     "function": "split_counts"
+    },
+    "arguments": [
+     {
+      "integer": {
+       "value": 2,
+       "type": {
+        "bits": 64,
+        "signed": true
+       }
+      }
+     },
+     {
+      "integer": {
+       "value": 4,
+       "type": {
+        "bits": 64,
+        "signed": true
+       }
+      }
+     }
+    ],
+    "step_budget": 512
+   },
+   "expected": [
+    {
+     "record": {
+      "type_identity": "mncs:0.2:record-type:mnel.dataset::SplitCounts::test_count%3Ai64%3Btrain_count%3Ai64%3B",
+      "name": "SplitCounts",
+      "fields": [
+       [
+        "test_count",
+        {
+         "integer": {
+          "value": 2,
+          "type": {
+           "bits": 64,
+           "signed": true
+          }
+         }
+        }
+       ],
+       [
+        "train_count",
+        {
+         "integer": {
+          "value": 2,
+          "type": {
+           "bits": 64,
+           "signed": true
+          }
+         }
+        }
+       ]
+      ]
+     }
+    }
+   ],
+   "oracle": {
+    "kind": "reference-code",
+    "citation": "mnel.dataset.split_counts: train = floor(4*numer/denom) clamp [0,4]"
+   }
+  },
+  {
+   "id": "validate-dataset-123-4",
+   "request": {
+    "schema_version": "0.1",
+    "target": {
+     "module": "mnel.dataset",
+     "function": "validate_dataset_spec"
+    },
+    "arguments": [
+     {
+      "record": {
+       "type_identity": "mncs:0.2:record-type:mnel.dataset::DatasetSpec::clip_threshold%3Ai64%3Bpartition_seed%3Au64%3Bsource_identity%3Au64%3Btrain_denom%3Ai64%3Btrain_numer%3Ai64%3Btransform%3ATransformKind%3B",
+       "name": "DatasetSpec",
+       "fields": [
+        [
+         "clip_threshold",
+         {
+          "integer": {
+           "value": 10,
+           "type": {
+            "bits": 64,
+            "signed": true
+           }
+          }
+         }
+        ],
+        [
+         "partition_seed",
+         {
+          "integer": {
+           "value": 0,
+           "type": {
+            "bits": 64,
+            "signed": false
+           }
+          }
+         }
+        ],
+        [
+         "source_identity",
+         {
+          "integer": {
+           "value": 123,
+           "type": {
+            "bits": 64,
+            "signed": false
+           }
+          }
+         }
+        ],
+        [
+         "train_denom",
+         {
+          "integer": {
+           "value": 4,
+           "type": {
+            "bits": 64,
+            "signed": true
+           }
+          }
+         }
+        ],
+        [
+         "train_numer",
+         {
+          "integer": {
+           "value": 2,
+           "type": {
+            "bits": 64,
+            "signed": true
+           }
+          }
+         }
+        ],
+        [
+         "transform",
+         {
+          "finite": {
+           "type_identity": "mncs:0.2:finite-type:mnel.dataset::TransformKind",
+           "variant_identity": "mncs:0.2:finite-variant:mnel.dataset::TransformKind::IDENTITY",
+           "discriminant": 0
+          }
+         }
+        ]
+       ]
+      }
+     }
+    ],
+    "step_budget": 512
+   },
+   "expected": [
+    {
+     "boolean": {
+      "value": true
+     }
+    }
+   ],
+   "oracle": {
+    "kind": "reference-code",
+    "citation": "mnel.dataset.validate_dataset_spec: source !=0 and denom !=0"
+   }
+  },
+  {
+   "id": "train-centroid-0-0-0-0",
+   "request": {
+    "schema_version": "0.1",
+    "target": {
+     "module": "mnel.training",
+     "function": "train_centroid"
+    },
+    "arguments": [
+     {
+      "integer": {
+       "value": 0,
+       "type": {
+        "bits": 32,
+        "signed": true
+       }
+      }
+     },
+     {
+      "integer": {
+       "value": 0,
+       "type": {
+        "bits": 32,
+        "signed": true
+       }
+      }
+     },
+     {
+      "integer": {
+       "value": 0,
+       "type": {
+        "bits": 32,
+        "signed": true
+       }
+      }
+     },
+     {
+      "integer": {
+       "value": 0,
+       "type": {
+        "bits": 32,
+        "signed": true
+       }
+      }
+     }
+    ],
+    "step_budget": 512
+   },
+   "expected": [
+    {
+     "integer": {
+      "value": 0,
+      "type": {
+       "bits": 32,
+       "signed": true
+      }
+     }
+    }
+   ],
+   "oracle": {
+    "kind": "reference-code",
+    "citation": "mnel.training.train_centroid via mncs.core.numeric.centroid4 wrapping reduce"
+   }
+  },
+  {
+   "id": "train-centroid-4-8-12-16",
+   "request": {
+    "schema_version": "0.1",
+    "target": {
+     "module": "mnel.training",
+     "function": "train_centroid"
+    },
+    "arguments": [
+     {
+      "integer": {
+       "value": 4,
+       "type": {
+        "bits": 32,
+        "signed": true
+       }
+      }
+     },
+     {
+      "integer": {
+       "value": 8,
+       "type": {
+        "bits": 32,
+        "signed": true
+       }
+      }
+     },
+     {
+      "integer": {
+       "value": 12,
+       "type": {
+        "bits": 32,
+        "signed": true
+       }
+      }
+     },
+     {
+      "integer": {
+       "value": 16,
+       "type": {
+        "bits": 32,
+        "signed": true
+       }
+      }
+     }
+    ],
+    "step_budget": 512
+   },
+   "expected": [
+    {
+     "integer": {
+      "value": 10,
+      "type": {
+       "bits": 32,
+       "signed": true
+      }
+     }
+    }
+   ],
+   "oracle": {
+    "kind": "reference-code",
+    "citation": "mnel.training.train_centroid via mncs.core.numeric.centroid4 wrapping reduce"
+   }
+  },
+  {
+   "id": "sgd-step-10-20-1-2",
+   "request": {
+    "schema_version": "0.1",
+    "target": {
+     "module": "mnel.training",
+     "function": "sgd_step"
+    },
+    "arguments": [
+     {
+      "integer": {
+       "value": 10,
+       "type": {
+        "bits": 32,
+        "signed": true
+       }
+      }
+     },
+     {
+      "integer": {
+       "value": 20,
+       "type": {
+        "bits": 32,
+        "signed": true
+       }
+      }
+     },
+     {
+      "integer": {
+       "value": 1,
+       "type": {
+        "bits": 64,
+        "signed": true
+       }
+      }
+     },
+     {
+      "integer": {
+       "value": 2,
+       "type": {
+        "bits": 64,
+        "signed": true
+       }
+      }
+     }
+    ],
+    "step_budget": 512
+   },
+   "expected": [
+    {
+     "integer": {
+      "value": 15,
+      "type": {
+       "bits": 32,
+       "signed": true
+      }
+     }
+    }
+   ],
+   "oracle": {
+    "kind": "reference-code",
+    "citation": "mnel.training.sgd_step: current +% ((sample-current)*numer/denom)"
+   }
+  },
+  {
+   "id": "sgd-step-10-20-1-0",
+   "request": {
+    "schema_version": "0.1",
+    "target": {
+     "module": "mnel.training",
+     "function": "sgd_step"
+    },
+    "arguments": [
+     {
+      "integer": {
+       "value": 10,
+       "type": {
+        "bits": 32,
+        "signed": true
+       }
+      }
+     },
+     {
+      "integer": {
+       "value": 20,
+       "type": {
+        "bits": 32,
+        "signed": true
+       }
+      }
+     },
+     {
+      "integer": {
+       "value": 1,
+       "type": {
+        "bits": 64,
+        "signed": true
+       }
+      }
+     },
+     {
+      "integer": {
+       "value": 0,
+       "type": {
+        "bits": 64,
+        "signed": true
+       }
+      }
+     }
+    ],
+    "step_budget": 512
+   },
+   "expected": [
+    {
+     "integer": {
+      "value": 10,
+      "type": {
+       "bits": 32,
+       "signed": true
+      }
+     }
+    }
+   ],
+   "oracle": {
+    "kind": "reference-code",
+    "citation": "mnel.training.sgd_step: current +% ((sample-current)*numer/denom)"
+   }
+  },
+  {
+   "id": "batch-centroid-1-42",
+   "request": {
+    "schema_version": "0.1",
+    "target": {
+     "module": "mnel.training",
+     "function": "batch_centroid"
+    },
+    "arguments": [
+     {
+      "integer": {
+       "value": 10,
+       "type": {
+        "bits": 32,
+        "signed": true
+       }
+      }
+     },
+     {
+      "integer": {
+       "value": 20,
+       "type": {
+        "bits": 32,
+        "signed": true
+       }
+      }
+     },
+     {
+      "integer": {
+       "value": 30,
+       "type": {
+        "bits": 32,
+        "signed": true
+       }
+      }
+     },
+     {
+      "integer": {
+       "value": 40,
+       "type": {
+        "bits": 32,
+        "signed": true
+       }
+      }
+     },
+     {
+      "integer": {
+       "value": 42,
+       "type": {
+        "bits": 64,
+        "signed": false
+       }
+      }
+     },
+     {
+      "integer": {
+       "value": 1,
+       "type": {
+        "bits": 64,
+        "signed": true
+       }
+      }
+     }
+    ],
+    "step_budget": 512
+   },
+   "expected": [
+    {
+     "integer": {
+      "value": 10,
+      "type": {
+       "bits": 32,
+       "signed": true
+      }
+     }
+    }
+   ],
+   "oracle": {
+    "kind": "reference-code",
+    "citation": "mnel.training.batch_centroid: shuffle then mean of first batch_size"
+   }
+  },
+  {
+   "id": "l2-distance-10-3",
+   "request": {
+    "schema_version": "0.1",
+    "target": {
+     "module": "mnel.training",
+     "function": "l2_distance_test"
+    },
+    "arguments": [
+     {
+      "integer": {
+       "value": 10,
+       "type": {
+        "bits": 32,
+        "signed": true
+       }
+      }
+     },
+     {
+      "integer": {
+       "value": 3,
+       "type": {
+        "bits": 32,
+        "signed": true
+       }
+      }
+     }
+    ],
+    "step_budget": 512
+   },
+   "expected": [
+    {
+     "integer": {
+      "value": 7,
+      "type": {
+       "bits": 32,
+       "signed": true
+      }
+     }
+    }
+   ],
+   "oracle": {
+    "kind": "reference-code",
+    "citation": "mnel.training.l2_distance_test: abs(centroid-sample)"
+   }
+  },
+  {
+   "id": "evaluate-centroid-10-10-10-0",
+   "request": {
+    "schema_version": "0.1",
+    "target": {
+     "module": "mnel.training",
+     "function": "evaluate_centroid"
+    },
+    "arguments": [
+     {
+      "integer": {
+       "value": 10,
+       "type": {
+        "bits": 32,
+        "signed": true
+       }
+      }
+     },
+     {
+      "integer": {
+       "value": 10,
+       "type": {
+        "bits": 32,
+        "signed": true
+       }
+      }
+     },
+     {
+      "integer": {
+       "value": 10,
+       "type": {
+        "bits": 32,
+        "signed": true
+       }
+      }
+     },
+     {
+      "integer": {
+       "value": 0,
+       "type": {
+        "bits": 32,
+        "signed": true
+       }
+      }
+     }
+    ],
+    "step_budget": 512
+   },
+   "expected": [
+    {
+     "finite": {
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::PASS",
+      "discriminant": 0
+     }
+    }
+   ],
+   "oracle": {
+    "kind": "reference-code",
+    "citation": "mnel.training.evaluate_centroid: two LE gates joined by dominate"
+   }
+  },
+  {
+   "id": "evaluate-centroid-10-20-10-5",
+   "request": {
+    "schema_version": "0.1",
+    "target": {
+     "module": "mnel.training",
+     "function": "evaluate_centroid"
+    },
+    "arguments": [
+     {
+      "integer": {
+       "value": 10,
+       "type": {
+        "bits": 32,
+        "signed": true
+       }
+      }
+     },
+     {
+      "integer": {
+       "value": 20,
+       "type": {
+        "bits": 32,
+        "signed": true
+       }
+      }
+     },
+     {
+      "integer": {
+       "value": 10,
+       "type": {
+        "bits": 32,
+        "signed": true
+       }
+      }
+     },
+     {
+      "integer": {
+       "value": 5,
+       "type": {
+        "bits": 32,
+        "signed": true
+       }
+      }
+     }
+    ],
+    "step_budget": 512
+   },
+   "expected": [
+    {
+     "finite": {
+      "type_identity": "mncs:0.2:finite-type:mncs.core.status.v1::Status",
+      "variant_identity": "mncs:0.2:finite-variant:mncs.core.status.v1::Status::FAIL",
+      "discriminant": 1
+     }
+    }
+   ],
+   "oracle": {
+    "kind": "reference-code",
+    "citation": "mnel.training.evaluate_centroid: two LE gates joined by dominate"
+   }
+  },
+  {
+   "id": "clamp-one-15-10",
+   "request": {
+    "schema_version": "0.1",
+    "target": {
+     "module": "mnel.dataset",
+     "function": "clamp_one"
+    },
+    "arguments": [
+     {
+      "integer": {
+       "value": 15,
+       "type": {
+        "bits": 64,
+        "signed": true
+       }
+      }
+     },
+     {
+      "integer": {
+       "value": 10,
+       "type": {
+        "bits": 64,
+        "signed": true
+       }
+      }
+     }
+    ],
+    "step_budget": 512
+   },
+   "expected": [
+    {
+     "integer": {
+      "value": 10,
+      "type": {
+       "bits": 64,
+       "signed": true
+      }
+     }
+    }
+   ],
+   "oracle": {
+    "kind": "reference-code",
+    "citation": "mnel.dataset.clamp_one: clamp to [-bound, bound] via comparisons"
+   }
+  }
+ ],
+ "provenance": {
+  "generator_identity": "mnel-training-corpus-generator/0.1",
+  "reference_package": "mnel (Machine-Native-Experimental-Learning)",
+  "mncs_sources": [
+   "mncs/source/mnel/all.mncs",
+   "mncs/source/mnel/authority.mncs",
+   "mncs/source/mnel/core.mncs",
+   "mncs/source/mnel/dataset.mncs",
+   "mncs/source/mnel/gates.mncs",
+   "mncs/source/mnel/lifecycle.mncs",
+   "mncs/source/mnel/negative_memory.mncs",
+   "mncs/source/mnel/observation.mncs",
+   "mncs/source/mnel/probe.mncs",
+   "mncs/source/mnel/rejection.mncs",
+   "mncs/source/mnel/training.mncs",
+   "mncs/source/mnel/transfer.mncs",
+   "mncs/source/mnel/visibility.mncs"
+  ],
+  "mncs_sources_sha256": "0e5b61440462ad287a0821ef14adf40b74ee519d9eede37fd4a0c905c328f2e0",
+  "oracle_kinds": {
+   "reference-code": "expected values produced by Python oracle",
+   "derived-table": "expected values encode documented MNCS behavior"
+  },
+  "determinism": "frozen inputs; no clock or randomness; sorted iteration"
+ }
+}
