@@ -4,7 +4,7 @@ mncs 0.6;
 // demotes retrieval scoring; it never deletes positive lineage.
 module mnel.negative_memory;
 
-use mnel.logic;
+use mncs.core.logic.v1;
 
 record ContextMembership {
     retrieval: bool,
@@ -14,13 +14,13 @@ record ContextMembership {
 }
 
 fn negative_memory_conflicts(rule: ContextMembership, context: ContextMembership) -> (hit: bool) {
-    let retrieval_hit: bool = both(rule.retrieval, context.retrieval);
-    let planning_hit: bool = both(rule.planning, context.planning);
-    let transfer_hit: bool = both(rule.transfer, context.transfer);
-    let monitoring_hit: bool = both(rule.monitoring, context.monitoring);
-    let first_pair: bool = either(retrieval_hit, planning_hit);
-    let second_pair: bool = either(transfer_hit, monitoring_hit);
-    return either(first_pair, second_pair);
+    let retrieval_hit: bool = bool_and(rule.retrieval, context.retrieval);
+    let planning_hit: bool = bool_and(rule.planning, context.planning);
+    let transfer_hit: bool = bool_and(rule.transfer, context.transfer);
+    let monitoring_hit: bool = bool_and(rule.monitoring, context.monitoring);
+    let first_pair: bool = bool_or(retrieval_hit, planning_hit);
+    let second_pair: bool = bool_or(transfer_hit, monitoring_hit);
+    return bool_or(first_pair, second_pair);
 }
 
 // A conflicting negative memory subtracts six points from the candidate

@@ -1,27 +1,25 @@
 {
  "schema_version": "0.1",
  "identity_kind": "bounded-differential-study-record",
- "study": "mnel-core-concept-reconstruction",
+ "study": "mnel-training-slice",
  "runner_identity": "mnel-mncs-differential-runner/0.1",
  "interpretation": "bounded_observational_agreement_over_declared_corpus; not_universal_equivalence_not_conformance_not_assurance",
  "reference_side": {
   "implementation": "Machine-Native-Experimental-Learning src/mnel (Python control plane)",
-  "corpus": "mncs/corpora/mnel-core-reference.json",
-  "corpus_sha256": "a818605acab5768b5fb67078bb5c54c3983d043648c5316b6a5267a5fff7c2e4",
-  "cases": 172,
+  "corpus": "mncs/corpora/mnel-training-reference.json",
+  "corpus_sha256": "848164449fc6e737d05ae9186e55581d3e95c8cc135fd8d048b431699511e141",
+  "cases": 15,
   "oracle_kinds": [
-   "derived-table",
    "reference-code"
   ]
  },
  "mncs_side": {
-  "source": "mncs/source/mnel/all.mncs",
-  "source_sha256": "0e5b61440462ad287a0821ef14adf40b74ee519d9eede37fd4a0c905c328f2e0",
-  "module": "mnel.all",
+  "source": "mncs/source/mnel/training.mncs",
+  "source_sha256": "b677125735e88cf3e64813214a74a9d40fb5cf2853308917943b2af535f0a5e8",
+  "module": "mnel.training",
   "language_profile": "0.8",
   "standard_library_bindings": [
    "mncs.core.status.v1",
-   "mncs.core.logic.v1",
    "mncs.core.random.v1",
    "mncs.core.numeric.v1"
   ],
@@ -33,8 +31,8 @@
    "outcome": "corpus-executed",
    "summary": {
     "exit_code": 0,
-    "cases_total": 172,
-    "cases_met": 172,
+    "cases_total": 15,
+    "cases_met": 15,
     "experiment_status": "UNKNOWN",
     "unresolved_reasons": [
      "compilation retained required unresolved obligations"
@@ -46,8 +44,8 @@
    "outcome": "corpus-executed",
    "summary": {
     "exit_code": 0,
-    "cases_total": 172,
-    "cases_met": 172,
+    "cases_total": 15,
+    "cases_met": 15,
     "experiment_status": "UNKNOWN",
     "unresolved_reasons": [
      "compilation retained required unresolved obligations"
@@ -59,7 +57,7 @@
  "disagreements": [],
  "non_claims": [
   "observed agreement is not proof of semantic equivalence",
-  "the corpus covers a bounded slice of MNEL concepts only",
+  "the corpus covers a bounded slice of MNEL training concepts only",
   "backend envelope refusals are recorded, not resolved",
   "unresolved obligations remain UNKNOWN; nothing here certifies the MNCS implementation against the reference beyond the corpus"
  ]

@@ -10,12 +10,18 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 NEGATIVE_DIR = REPO_ROOT / "mncs" / "source" / "negative"
+
+# The cross-module fixture binds through mnel.gates, which consumes
+# mncs.core.status.v1; resolution uses the sibling language checkout unless
+# overridden.
+DEFAULT_LIBRARY_ROOT = REPO_ROOT.parent / "mncs-language" / "library"
 
 # fixture stem -> diagnostic codes that must appear among the errors
 EXPECTED_ERRORS = {
@@ -28,6 +34,12 @@ EXPECTED_ERRORS = {
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("mncs_bin", help="path to the mns CLI binary")
+    parser.add_argument(
+        "--library-path",
+        type=Path,
+        default=DEFAULT_LIBRARY_ROOT if DEFAULT_LIBRARY_ROOT.is_dir() else None,
+        help="MNCS_LIBRARY_PATH root exposing mncs.core.*",
+    )
     args = parser.parse_args()
 
     failures = []
@@ -36,10 +48,14 @@ def main() -> int:
         if not source.exists():
             failures.append(f"{stem}: fixture missing")
             continue
+        environment = None
+        if args.library_path:
+            environment = {**os.environ, "MNCS_LIBRARY_PATH": str(args.library_path)}
         completed = subprocess.run(
             [args.mncs_bin, "source-study", str(source), "--node-id", f"negative-{stem}"],
             capture_output=True,
             text=True,
+            env=environment,
         )
         try:
             payload = json.loads(completed.stdout[completed.stdout.find("{"):])

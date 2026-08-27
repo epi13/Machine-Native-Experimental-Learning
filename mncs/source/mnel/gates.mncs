@@ -4,8 +4,7 @@ mncs 0.6;
 // derive_verdict effect carries that authority through every caller.
 module mnel.gates;
 
-use mnel.verdict;
-use mnel.logic;
+use mncs.core.status.v1;
 
 enum GateOperator { GE, GT, LE, LT, EQ }
 
@@ -18,7 +17,7 @@ record GateInput {
     threshold: i64,
 }
 
-fn evaluate_gate(input: GateInput) -> (verdict: Verdict)
+fn evaluate_gate(input: GateInput) -> (verdict: Status)
     capability hard_gate_authority
     effect derive_verdict authorized_by hard_gate_authority
 {
@@ -35,22 +34,22 @@ fn evaluate_gate(input: GateInput) -> (verdict: Verdict)
             EQ => input.observed == input.threshold,
         };
         if holds {
-            return Verdict.PASS;
+            return Status.PASS;
         }
-        return Verdict.FAIL;
+        return Status.FAIL;
     }
-    return Verdict.UNKNOWN;
+    return Status.UNKNOWN;
 }
 
 fn aggregate_four(
-    first: Verdict,
-    second: Verdict,
-    third: Verdict,
-    fourth: Verdict,
-) -> (overall: Verdict) {
-    let left_combined: Verdict = combine_verdict(first, second);
-    let right_combined: Verdict = combine_verdict(third, fourth);
-    return combine_verdict(left_combined, right_combined);
+    first: Status,
+    second: Status,
+    third: Status,
+    fourth: Status,
+) -> (overall: Status) {
+    let left_combined: Status = dominate(first, second);
+    let right_combined: Status = dominate(third, fourth);
+    return dominate(left_combined, right_combined);
 }
 
 fn evaluate_gates(
@@ -58,13 +57,13 @@ fn evaluate_gates(
     second: GateInput,
     third: GateInput,
     fourth: GateInput,
-) -> (overall: Verdict)
+) -> (overall: Status)
     capability hard_gate_authority
     effect derive_verdict authorized_by hard_gate_authority
 {
-    let first_verdict: Verdict = evaluate_gate(first);
-    let second_verdict: Verdict = evaluate_gate(second);
-    let third_verdict: Verdict = evaluate_gate(third);
-    let fourth_verdict: Verdict = evaluate_gate(fourth);
+    let first_verdict: Status = evaluate_gate(first);
+    let second_verdict: Status = evaluate_gate(second);
+    let third_verdict: Status = evaluate_gate(third);
+    let fourth_verdict: Status = evaluate_gate(fourth);
     return aggregate_four(first_verdict, second_verdict, third_verdict, fourth_verdict);
 }

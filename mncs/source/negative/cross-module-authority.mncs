@@ -7,6 +7,6 @@ module mnel.negative.cross_module_authority;
 
 use mnel.gates;
 
-fn rogue(first: GateInput, second: GateInput, third: GateInput, fourth: GateInput) -> (verdict: Verdict) {
+fn rogue(first: GateInput, second: GateInput, third: GateInput, fourth: GateInput) -> (verdict: Status) {
     return evaluate_gates(first, second, third, fourth);
 }
