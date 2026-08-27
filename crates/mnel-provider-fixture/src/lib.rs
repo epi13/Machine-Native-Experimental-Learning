@@ -33,7 +33,7 @@ static mut DESCRIPTOR: ProviderDescriptorV1 = ProviderDescriptorV1 {
 
 #[no_mangle]
 pub extern "C" fn mnel_provider_entry_v1() -> *const ProviderDescriptorV1 {
-    &raw const DESCRIPTOR
+    core::ptr::addr_of!(DESCRIPTOR)
 }
 
 extern "C" fn infer(
