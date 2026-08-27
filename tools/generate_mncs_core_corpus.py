@@ -47,7 +47,13 @@ from mnel.core import (  # noqa: E402
 from mnel.distillation import StudyDataAccess, StudyRecord, VisibilityViolation  # noqa: E402
 
 SOURCE_PATH = REPO_ROOT / "mncs" / "source" / "mnel" / "all.mncs"
-SOURCES = sorted((REPO_ROOT / "mncs" / "source" / "mnel").glob("*.mncs"))
+# The recurrent specialist has its own structured experiment corpus and does
+# not implement the mnel.core reconstruction surface exercised here.
+SOURCES = sorted(
+    path
+    for path in (REPO_ROOT / "mncs" / "source" / "mnel").glob("*.mncs")
+    if path.name != "recurrent_specialist.mncs"
+)
 OUTPUT_PATH = REPO_ROOT / "mncs" / "corpora" / "mnel-core-reference.json"
 
 # Home modules after the modularization of the reconstruction: every

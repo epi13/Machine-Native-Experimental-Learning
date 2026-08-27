@@ -1,0 +1,324 @@
+{
+  "authority": "diagnostic-only",
+  "baseline": "one-step nearest-centroid classification; deterministic and non-recurrent",
+  "cost_measurements": {
+    "control_catalog_bytes_available": 6400,
+    "control_catalog_bytes_avoided": 4800,
+    "control_catalog_bytes_selected": 1600,
+    "forge_context_bytes_available": 4096,
+    "forge_context_bytes_avoided": 3072,
+    "forge_context_bytes_selected": 1024,
+    "larger_model_calls_avoided": 2
+  },
+  "evaluations": {
+    "control": {
+      "abstentions": 1,
+      "baseline_correct_known": 2,
+      "cases": 3,
+      "decisions": [
+        {
+          "abstained": false,
+          "authority": "diagnostic-only",
+          "calibration_identity": "sha256:ed45dd8137189986ff154df38594c3ee8f92fcde2db18c3c159db1ebd9e7740b",
+          "confidence": 1.0,
+          "confidence_milli": 1000,
+          "context_state_identity": "sha256:5dbed64b4b6845121d18e0ded5669c5c2b95311b7a5965623317815bdf859236",
+          "decision": "git",
+          "decision_identity": "sha256:0ae23c7ab6cf543a9b5d8e0e1e2648ba7a63dc3eef72168c3674ef8582938558",
+          "elapsed_ns": 58230,
+          "escalation_reason": null,
+          "generation_identity": "sha256:8056daf8a283b378999995dc96f53cb03b3bea3440adcc279bfab1cf79b2ac27",
+          "halting_reason": "converged-mask-deactivated",
+          "hidden_state": [
+            799,
+            699,
+            220,
+            399
+          ],
+          "input_features": [
+            780,
+            680,
+            240,
+            380
+          ],
+          "lineage_identity": null,
+          "model_identity": "sha256:d605a9ee3bf59ad31eac8d712d94a244decbd7455cf176fa70b0054ecebce44a",
+          "operating_envelope_identity": "sha256:9a6a22dbdc10856fc7e480810f8e2912b59d1bb8be15b8b0082a68fffd942bbd",
+          "operations": 65,
+          "reasoning_iterations": 4,
+          "request_identity": "sha256:fd524258c1e9d7925b2e544f56d18547185b1f71330fc95f8139a4669c407745",
+          "schema": "mnel-specialist-decision/0.1",
+          "semantics": "bounded-recurrent-structured-decision; not-a-verdict",
+          "source_observation_identities": []
+        },
+        {
+          "abstained": false,
+          "authority": "diagnostic-only",
+          "calibration_identity": "sha256:ed45dd8137189986ff154df38594c3ee8f92fcde2db18c3c159db1ebd9e7740b",
+          "confidence": 1.0,
+          "confidence_milli": 1000,
+          "context_state_identity": "sha256:5dbed64b4b6845121d18e0ded5669c5c2b95311b7a5965623317815bdf859236",
+          "decision": "testing",
+          "decision_identity": "sha256:71f37a78d21bcc277b8d17846ce8a368afca1d6e61eabef949524cf7d481cff0",
+          "elapsed_ns": 55871,
+          "escalation_reason": null,
+          "generation_identity": "sha256:8056daf8a283b378999995dc96f53cb03b3bea3440adcc279bfab1cf79b2ac27",
+          "halting_reason": "converged-mask-deactivated",
+          "hidden_state": [
+            699,
+            819,
+            599,
+            699
+          ],
+          "input_features": [
+            680,
+            780,
+            580,
+            680
+          ],
+          "lineage_identity": null,
+          "model_identity": "sha256:d605a9ee3bf59ad31eac8d712d94a244decbd7455cf176fa70b0054ecebce44a",
+          "operating_envelope_identity": "sha256:9a6a22dbdc10856fc7e480810f8e2912b59d1bb8be15b8b0082a68fffd942bbd",
+          "operations": 65,
+          "reasoning_iterations": 4,
+          "request_identity": "sha256:85ed7a33760d4014441cca0f4d9f93ee956785766943c1ff062d0b99bf832413",
+          "schema": "mnel-specialist-decision/0.1",
+          "semantics": "bounded-recurrent-structured-decision; not-a-verdict",
+          "source_observation_identities": []
+        },
+        {
+          "abstained": true,
+          "authority": "diagnostic-only",
+          "calibration_identity": "sha256:ed45dd8137189986ff154df38594c3ee8f92fcde2db18c3c159db1ebd9e7740b",
+          "confidence": 1.0,
+          "confidence_milli": 1000,
+          "context_state_identity": "sha256:5dbed64b4b6845121d18e0ded5669c5c2b95311b7a5965623317815bdf859236",
+          "decision": "ABSTAIN",
+          "decision_identity": "sha256:39a2de24ba04a0c4e22a6a8bab3757b407957996167dc2aa7d107d1a6278be8a",
+          "elapsed_ns": 56254,
+          "escalation_reason": "out-of-distribution-distance",
+          "generation_identity": "sha256:8056daf8a283b378999995dc96f53cb03b3bea3440adcc279bfab1cf79b2ac27",
+          "halting_reason": "budget-exhausted",
+          "hidden_state": [
+            599,
+            500,
+            798,
+            848
+          ],
+          "input_features": [
+            500,
+            500,
+            500,
+            500
+          ],
+          "lineage_identity": null,
+          "model_identity": "sha256:d605a9ee3bf59ad31eac8d712d94a244decbd7455cf176fa70b0054ecebce44a",
+          "operating_envelope_identity": "sha256:9a6a22dbdc10856fc7e480810f8e2912b59d1bb8be15b8b0082a68fffd942bbd",
+          "operations": 65,
+          "reasoning_iterations": 4,
+          "request_identity": "sha256:d40ced6376561f9682d3e504e995d95d2882c6bc86d28ba6ffe88cea853c00c2",
+          "schema": "mnel-specialist-decision/0.1",
+          "semantics": "bounded-recurrent-structured-decision; not-a-verdict",
+          "source_observation_identities": []
+        }
+      ],
+      "deterministic_decision_digest": "sha256:c6fad6db7e2949b34a70ed4d5b54093c4135b246493a94b6b7cb29019ae932bf",
+      "expected": [
+        "git",
+        "testing",
+        "ABSTAIN"
+      ],
+      "iterations": [
+        4,
+        4,
+        4
+      ],
+      "latency_ns": [
+        58230,
+        55871,
+        56254
+      ],
+      "operations": [
+        65,
+        65,
+        65
+      ],
+      "recurrent_correct_known": 2
+    },
+    "forge": {
+      "abstentions": 1,
+      "baseline_correct_known": 2,
+      "cases": 3,
+      "decisions": [
+        {
+          "abstained": false,
+          "authority": "diagnostic-only",
+          "calibration_identity": "sha256:3a9c61b28bc33a51e5ae1ac50029830d48b8d310c6a539fc874e378ab6540d05",
+          "confidence": 1.0,
+          "confidence_milli": 1000,
+          "context_state_identity": "sha256:c1167d46dbfd0fe5957a883da1359643df58f8b53e220a037b85f78ac7aaf4e8",
+          "decision": "relevant",
+          "decision_identity": "sha256:44332ec7a83fbb965c81fffa2bcf4afcfff9568d62dce811b46626b37023f732",
+          "elapsed_ns": 77886,
+          "escalation_reason": null,
+          "generation_identity": "sha256:2767857f27a108bee26d88acb05597c2233500dd81e69c89ac621d423c4917d4",
+          "halting_reason": "budget-exhausted",
+          "hidden_state": [
+            859,
+            789,
+            729,
+            839
+          ],
+          "input_features": [
+            760,
+            700,
+            660,
+            720
+          ],
+          "lineage_identity": null,
+          "model_identity": "sha256:b3c8ba2bd9672b2ea652a92d1fd81c4c2f15db76c59a4ee5ff5fb90b72d94f62",
+          "operating_envelope_identity": "sha256:7a7248d840ac9b048935ebdb6b34e5188526f4dea78d850357ed122d18d78a7e",
+          "operations": 65,
+          "reasoning_iterations": 4,
+          "request_identity": "sha256:d42a50300dec7eec97211932f9452972f1582a161897a958168e7632f124321c",
+          "schema": "mnel-specialist-decision/0.1",
+          "semantics": "bounded-recurrent-structured-decision; not-a-verdict",
+          "source_observation_identities": []
+        },
+        {
+          "abstained": false,
+          "authority": "diagnostic-only",
+          "calibration_identity": "sha256:3a9c61b28bc33a51e5ae1ac50029830d48b8d310c6a539fc874e378ab6540d05",
+          "confidence": 1.0,
+          "confidence_milli": 1000,
+          "context_state_identity": "sha256:c1167d46dbfd0fe5957a883da1359643df58f8b53e220a037b85f78ac7aaf4e8",
+          "decision": "irrelevant",
+          "decision_identity": "sha256:4df5cd6e9dc9d6ef696b545bc21912cf784d7330e8c86027251eb273f0c2c675",
+          "elapsed_ns": 55479,
+          "escalation_reason": null,
+          "generation_identity": "sha256:2767857f27a108bee26d88acb05597c2233500dd81e69c89ac621d423c4917d4",
+          "halting_reason": "converged-mask-deactivated",
+          "hidden_state": [
+            169,
+            150,
+            169,
+            130
+          ],
+          "input_features": [
+            160,
+            220,
+            120,
+            180
+          ],
+          "lineage_identity": null,
+          "model_identity": "sha256:b3c8ba2bd9672b2ea652a92d1fd81c4c2f15db76c59a4ee5ff5fb90b72d94f62",
+          "operating_envelope_identity": "sha256:7a7248d840ac9b048935ebdb6b34e5188526f4dea78d850357ed122d18d78a7e",
+          "operations": 65,
+          "reasoning_iterations": 4,
+          "request_identity": "sha256:757077addc795638681635a11e3f1eb6e2e4f64879c700257eb7cec04fad4db4",
+          "schema": "mnel-specialist-decision/0.1",
+          "semantics": "bounded-recurrent-structured-decision; not-a-verdict",
+          "source_observation_identities": []
+        },
+        {
+          "abstained": true,
+          "authority": "diagnostic-only",
+          "calibration_identity": "sha256:3a9c61b28bc33a51e5ae1ac50029830d48b8d310c6a539fc874e378ab6540d05",
+          "confidence": 1.0,
+          "confidence_milli": 1000,
+          "context_state_identity": "sha256:c1167d46dbfd0fe5957a883da1359643df58f8b53e220a037b85f78ac7aaf4e8",
+          "decision": "ABSTAIN",
+          "decision_identity": "sha256:9385d413da22eed7c647070e824abbf12090152f903baf92406b127eb9ee5dfa",
+          "elapsed_ns": 50423,
+          "escalation_reason": "out-of-distribution-distance",
+          "generation_identity": "sha256:2767857f27a108bee26d88acb05597c2233500dd81e69c89ac621d423c4917d4",
+          "halting_reason": "budget-exhausted",
+          "hidden_state": [
+            173,
+            145,
+            173,
+            125
+          ],
+          "input_features": [
+            1000,
+            -1000,
+            1000,
+            -1000
+          ],
+          "lineage_identity": null,
+          "model_identity": "sha256:b3c8ba2bd9672b2ea652a92d1fd81c4c2f15db76c59a4ee5ff5fb90b72d94f62",
+          "operating_envelope_identity": "sha256:7a7248d840ac9b048935ebdb6b34e5188526f4dea78d850357ed122d18d78a7e",
+          "operations": 65,
+          "reasoning_iterations": 4,
+          "request_identity": "sha256:17b76bcf1254d593ffe42a119914d4e86480ce993584b16fa7fd8e87aa832595",
+          "schema": "mnel-specialist-decision/0.1",
+          "semantics": "bounded-recurrent-structured-decision; not-a-verdict",
+          "source_observation_identities": []
+        }
+      ],
+      "deterministic_decision_digest": "sha256:fe478ac25572f62f2ddef3f0f8daed840a589123deb0b7acb4af20d3c6fb7ca8",
+      "expected": [
+        "relevant",
+        "irrelevant",
+        "ABSTAIN"
+      ],
+      "iterations": [
+        4,
+        4,
+        4
+      ],
+      "latency_ns": [
+        77886,
+        55479,
+        50423
+      ],
+      "operations": [
+        65,
+        65,
+        65
+      ],
+      "recurrent_correct_known": 2
+    }
+  },
+  "limitations": [
+    "convergence is a diagnostic halting signal, not a correctness proof",
+    "synthetic held-out data does not establish production utility",
+    "latency is host-dependent and is retained as a measurement, not an identity",
+    "the specialist cannot verify evidence, grant permissions, or promote generations"
+  ],
+  "models": {
+    "control": {
+      "artifact_identity": "sha256:6a0327d9a8ef8b399c8771ae3fe5443bf797e97f6e809280793bee55246990ac",
+      "artifact_path": "examples/recurrent-specialists/control-specialist-g0.json",
+      "calibration_identity": "sha256:ed45dd8137189986ff154df38594c3ee8f92fcde2db18c3c159db1ebd9e7740b",
+      "checkpoint_identity": "sha256:7411beef4eab8ac1d6d0c86c7fe9ec5f2e139b22b38aa67d39beda3ca1051d82",
+      "generation_identity": "sha256:8056daf8a283b378999995dc96f53cb03b3bea3440adcc279bfab1cf79b2ac27",
+      "model_identity": "sha256:d605a9ee3bf59ad31eac8d712d94a244decbd7455cf176fa70b0054ecebce44a",
+      "model_size_bytes": 2068,
+      "operating_envelope_identity": "sha256:9a6a22dbdc10856fc7e480810f8e2912b59d1bb8be15b8b0082a68fffd942bbd",
+      "provider_abi": "mnel-specialist-provider-abi/0.1",
+      "reload_equivalent": true,
+      "target_role": "control.tool-family-routing",
+      "training_dataset_identity": "sha256:1e41109b307452405f2b97082ead6e9604f6841636e37a255d9cba1cb5df5e76",
+      "training_spec_identity": "sha256:fbe653836dcaa301da274b9fc1d8d203ea4ca67dff9426510054aa73d57921f9"
+    },
+    "forge": {
+      "artifact_identity": "sha256:402e249af9d4b0fe991a621aa1230dd570569730d3859406b77a757bd70c3ee0",
+      "artifact_path": "examples/recurrent-specialists/forge-specialist-g0.json",
+      "calibration_identity": "sha256:3a9c61b28bc33a51e5ae1ac50029830d48b8d310c6a539fc874e378ab6540d05",
+      "checkpoint_identity": "sha256:92a9795d8d45d9dd1146efcfc1efff9da98524422f194a077c5ad08ccb027c1b",
+      "generation_identity": "sha256:2767857f27a108bee26d88acb05597c2233500dd81e69c89ac621d423c4917d4",
+      "model_identity": "sha256:b3c8ba2bd9672b2ea652a92d1fd81c4c2f15db76c59a4ee5ff5fb90b72d94f62",
+      "model_size_bytes": 2047,
+      "operating_envelope_identity": "sha256:7a7248d840ac9b048935ebdb6b34e5188526f4dea78d850357ed122d18d78a7e",
+      "provider_abi": "mnel-specialist-provider-abi/0.1",
+      "reload_equivalent": true,
+      "target_role": "forge.evidence-relevance",
+      "training_dataset_identity": "sha256:1cec040071b9fb21036bcf75403b17766d14094a4418e4c5835fd29e82140c3e",
+      "training_spec_identity": "sha256:c9d1736ae21cc36285aaecc34b41f656bfc2edab61e99b0a59c93ea37db525ba"
+    }
+  },
+  "schema": "mnel-recurrent-specialist-reference-evidence/0.1",
+  "semantics": "bounded-observation; diagnostic-only; not-a-verdict",
+  "study_identity": "sha256:1897c2016a7c7bf017d48a3dacf88a3fc016bc4336294db1635eb3fc4be2e72b"
+}

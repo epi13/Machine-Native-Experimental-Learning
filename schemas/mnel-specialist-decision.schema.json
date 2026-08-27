@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/mnel/schemas/mnel-specialist-decision.schema.json",
+  "title": "MNEL bounded specialist decision",
+  "type": "object",
+  "required": ["schema", "request_identity", "context_state_identity", "reasoning_iterations", "decision", "confidence", "abstained", "halting_reason", "model_identity", "generation_identity", "calibration_identity", "operating_envelope_identity", "source_observation_identities", "authority", "decision_identity"],
+  "properties": {
+    "schema": {"const": "mnel-specialist-decision/0.1"},
+    "request_identity": {"$ref": "#/$defs/identity"},
+    "context_state_identity": {"$ref": "#/$defs/identity"},
+    "reasoning_iterations": {"type": "integer", "minimum": 1, "maximum": 8},
+    "decision": {"type": "string", "minLength": 1},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "abstained": {"type": "boolean"},
+    "escalation_reason": {"type": ["string", "null"]},
+    "halting_reason": {"type": "string", "minLength": 1},
+    "model_identity": {"$ref": "#/$defs/identity"},
+    "generation_identity": {"$ref": "#/$defs/identity"},
+    "calibration_identity": {"$ref": "#/$defs/identity"},
+    "operating_envelope_identity": {"$ref": "#/$defs/identity"},
+    "source_observation_identities": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "authority": {"const": "diagnostic-only"},
+    "decision_identity": {"$ref": "#/$defs/identity"}
+  },
+  "$defs": {"identity": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}}
+}

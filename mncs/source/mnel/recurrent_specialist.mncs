@@ -1,0 +1,51 @@
+mncs 0.8;
+
+// MNEL-native bounded recurrent specialist semantics.  The Python/Rust
+// runtime owns artifact serialization and measurement; this source owns the
+// small semantic kernel: fixed vectors, masks, masked state selection, and a
+// fixed iteration envelope.  Convergence is diagnostic, never a proof.
+module mnel.recurrent_specialist;
+
+use mncs.core.numeric.v1;
+
+record RecurrentState {
+    h0: i32,
+    h1: i32,
+    h2: i32,
+    h3: i32,
+}
+
+fn masked_refine(
+    state: RecurrentState,
+    t0: i32, t1: i32, t2: i32, t3: i32
+) -> (updated: RecurrentState) {
+    let target: vec<i32, 4> = vector(t0, t1, t2, t3);
+    let current: vec<i32, 4> = vector(state.h0, state.h1, state.h2, state.h3);
+    let delta: vec<i32, 4> = vec_sub_wrap(target, current);
+    let step: vec<i32, 4> = vec_add_wrap(current, delta);
+    let still_active: mask<4> = vec_ne(delta, splat(0));
+    let selected: vec<i32, 4> = select(still_active, step, current);
+    return RecurrentState {
+        h0: extract_lane(selected, 0),
+        h1: extract_lane(selected, 1),
+        h2: extract_lane(selected, 2),
+        h3: extract_lane(selected, 3),
+    };
+}
+
+fn bounded_recurrent_decision(
+    q0: i32, q1: i32, q2: i32, q3: i32,
+    t0: i32, t1: i32, t2: i32, t3: i32
+) -> (decision: i32) {
+    let initial: RecurrentState = RecurrentState {
+        h0: q0,
+        h1: q1,
+        h2: q2,
+        h3: q3,
+    };
+    iterate refinement up_to 4 carrying state: RecurrentState = initial {
+        next state = masked_refine(state, t0, t1, t2, t3);
+    }
+    let result: vec<i32, 4> = vector(state.h0, state.h1, state.h2, state.h3);
+    return reduce_sum_wrap(result);
+}

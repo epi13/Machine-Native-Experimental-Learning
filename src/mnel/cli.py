@@ -12,10 +12,9 @@ from pathlib import Path
 from . import __version__
 from .core import EvidenceLedger, run_reference_study
 from .distillation import run_reference_distill_study
-from .forge_lifecycle import run_reference_forge_study
-from .provider_study import run_reference_portfolio_study
-from .family_integration import run_reference_family_integration
 from .fabric_execution import run_network_fabric, run_reference_fabric_study
+from .family_integration import run_reference_family_integration
+from .forge_lifecycle import run_reference_forge_study
 from .investigators import DEFAULT_ROLE_CONTRACTS
 from .learned_providers import (
     DEFAULT_LEARNED_PROVIDER_REGISTRY,
@@ -23,6 +22,8 @@ from .learned_providers import (
     LearnedProviderQuery,
     OutputKind,
 )
+from .provider_study import run_reference_portfolio_study
+from .recurrent_specialist import build_reference_artifacts
 
 
 def parser() -> argparse.ArgumentParser:
@@ -85,6 +86,11 @@ def parser() -> argparse.ArgumentParser:
         description="Run the deterministic distributed MNEL/Fabric reference study",
     )
     fabric_reference.add_argument("--workspace", default=None)
+    recurrent_reference = commands.add_parser(
+        "recurrent-specialist-reference",
+        description="Train and measure the bounded recurrent specialist reference artifacts",
+    )
+    recurrent_reference.add_argument("--workspace", default="examples/recurrent-specialists")
     fabric_run = commands.add_parser(
         "fabric-run",
         description="Dispatch an operator-supplied fixed-argv plan through remote Fabric",
@@ -173,6 +179,9 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.command == "fabric-reference":
         print(json.dumps(run_reference_fabric_study(args.workspace), indent=2, sort_keys=True))
+        return 0
+    if args.command == "recurrent-specialist-reference":
+        print(json.dumps(build_reference_artifacts(args.workspace), indent=2, sort_keys=True))
         return 0
     if args.command == "fabric-run":
         try:
