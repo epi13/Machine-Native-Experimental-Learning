@@ -14,13 +14,6 @@ from .learned_providers import (
     LearnedProviderQuery,
     LearnedProviderRegistry,
 )
-from .provider_runtime import (
-    ExecutionTier,
-    ImplementationLanguage,
-    NativeLanguageException,
-    ProviderRuntimeManifest,
-    load_runtime_manifest,
-)
 from .placement import (
     AcceleratorDiagnostics,
     ExecutionDevice,
@@ -32,32 +25,63 @@ from .placement import (
     Precision,
     decide_placement,
 )
+from .provider_runtime import (
+    ExecutionTier,
+    ImplementationLanguage,
+    NativeLanguageException,
+    ProviderRuntimeManifest,
+    load_runtime_manifest,
+)
+from .recurrent_specialist import (
+    CalibrationRecord,
+    OperatingEnvelope,
+    RecurrentSpecialistModel,
+    SpecialistContextState,
+    SpecialistDecision,
+    SpecialistError,
+    build_reference_artifacts,
+    calibrate_recurrent_specialist,
+    context_update,
+    infer_batch,
+    train_recurrent_specialist,
+)
 
 __all__ = [
     "DEFAULT_LEARNED_PROVIDER_REGISTRY",
-    "EvidenceLedger",
     "AcceleratorDiagnostics",
+    "CalibrationRecord",
+    "EvidenceLedger",
+    "ExecutionDevice",
+    "ExecutionMode",
     "ExecutionTier",
     "HardGateEvaluator",
     "ImplementationLanguage",
-    "ExecutionDevice",
-    "ExecutionMode",
     "LearnedProviderDeclaration",
     "LearnedProviderObservation",
     "LearnedProviderQuery",
     "LearnedProviderRegistry",
     "NativeLanguageException",
     "OffloadMode",
+    "OperatingEnvelope",
     "PlacementCapabilities",
     "PlacementDecision",
     "PlacementPolicy",
     "Precision",
     "ProviderRuntimeManifest",
+    "RecurrentSpecialistModel",
     "RecursionGovernor",
+    "SpecialistContextState",
+    "SpecialistDecision",
+    "SpecialistError",
     "VerifiedExperienceDistiller",
+    "build_reference_artifacts",
+    "calibrate_recurrent_specialist",
     "canonical_digest",
+    "context_update",
     "decide_placement",
+    "infer_batch",
     "load_runtime_manifest",
+    "train_recurrent_specialist",
 ]
 
 __version__ = "0.1.0a0"

@@ -71,6 +71,19 @@ The operator-only network entrypoint is `mnel fabric-run --config ... --plan ...
 --manifest ...`; it accepts only Fabric's bounded fixed-argv plan/manifest pair and
 fails closed when trust material or the declared pre-staged bundle identity is absent.
 
+The recurrent-specialist slice adds a small deterministic reference provider with
+separate persistent context and per-query reasoning state. It trains role-specific
+centroid models, calibrates a bounded recurrent envelope, records structured
+abstention and resource measurements, and exposes an MNEL Provider Protocol JSON-line
+boundary. Generate the Forge and Control reference artifacts with:
+
+```bash
+mnel recurrent-specialist-reference --workspace examples/recurrent-specialists
+```
+
+These artifacts are diagnostic-only and do not issue verifier results, permissions,
+trust, or promotion decisions.
+
 ## Core rule
 
 **Investigators and learned providers may propose knowledge. They may not declare it true.**

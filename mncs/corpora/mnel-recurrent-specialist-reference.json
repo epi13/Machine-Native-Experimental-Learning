@@ -1,0 +1,18 @@
+{
+  "schema_version": "0.2",
+  "name": "mnel-recurrent-specialist-reference",
+  "cases": [
+    {
+      "id": "recurrent-vector-refinement",
+      "request": {"schema_version": "0.1", "target": {"module": "mnel.recurrent_specialist", "function": "bounded_recurrent_decision"}, "arguments": [{"integer": {"value": 1, "type": {"bits": 32, "signed": true}}}, {"integer": {"value": 2, "type": {"bits": 32, "signed": true}}}, {"integer": {"value": 3, "type": {"bits": 32, "signed": true}}}, {"integer": {"value": 4, "type": {"bits": 32, "signed": true}}}, {"integer": {"value": 10, "type": {"bits": 32, "signed": true}}}, {"integer": {"value": 20, "type": {"bits": 32, "signed": true}}}, {"integer": {"value": 30, "type": {"bits": 32, "signed": true}}}, {"integer": {"value": 40, "type": {"bits": 32, "signed": true}}}], "step_budget": 20000},
+      "expected_status": "returned",
+      "expected": [{"integer": {"value": 100, "type": {"bits": 32, "signed": true}}}]
+    },
+    {
+      "id": "recurrent-zero-delta-mask",
+      "request": {"schema_version": "0.1", "target": {"module": "mnel.recurrent_specialist", "function": "bounded_recurrent_decision"}, "arguments": [{"integer": {"value": 9, "type": {"bits": 32, "signed": true}}}, {"integer": {"value": 8, "type": {"bits": 32, "signed": true}}}, {"integer": {"value": 7, "type": {"bits": 32, "signed": true}}}, {"integer": {"value": 6, "type": {"bits": 32, "signed": true}}}, {"integer": {"value": 9, "type": {"bits": 32, "signed": true}}}, {"integer": {"value": 8, "type": {"bits": 32, "signed": true}}}, {"integer": {"value": 7, "type": {"bits": 32, "signed": true}}}, {"integer": {"value": 6, "type": {"bits": 32, "signed": true}}}], "step_budget": 20000},
+      "expected_status": "returned",
+      "expected": [{"integer": {"value": 30, "type": {"bits": 32, "signed": true}}}]
+    }
+  ]
+}
