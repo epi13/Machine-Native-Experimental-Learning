@@ -24,5 +24,8 @@ static mut DESCRIPTOR: ProviderDescriptorV1 = ProviderDescriptorV1 {
 
 #[no_mangle]
 pub extern "C" fn mnel_provider_entry_v1() -> *const ProviderDescriptorV1 {
-    core::ptr::addr_of!(DESCRIPTOR)
+    #[allow(unused_unsafe)]
+    unsafe {
+        core::ptr::addr_of!(DESCRIPTOR)
+    }
 }
