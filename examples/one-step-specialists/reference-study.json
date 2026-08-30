@@ -1,0 +1,270 @@
+{
+  "authority": "diagnostic-only",
+  "claim_boundary": {
+    "one_step_means": "one learned affine/tanh/softmax forward evaluation after preparation",
+    "student_authority": "diagnostic-only",
+    "success_claim_supported": false,
+    "teacher_fallback_is_explicit": true
+  },
+  "distillation": {
+    "dataset_identity": "sha256:835001ba074393893495cd064fc12eba14ec39d65b8c82fe13bfb47b47bb721c",
+    "distillation_identity": "sha256:c0d0b68d08870cc8e16c18d25c462d0388d07e5d4d506799f822e6a4e625c8ea",
+    "rejected_or_unresolved_observation_count": 3,
+    "rejected_or_unresolved_statuses": [
+      "rejected-teacher-target",
+      "unknown",
+      "abstention"
+    ],
+    "retained_observation_count": 11,
+    "training_observation_count": 8,
+    "transform_identity": "sha256:842b068521daf45287696bd770f5479c163126e0b13fa154717f75ebf21dfa2b"
+  },
+  "evaluations": {
+    "calibration_behavior": {
+      "known_coverage": 1.0,
+      "ood_abstentions": 2,
+      "ood_cases": 2,
+      "threshold_milli": 900
+    },
+    "classical_nearest_centroid_baseline": {
+      "abstentions": 2,
+      "correct_known_cases": 4,
+      "decisions": [
+        "relevant",
+        "relevant",
+        "irrelevant",
+        "irrelevant",
+        "ABSTAIN",
+        "ABSTAIN"
+      ],
+      "false_accepts": 0,
+      "inference_operations": [
+        9,
+        9,
+        9,
+        9,
+        9,
+        9
+      ],
+      "kind": "nearest-centroid-deterministic-reference",
+      "latency_ns": [
+        10842,
+        6518,
+        5019,
+        4149,
+        4096,
+        3702
+      ],
+      "model_bytes": 81,
+      "out_of_distribution_cases": 2
+    },
+    "comparisons": {
+      "student_control_disagreements": 0,
+      "student_teacher_disagreements": 0
+    },
+    "fallback": {
+      "escalated_end_to_end_latency_ns": [
+        258212,
+        374137
+      ],
+      "fallback_invocations": 2,
+      "final_decisions": [
+        "relevant",
+        "relevant",
+        "irrelevant",
+        "irrelevant",
+        "ABSTAIN",
+        "ABSTAIN"
+      ],
+      "student_abstentions": 2,
+      "student_only_end_to_end_latency_ns": [
+        75835,
+        67426,
+        66985,
+        69178,
+        54534,
+        108602
+      ],
+      "teacher_results_retained": 2
+    },
+    "iterative_teacher": {
+      "abstentions": 2,
+      "correct_known_cases": 4,
+      "decisions": [
+        "relevant",
+        "relevant",
+        "irrelevant",
+        "irrelevant",
+        "ABSTAIN",
+        "ABSTAIN"
+      ],
+      "false_accepts": 0,
+      "latency_ns": [
+        65177,
+        51519,
+        49547,
+        51266,
+        50777,
+        48437
+      ],
+      "model_bytes": 2047,
+      "operations": [
+        65,
+        65,
+        65,
+        65,
+        65,
+        65
+      ],
+      "reasoning_iterations": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ]
+    },
+    "no_distillation_control": {
+      "abstentions": 2,
+      "calibration_threshold_milli": 900,
+      "cold_latency_ns": 74199,
+      "correct_known_cases": 4,
+      "decisions": [
+        "relevant",
+        "relevant",
+        "irrelevant",
+        "irrelevant",
+        "ABSTAIN",
+        "ABSTAIN"
+      ],
+      "false_accepts": 0,
+      "inference_operations": [
+        32,
+        32,
+        32,
+        32,
+        0,
+        0
+      ],
+      "learned_forward_passes": [
+        1,
+        1,
+        1,
+        1,
+        0,
+        0
+      ],
+      "model_bytes": 4233,
+      "out_of_distribution_cases": 2,
+      "preprocessing_operations": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "teacher_disagreements": 0,
+      "warm_latency_ns": [
+        83477,
+        64692,
+        64230,
+        54564,
+        53217
+      ]
+    },
+    "one_step_distilled_student": {
+      "abstentions": 2,
+      "calibration_threshold_milli": 900,
+      "cold_latency_ns": 149644,
+      "correct_known_cases": 4,
+      "decisions": [
+        "relevant",
+        "relevant",
+        "irrelevant",
+        "irrelevant",
+        "ABSTAIN",
+        "ABSTAIN"
+      ],
+      "false_accepts": 0,
+      "inference_operations": [
+        32,
+        32,
+        32,
+        32,
+        0,
+        0
+      ],
+      "learned_forward_passes": [
+        1,
+        1,
+        1,
+        1,
+        0,
+        0
+      ],
+      "model_bytes": 4233,
+      "out_of_distribution_cases": 2,
+      "preprocessing_operations": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "teacher_disagreements": 0,
+      "warm_latency_ns": [
+        67189,
+        150944,
+        96321,
+        53979,
+        53765
+      ]
+    }
+  },
+  "heldout_examples": 6,
+  "known_cases": 4,
+  "limitations": [
+    "synthetic forge relevance features do not establish production utility",
+    "latency measurements are host-dependent and excluded from semantic identities",
+    "the student is diagnostic-only and cannot verify evidence, grant permissions, or promote generations",
+    "the recurrent teacher remains available as an explicit fallback rather than being silently replaced"
+  ],
+  "schema": "mnel-one-step-specialist-reference-report/0.1",
+  "semantics": "experimental-reference-measurement; not-a-verdict",
+  "students": {
+    "distilled": {
+      "architecture_identity": "sha256:8ee72d1282eac8c091cb2ebd0522fcd72fc09a6ba98bf16f64290b317e6b0375",
+      "artifact_bytes": 4327,
+      "artifact_identity": "sha256:318da84380a14c3b0b90275e5a36e482cca62971d3b8e2b74b08cd68daac1b3b",
+      "calibration_identity": "sha256:db8431a90e74bce699d3ec0e6d22c4257af7f2bb3bd615e4cf554966cf3762d1",
+      "model_bytes": 4233,
+      "model_identity": "sha256:e03237586802d58adc9bbfb9ea786ddd1ba3e031cedc9e9a37d75db10f4593e3",
+      "training_dataset_identity": "sha256:835001ba074393893495cd064fc12eba14ec39d65b8c82fe13bfb47b47bb721c"
+    },
+    "no_distillation_control": {
+      "architecture_identity": "sha256:8ee72d1282eac8c091cb2ebd0522fcd72fc09a6ba98bf16f64290b317e6b0375",
+      "artifact_bytes": 4327,
+      "artifact_identity": "sha256:12ea4ff910e1772c8dfc129620fefc84c94c8ce7cd3742889099ddad11e21d44",
+      "calibration_identity": "sha256:db8431a90e74bce699d3ec0e6d22c4257af7f2bb3bd615e4cf554966cf3762d1",
+      "model_bytes": 4233,
+      "model_identity": "sha256:c6273f11e39aaf91181cfcdf3b9533acf02144d50d6feb7851af684cf6e091bb",
+      "training_dataset_identity": "sha256:835001ba074393893495cd064fc12eba14ec39d65b8c82fe13bfb47b47bb721c"
+    }
+  },
+  "study_identity": "sha256:263a91be80215f875f1b8317ec9a7659e065cf193f7d35fa2ae0de6431ead354",
+  "target_role": "forge.evidence-relevance",
+  "teacher": {
+    "architecture_identity": "sha256:0b854e10e4fc3843017c7a264620bcfb2ace844ade15820e313e2a0faf737ab4",
+    "artifact_bytes": 2141,
+    "artifact_identity": "sha256:402e249af9d4b0fe991a621aa1230dd570569730d3859406b77a757bd70c3ee0",
+    "model_bytes": 2047,
+    "model_identity": "sha256:b3c8ba2bd9672b2ea652a92d1fd81c4c2f15db76c59a4ee5ff5fb90b72d94f62",
+    "operating_envelope_identity": "sha256:7a7248d840ac9b048935ebdb6b34e5188526f4dea78d850357ed122d18d78a7e",
+    "provider_id": "mnel-bounded-recurrent-specialist/0.1"
+  },
+  "total_reference_cases": 6,
+  "training_examples": 8
+}

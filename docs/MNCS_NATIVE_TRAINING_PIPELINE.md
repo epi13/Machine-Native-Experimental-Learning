@@ -287,6 +287,12 @@ MNEL
 Some components may move downward over time. For example, tensor operations may prove
 sufficiently general to belong in the standard library rather than MNEL.
 
+The first one-step distilled specialist implementation intentionally remains in MNEL's
+Python/reference-runtime layer. It uses a dependency-free bounded numerical trainer and
+identity-bound JSON artifacts while MNCS-native training representation and semantic
+closure remain future work. No new MNCS syntax, compiler behavior, backend lowering, or
+standard-library primitive is required by this reference slice.
+
 ## Backend boundary
 
 MNCS-native training does **not** require MNCS to own every low-level implementation on

@@ -1,0 +1,919 @@
+{
+  "authority": "diagnostic-only",
+  "dataset": {
+    "authority": "diagnostic-only",
+    "dataset_identity": "sha256:835001ba074393893495cd064fc12eba14ec39d65b8c82fe13bfb47b47bb721c",
+    "distillation_identity": "sha256:c0d0b68d08870cc8e16c18d25c462d0388d07e5d4d506799f822e6a4e625c8ea",
+    "observations": [
+      {
+        "authority": "diagnostic-only",
+        "context_state_identity": "sha256:c1167d46dbfd0fe5957a883da1359643df58f8b53e220a037b85f78ac7aaf4e8",
+        "decision_identity": "sha256:e18ebe977e94b354a2ce332e44fc6ff26233e8c2fdfd10146045f3799dd6e502",
+        "independent_target": "relevant",
+        "independent_target_identity": "sha256:26f920a30f9a5ff32cd2ec0f542087f92b41e5457de52024f028a93f0cba9153",
+        "observation_identity": "sha256:76610ac42c04b5a73e190f5f8942388587ca5cc7155441b35b5276137262ecd2",
+        "query_features": [
+          900,
+          820,
+          760,
+          880
+        ],
+        "reasoning_iterations": 4,
+        "schema": "mnel-distillation-record/0.1",
+        "semantics": "retained-teacher-observation; independently-targeted; not-a-verdict",
+        "snapshot_identity": "sha256:92c3c6414174102bf9054372a336a2d91124808a490dabecb4d92857e04e1205",
+        "source_observation_identities": [
+          "sha256:92c3c6414174102bf9054372a336a2d91124808a490dabecb4d92857e04e1205"
+        ],
+        "target_role": "forge.evidence-relevance",
+        "target_status": "verified",
+        "teacher_abstained": false,
+        "teacher_architecture_identity": "sha256:0b854e10e4fc3843017c7a264620bcfb2ace844ade15820e313e2a0faf737ab4",
+        "teacher_confidence": 1.0,
+        "teacher_confidence_milli": 1000,
+        "teacher_decision": "relevant",
+        "teacher_escalation_reason": null,
+        "teacher_generation_identity": "sha256:2767857f27a108bee26d88acb05597c2233500dd81e69c89ac621d423c4917d4",
+        "teacher_model_identity": "sha256:b3c8ba2bd9672b2ea652a92d1fd81c4c2f15db76c59a4ee5ff5fb90b72d94f62",
+        "teacher_operating_envelope_identity": "sha256:7a7248d840ac9b048935ebdb6b34e5188526f4dea78d850357ed122d18d78a7e",
+        "teacher_operations": 65,
+        "teacher_provider_identity": "mnel-bounded-recurrent-specialist/0.1"
+      },
+      {
+        "authority": "diagnostic-only",
+        "context_state_identity": "sha256:c1167d46dbfd0fe5957a883da1359643df58f8b53e220a037b85f78ac7aaf4e8",
+        "decision_identity": "sha256:a062ba82f43e1c40695e2f64bae45c60eefe3b440f944788c03cb35dcb45b689",
+        "independent_target": "relevant",
+        "independent_target_identity": "sha256:1d5b239f67df7678b3c311fdd8c61b2571ae3444a6d04609f0e0121b7ce3fdc3",
+        "observation_identity": "sha256:5a74d5dbdc9affc79ed6d35421f89c85e68bf1375339b6e30dd53ecf9f62c9c6",
+        "query_features": [
+          820,
+          760,
+          700,
+          800
+        ],
+        "reasoning_iterations": 4,
+        "schema": "mnel-distillation-record/0.1",
+        "semantics": "retained-teacher-observation; independently-targeted; not-a-verdict",
+        "snapshot_identity": "sha256:326f4f543e4ff49f8e00b8bda62af7b866cdc2fb0c2b5f134c702d655031dc2f",
+        "source_observation_identities": [
+          "sha256:326f4f543e4ff49f8e00b8bda62af7b866cdc2fb0c2b5f134c702d655031dc2f"
+        ],
+        "target_role": "forge.evidence-relevance",
+        "target_status": "verified",
+        "teacher_abstained": false,
+        "teacher_architecture_identity": "sha256:0b854e10e4fc3843017c7a264620bcfb2ace844ade15820e313e2a0faf737ab4",
+        "teacher_confidence": 1.0,
+        "teacher_confidence_milli": 1000,
+        "teacher_decision": "relevant",
+        "teacher_escalation_reason": null,
+        "teacher_generation_identity": "sha256:2767857f27a108bee26d88acb05597c2233500dd81e69c89ac621d423c4917d4",
+        "teacher_model_identity": "sha256:b3c8ba2bd9672b2ea652a92d1fd81c4c2f15db76c59a4ee5ff5fb90b72d94f62",
+        "teacher_operating_envelope_identity": "sha256:7a7248d840ac9b048935ebdb6b34e5188526f4dea78d850357ed122d18d78a7e",
+        "teacher_operations": 65,
+        "teacher_provider_identity": "mnel-bounded-recurrent-specialist/0.1"
+      },
+      {
+        "authority": "diagnostic-only",
+        "context_state_identity": "sha256:c1167d46dbfd0fe5957a883da1359643df58f8b53e220a037b85f78ac7aaf4e8",
+        "decision_identity": "sha256:e1f3597047706cc17a31f67a3da254ef90849ed36364e38d9dfb6d601b273a55",
+        "independent_target": "relevant",
+        "independent_target_identity": "sha256:51d1ad63fca894801e49a275dc72922c92993dcc72ca779cdc7aa54337b4e96d",
+        "observation_identity": "sha256:4241d223e76611c9ca974fc914ebb54124e335b00cf59fd9523a7b1894a088aa",
+        "query_features": [
+          760,
+          700,
+          660,
+          720
+        ],
+        "reasoning_iterations": 4,
+        "schema": "mnel-distillation-record/0.1",
+        "semantics": "retained-teacher-observation; independently-targeted; not-a-verdict",
+        "snapshot_identity": "sha256:0fb47451ee0e775dcd217a71623974f9bf9d2187d25d6dae7fe2c1aac10cc03e",
+        "source_observation_identities": [
+          "sha256:0fb47451ee0e775dcd217a71623974f9bf9d2187d25d6dae7fe2c1aac10cc03e"
+        ],
+        "target_role": "forge.evidence-relevance",
+        "target_status": "verified",
+        "teacher_abstained": false,
+        "teacher_architecture_identity": "sha256:0b854e10e4fc3843017c7a264620bcfb2ace844ade15820e313e2a0faf737ab4",
+        "teacher_confidence": 1.0,
+        "teacher_confidence_milli": 1000,
+        "teacher_decision": "relevant",
+        "teacher_escalation_reason": null,
+        "teacher_generation_identity": "sha256:2767857f27a108bee26d88acb05597c2233500dd81e69c89ac621d423c4917d4",
+        "teacher_model_identity": "sha256:b3c8ba2bd9672b2ea652a92d1fd81c4c2f15db76c59a4ee5ff5fb90b72d94f62",
+        "teacher_operating_envelope_identity": "sha256:7a7248d840ac9b048935ebdb6b34e5188526f4dea78d850357ed122d18d78a7e",
+        "teacher_operations": 65,
+        "teacher_provider_identity": "mnel-bounded-recurrent-specialist/0.1"
+      },
+      {
+        "authority": "diagnostic-only",
+        "context_state_identity": "sha256:c1167d46dbfd0fe5957a883da1359643df58f8b53e220a037b85f78ac7aaf4e8",
+        "decision_identity": "sha256:2f22f7030d0f61016109be48f2e6174e8ca629f4e6e946018c273ae1c3d9c3bd",
+        "independent_target": "relevant",
+        "independent_target_identity": "sha256:c6efb29f4ed2fa7c23f7075771855795fe10dc027e95fe6a7e9267458551da05",
+        "observation_identity": "sha256:96d35d6368875ab858973b959bddae3d655144a0e05831096865f79bb9b86a61",
+        "query_features": [
+          700,
+          740,
+          720,
+          760
+        ],
+        "reasoning_iterations": 4,
+        "schema": "mnel-distillation-record/0.1",
+        "semantics": "retained-teacher-observation; independently-targeted; not-a-verdict",
+        "snapshot_identity": "sha256:249da5b607a1307f45f891644f43fa640c33ac64b2225faa2d572e54f354a2a9",
+        "source_observation_identities": [
+          "sha256:249da5b607a1307f45f891644f43fa640c33ac64b2225faa2d572e54f354a2a9"
+        ],
+        "target_role": "forge.evidence-relevance",
+        "target_status": "verified",
+        "teacher_abstained": false,
+        "teacher_architecture_identity": "sha256:0b854e10e4fc3843017c7a264620bcfb2ace844ade15820e313e2a0faf737ab4",
+        "teacher_confidence": 1.0,
+        "teacher_confidence_milli": 1000,
+        "teacher_decision": "relevant",
+        "teacher_escalation_reason": null,
+        "teacher_generation_identity": "sha256:2767857f27a108bee26d88acb05597c2233500dd81e69c89ac621d423c4917d4",
+        "teacher_model_identity": "sha256:b3c8ba2bd9672b2ea652a92d1fd81c4c2f15db76c59a4ee5ff5fb90b72d94f62",
+        "teacher_operating_envelope_identity": "sha256:7a7248d840ac9b048935ebdb6b34e5188526f4dea78d850357ed122d18d78a7e",
+        "teacher_operations": 65,
+        "teacher_provider_identity": "mnel-bounded-recurrent-specialist/0.1"
+      },
+      {
+        "authority": "diagnostic-only",
+        "context_state_identity": "sha256:c1167d46dbfd0fe5957a883da1359643df58f8b53e220a037b85f78ac7aaf4e8",
+        "decision_identity": "sha256:8f153ac051b34ff023eaa24a47c1a6b8ea54462e906a8a2a9133fa68945718ac",
+        "independent_target": "irrelevant",
+        "independent_target_identity": "sha256:73ecb5fa044d13e6b9d53122398033e6457c5541d3b831c9a6b5c23f8e7902ae",
+        "observation_identity": "sha256:5c4743b99fd1e79eef773d1b826a3613fb9ca5c2e75499ce30eab6816a93702d",
+        "query_features": [
+          120,
+          180,
+          160,
+          100
+        ],
+        "reasoning_iterations": 4,
+        "schema": "mnel-distillation-record/0.1",
+        "semantics": "retained-teacher-observation; independently-targeted; not-a-verdict",
+        "snapshot_identity": "sha256:57d3bb4abc308769f4df3b821187b1caab26aaa998edfbf8a2c6dc8769005d0f",
+        "source_observation_identities": [
+          "sha256:57d3bb4abc308769f4df3b821187b1caab26aaa998edfbf8a2c6dc8769005d0f"
+        ],
+        "target_role": "forge.evidence-relevance",
+        "target_status": "verified",
+        "teacher_abstained": false,
+        "teacher_architecture_identity": "sha256:0b854e10e4fc3843017c7a264620bcfb2ace844ade15820e313e2a0faf737ab4",
+        "teacher_confidence": 1.0,
+        "teacher_confidence_milli": 1000,
+        "teacher_decision": "irrelevant",
+        "teacher_escalation_reason": null,
+        "teacher_generation_identity": "sha256:2767857f27a108bee26d88acb05597c2233500dd81e69c89ac621d423c4917d4",
+        "teacher_model_identity": "sha256:b3c8ba2bd9672b2ea652a92d1fd81c4c2f15db76c59a4ee5ff5fb90b72d94f62",
+        "teacher_operating_envelope_identity": "sha256:7a7248d840ac9b048935ebdb6b34e5188526f4dea78d850357ed122d18d78a7e",
+        "teacher_operations": 65,
+        "teacher_provider_identity": "mnel-bounded-recurrent-specialist/0.1"
+      },
+      {
+        "authority": "diagnostic-only",
+        "context_state_identity": "sha256:c1167d46dbfd0fe5957a883da1359643df58f8b53e220a037b85f78ac7aaf4e8",
+        "decision_identity": "sha256:86a705551ab186e86dbb0d6ff68ac025e220ca1c30f411eecd940da3e5235799",
+        "independent_target": "irrelevant",
+        "independent_target_identity": "sha256:19b7551f9a99dfc52d0a25c7cc501e92531c7c18e225d2d295eda7dac4c3a286",
+        "observation_identity": "sha256:2ba03c5c8b3c8eba9085e24a29c0266cf7193755d5aaf336a751584dc35c0944",
+        "query_features": [
+          220,
+          120,
+          180,
+          160
+        ],
+        "reasoning_iterations": 4,
+        "schema": "mnel-distillation-record/0.1",
+        "semantics": "retained-teacher-observation; independently-targeted; not-a-verdict",
+        "snapshot_identity": "sha256:c4de69391023c32c9b669ce58a22dae6096d17219312c601839142a32dc880ba",
+        "source_observation_identities": [
+          "sha256:c4de69391023c32c9b669ce58a22dae6096d17219312c601839142a32dc880ba"
+        ],
+        "target_role": "forge.evidence-relevance",
+        "target_status": "verified",
+        "teacher_abstained": false,
+        "teacher_architecture_identity": "sha256:0b854e10e4fc3843017c7a264620bcfb2ace844ade15820e313e2a0faf737ab4",
+        "teacher_confidence": 1.0,
+        "teacher_confidence_milli": 1000,
+        "teacher_decision": "irrelevant",
+        "teacher_escalation_reason": null,
+        "teacher_generation_identity": "sha256:2767857f27a108bee26d88acb05597c2233500dd81e69c89ac621d423c4917d4",
+        "teacher_model_identity": "sha256:b3c8ba2bd9672b2ea652a92d1fd81c4c2f15db76c59a4ee5ff5fb90b72d94f62",
+        "teacher_operating_envelope_identity": "sha256:7a7248d840ac9b048935ebdb6b34e5188526f4dea78d850357ed122d18d78a7e",
+        "teacher_operations": 65,
+        "teacher_provider_identity": "mnel-bounded-recurrent-specialist/0.1"
+      },
+      {
+        "authority": "diagnostic-only",
+        "context_state_identity": "sha256:c1167d46dbfd0fe5957a883da1359643df58f8b53e220a037b85f78ac7aaf4e8",
+        "decision_identity": "sha256:0a60c9fda1f3f62543d4956674078f2527163fe50e70a3c479483dd9b03e8845",
+        "independent_target": "irrelevant",
+        "independent_target_identity": "sha256:892fe78299e3d3ee47afd90446e9d0cb43b529b9047a6dd673d9dd21f28536a9",
+        "observation_identity": "sha256:2c8142f197514ba9fb6c922ec0c22cc6d14dbf7f12e54c9c79238feb08629d11",
+        "query_features": [
+          160,
+          220,
+          120,
+          180
+        ],
+        "reasoning_iterations": 4,
+        "schema": "mnel-distillation-record/0.1",
+        "semantics": "retained-teacher-observation; independently-targeted; not-a-verdict",
+        "snapshot_identity": "sha256:31f46b4a6417a9da7c9371a660bd26d61060ae1d808b5cdb1a23bcffdfd12444",
+        "source_observation_identities": [
+          "sha256:31f46b4a6417a9da7c9371a660bd26d61060ae1d808b5cdb1a23bcffdfd12444"
+        ],
+        "target_role": "forge.evidence-relevance",
+        "target_status": "verified",
+        "teacher_abstained": false,
+        "teacher_architecture_identity": "sha256:0b854e10e4fc3843017c7a264620bcfb2ace844ade15820e313e2a0faf737ab4",
+        "teacher_confidence": 1.0,
+        "teacher_confidence_milli": 1000,
+        "teacher_decision": "irrelevant",
+        "teacher_escalation_reason": null,
+        "teacher_generation_identity": "sha256:2767857f27a108bee26d88acb05597c2233500dd81e69c89ac621d423c4917d4",
+        "teacher_model_identity": "sha256:b3c8ba2bd9672b2ea652a92d1fd81c4c2f15db76c59a4ee5ff5fb90b72d94f62",
+        "teacher_operating_envelope_identity": "sha256:7a7248d840ac9b048935ebdb6b34e5188526f4dea78d850357ed122d18d78a7e",
+        "teacher_operations": 65,
+        "teacher_provider_identity": "mnel-bounded-recurrent-specialist/0.1"
+      },
+      {
+        "authority": "diagnostic-only",
+        "context_state_identity": "sha256:c1167d46dbfd0fe5957a883da1359643df58f8b53e220a037b85f78ac7aaf4e8",
+        "decision_identity": "sha256:93d1fccef9e0bcf0f0ed6df9fa599da822c117122c443b280f518df0098d71ba",
+        "independent_target": "irrelevant",
+        "independent_target_identity": "sha256:376012d09ee04d438d27ef4af37c1a0ff9ebb247932677bed8019ecc0660e4d3",
+        "observation_identity": "sha256:d655cc21314aa9387b5e4aaf16dbdf7df996b37b3c94d26571dc5be9ccece880",
+        "query_features": [
+          260,
+          180,
+          220,
+          200
+        ],
+        "reasoning_iterations": 4,
+        "schema": "mnel-distillation-record/0.1",
+        "semantics": "retained-teacher-observation; independently-targeted; not-a-verdict",
+        "snapshot_identity": "sha256:3f57dcdc34c198a49f583ca6d5d3866d8be59f7f846c20de18092fbd136be28c",
+        "source_observation_identities": [
+          "sha256:3f57dcdc34c198a49f583ca6d5d3866d8be59f7f846c20de18092fbd136be28c"
+        ],
+        "target_role": "forge.evidence-relevance",
+        "target_status": "verified",
+        "teacher_abstained": false,
+        "teacher_architecture_identity": "sha256:0b854e10e4fc3843017c7a264620bcfb2ace844ade15820e313e2a0faf737ab4",
+        "teacher_confidence": 1.0,
+        "teacher_confidence_milli": 1000,
+        "teacher_decision": "irrelevant",
+        "teacher_escalation_reason": null,
+        "teacher_generation_identity": "sha256:2767857f27a108bee26d88acb05597c2233500dd81e69c89ac621d423c4917d4",
+        "teacher_model_identity": "sha256:b3c8ba2bd9672b2ea652a92d1fd81c4c2f15db76c59a4ee5ff5fb90b72d94f62",
+        "teacher_operating_envelope_identity": "sha256:7a7248d840ac9b048935ebdb6b34e5188526f4dea78d850357ed122d18d78a7e",
+        "teacher_operations": 65,
+        "teacher_provider_identity": "mnel-bounded-recurrent-specialist/0.1"
+      },
+      {
+        "authority": "diagnostic-only",
+        "context_state_identity": "sha256:c1167d46dbfd0fe5957a883da1359643df58f8b53e220a037b85f78ac7aaf4e8",
+        "decision_identity": "sha256:65f72fde3014fbb6e47b3d2de1c285b4d036a2c6f922b9471d13f6e569649c51",
+        "independent_target": "irrelevant",
+        "independent_target_identity": "sha256:522facd6fcec510004975b9d49af6e34b9d85596d856fdeea8717b0230df65bf",
+        "observation_identity": "sha256:945b9c4c23775285ae76e24de93f4d00908d65195ccef4d61282dd24558d7234",
+        "query_features": [
+          900,
+          820,
+          760,
+          880
+        ],
+        "reasoning_iterations": 4,
+        "schema": "mnel-distillation-record/0.1",
+        "semantics": "retained-teacher-observation; independently-targeted; not-a-verdict",
+        "snapshot_identity": "sha256:f5fcc52f63a7244b93d76cf56c895224c813b7cea4580d4ca299562855ad2867",
+        "source_observation_identities": [
+          "sha256:f5fcc52f63a7244b93d76cf56c895224c813b7cea4580d4ca299562855ad2867"
+        ],
+        "target_role": "forge.evidence-relevance",
+        "target_status": "rejected-teacher-target",
+        "teacher_abstained": false,
+        "teacher_architecture_identity": "sha256:0b854e10e4fc3843017c7a264620bcfb2ace844ade15820e313e2a0faf737ab4",
+        "teacher_confidence": 1.0,
+        "teacher_confidence_milli": 1000,
+        "teacher_decision": "relevant",
+        "teacher_escalation_reason": null,
+        "teacher_generation_identity": "sha256:2767857f27a108bee26d88acb05597c2233500dd81e69c89ac621d423c4917d4",
+        "teacher_model_identity": "sha256:b3c8ba2bd9672b2ea652a92d1fd81c4c2f15db76c59a4ee5ff5fb90b72d94f62",
+        "teacher_operating_envelope_identity": "sha256:7a7248d840ac9b048935ebdb6b34e5188526f4dea78d850357ed122d18d78a7e",
+        "teacher_operations": 65,
+        "teacher_provider_identity": "mnel-bounded-recurrent-specialist/0.1"
+      },
+      {
+        "authority": "diagnostic-only",
+        "context_state_identity": "sha256:c1167d46dbfd0fe5957a883da1359643df58f8b53e220a037b85f78ac7aaf4e8",
+        "decision_identity": "sha256:fadda7542632f09b913a84bf4b7369f72228d074b08affc0da2fdfb8ed65f0bc",
+        "independent_target": null,
+        "independent_target_identity": null,
+        "observation_identity": "sha256:96b62faf7d9c6142ec7fafdae312d1fc36331e9c039ba4a979a78b303f14bf5c",
+        "query_features": [
+          640,
+          620,
+          600,
+          580
+        ],
+        "reasoning_iterations": 4,
+        "schema": "mnel-distillation-record/0.1",
+        "semantics": "retained-teacher-observation; independently-targeted; not-a-verdict",
+        "snapshot_identity": "sha256:e9653b762c5d2d74a65d64a108f4b874add839bf5db72a77407f9527a9d69a55",
+        "source_observation_identities": [
+          "sha256:e9653b762c5d2d74a65d64a108f4b874add839bf5db72a77407f9527a9d69a55"
+        ],
+        "target_role": "forge.evidence-relevance",
+        "target_status": "unknown",
+        "teacher_abstained": true,
+        "teacher_architecture_identity": "sha256:0b854e10e4fc3843017c7a264620bcfb2ace844ade15820e313e2a0faf737ab4",
+        "teacher_confidence": 1.0,
+        "teacher_confidence_milli": 1000,
+        "teacher_decision": "ABSTAIN",
+        "teacher_escalation_reason": "out-of-distribution-distance",
+        "teacher_generation_identity": "sha256:2767857f27a108bee26d88acb05597c2233500dd81e69c89ac621d423c4917d4",
+        "teacher_model_identity": "sha256:b3c8ba2bd9672b2ea652a92d1fd81c4c2f15db76c59a4ee5ff5fb90b72d94f62",
+        "teacher_operating_envelope_identity": "sha256:7a7248d840ac9b048935ebdb6b34e5188526f4dea78d850357ed122d18d78a7e",
+        "teacher_operations": 65,
+        "teacher_provider_identity": "mnel-bounded-recurrent-specialist/0.1"
+      },
+      {
+        "authority": "diagnostic-only",
+        "context_state_identity": "sha256:c1167d46dbfd0fe5957a883da1359643df58f8b53e220a037b85f78ac7aaf4e8",
+        "decision_identity": "sha256:c923379354c042d38f128a46affefd06f45033af1c22e4015b9c24ab52c70988",
+        "independent_target": "ABSTAIN",
+        "independent_target_identity": "sha256:08f6cfdfd4a287a9a3c37c7d2eeb5e0a8099a2705506b302619b3aa061b94a39",
+        "observation_identity": "sha256:de2f232c12960a19a533502991829b113ffcc52d9fa4e81d7f432d0398f11fb8",
+        "query_features": [
+          500,
+          500,
+          500,
+          500
+        ],
+        "reasoning_iterations": 4,
+        "schema": "mnel-distillation-record/0.1",
+        "semantics": "retained-teacher-observation; independently-targeted; not-a-verdict",
+        "snapshot_identity": "sha256:71c76f1756c96604c3e74b6c494922acb6089a17e47288258c44b55eaf34cd42",
+        "source_observation_identities": [
+          "sha256:71c76f1756c96604c3e74b6c494922acb6089a17e47288258c44b55eaf34cd42"
+        ],
+        "target_role": "forge.evidence-relevance",
+        "target_status": "abstention",
+        "teacher_abstained": true,
+        "teacher_architecture_identity": "sha256:0b854e10e4fc3843017c7a264620bcfb2ace844ade15820e313e2a0faf737ab4",
+        "teacher_confidence": 1.0,
+        "teacher_confidence_milli": 1000,
+        "teacher_decision": "ABSTAIN",
+        "teacher_escalation_reason": "out-of-distribution-distance",
+        "teacher_generation_identity": "sha256:2767857f27a108bee26d88acb05597c2233500dd81e69c89ac621d423c4917d4",
+        "teacher_model_identity": "sha256:b3c8ba2bd9672b2ea652a92d1fd81c4c2f15db76c59a4ee5ff5fb90b72d94f62",
+        "teacher_operating_envelope_identity": "sha256:7a7248d840ac9b048935ebdb6b34e5188526f4dea78d850357ed122d18d78a7e",
+        "teacher_operations": 65,
+        "teacher_provider_identity": "mnel-bounded-recurrent-specialist/0.1"
+      }
+    ],
+    "schema": "mnel-distillation-dataset/0.1",
+    "semantics": "source-preserving-distillation-dataset; verified-target-filtered; not-a-verdict",
+    "target_role": "forge.evidence-relevance",
+    "teacher_architecture_identity": "sha256:0b854e10e4fc3843017c7a264620bcfb2ace844ade15820e313e2a0faf737ab4",
+    "teacher_generation_identity": "sha256:2767857f27a108bee26d88acb05597c2233500dd81e69c89ac621d423c4917d4",
+    "teacher_model_identity": "sha256:b3c8ba2bd9672b2ea652a92d1fd81c4c2f15db76c59a4ee5ff5fb90b72d94f62",
+    "teacher_operating_envelope_identity": "sha256:7a7248d840ac9b048935ebdb6b34e5188526f4dea78d850357ed122d18d78a7e",
+    "teacher_provider_identity": "mnel-bounded-recurrent-specialist/0.1",
+    "training_observation_identities": [
+      "sha256:76610ac42c04b5a73e190f5f8942388587ca5cc7155441b35b5276137262ecd2",
+      "sha256:5a74d5dbdc9affc79ed6d35421f89c85e68bf1375339b6e30dd53ecf9f62c9c6",
+      "sha256:4241d223e76611c9ca974fc914ebb54124e335b00cf59fd9523a7b1894a088aa",
+      "sha256:96d35d6368875ab858973b959bddae3d655144a0e05831096865f79bb9b86a61",
+      "sha256:5c4743b99fd1e79eef773d1b826a3613fb9ca5c2e75499ce30eab6816a93702d",
+      "sha256:2ba03c5c8b3c8eba9085e24a29c0266cf7193755d5aaf336a751584dc35c0944",
+      "sha256:2c8142f197514ba9fb6c922ec0c22cc6d14dbf7f12e54c9c79238feb08629d11",
+      "sha256:d655cc21314aa9387b5e4aaf16dbdf7df996b37b3c94d26571dc5be9ccece880"
+    ],
+    "training_targets": [
+      {
+        "features": [
+          900,
+          820,
+          760,
+          880
+        ],
+        "independent_target": "relevant",
+        "observation_identity": "sha256:76610ac42c04b5a73e190f5f8942388587ca5cc7155441b35b5276137262ecd2",
+        "target_construction": "teacher-decision-and-confidence",
+        "target_distribution": [
+          0.0,
+          1.0
+        ],
+        "teacher_confidence_milli": 1000,
+        "teacher_target": "relevant"
+      },
+      {
+        "features": [
+          820,
+          760,
+          700,
+          800
+        ],
+        "independent_target": "relevant",
+        "observation_identity": "sha256:5a74d5dbdc9affc79ed6d35421f89c85e68bf1375339b6e30dd53ecf9f62c9c6",
+        "target_construction": "teacher-decision-and-confidence",
+        "target_distribution": [
+          0.0,
+          1.0
+        ],
+        "teacher_confidence_milli": 1000,
+        "teacher_target": "relevant"
+      },
+      {
+        "features": [
+          760,
+          700,
+          660,
+          720
+        ],
+        "independent_target": "relevant",
+        "observation_identity": "sha256:4241d223e76611c9ca974fc914ebb54124e335b00cf59fd9523a7b1894a088aa",
+        "target_construction": "teacher-decision-and-confidence",
+        "target_distribution": [
+          0.0,
+          1.0
+        ],
+        "teacher_confidence_milli": 1000,
+        "teacher_target": "relevant"
+      },
+      {
+        "features": [
+          700,
+          740,
+          720,
+          760
+        ],
+        "independent_target": "relevant",
+        "observation_identity": "sha256:96d35d6368875ab858973b959bddae3d655144a0e05831096865f79bb9b86a61",
+        "target_construction": "teacher-decision-and-confidence",
+        "target_distribution": [
+          0.0,
+          1.0
+        ],
+        "teacher_confidence_milli": 1000,
+        "teacher_target": "relevant"
+      },
+      {
+        "features": [
+          120,
+          180,
+          160,
+          100
+        ],
+        "independent_target": "irrelevant",
+        "observation_identity": "sha256:5c4743b99fd1e79eef773d1b826a3613fb9ca5c2e75499ce30eab6816a93702d",
+        "target_construction": "teacher-decision-and-confidence",
+        "target_distribution": [
+          1.0,
+          0.0
+        ],
+        "teacher_confidence_milli": 1000,
+        "teacher_target": "irrelevant"
+      },
+      {
+        "features": [
+          220,
+          120,
+          180,
+          160
+        ],
+        "independent_target": "irrelevant",
+        "observation_identity": "sha256:2ba03c5c8b3c8eba9085e24a29c0266cf7193755d5aaf336a751584dc35c0944",
+        "target_construction": "teacher-decision-and-confidence",
+        "target_distribution": [
+          1.0,
+          0.0
+        ],
+        "teacher_confidence_milli": 1000,
+        "teacher_target": "irrelevant"
+      },
+      {
+        "features": [
+          160,
+          220,
+          120,
+          180
+        ],
+        "independent_target": "irrelevant",
+        "observation_identity": "sha256:2c8142f197514ba9fb6c922ec0c22cc6d14dbf7f12e54c9c79238feb08629d11",
+        "target_construction": "teacher-decision-and-confidence",
+        "target_distribution": [
+          1.0,
+          0.0
+        ],
+        "teacher_confidence_milli": 1000,
+        "teacher_target": "irrelevant"
+      },
+      {
+        "features": [
+          260,
+          180,
+          220,
+          200
+        ],
+        "independent_target": "irrelevant",
+        "observation_identity": "sha256:d655cc21314aa9387b5e4aaf16dbdf7df996b37b3c94d26571dc5be9ccece880",
+        "target_construction": "teacher-decision-and-confidence",
+        "target_distribution": [
+          1.0,
+          0.0
+        ],
+        "teacher_confidence_milli": 1000,
+        "teacher_target": "irrelevant"
+      }
+    ],
+    "transform_identity": "sha256:842b068521daf45287696bd770f5479c163126e0b13fa154717f75ebf21dfa2b"
+  },
+  "records": [
+    {
+      "authority": "diagnostic-only",
+      "context_state_identity": "sha256:c1167d46dbfd0fe5957a883da1359643df58f8b53e220a037b85f78ac7aaf4e8",
+      "decision_identity": "sha256:e18ebe977e94b354a2ce332e44fc6ff26233e8c2fdfd10146045f3799dd6e502",
+      "independent_target": "relevant",
+      "independent_target_identity": "sha256:26f920a30f9a5ff32cd2ec0f542087f92b41e5457de52024f028a93f0cba9153",
+      "observation_identity": "sha256:76610ac42c04b5a73e190f5f8942388587ca5cc7155441b35b5276137262ecd2",
+      "query_features": [
+        900,
+        820,
+        760,
+        880
+      ],
+      "reasoning_iterations": 4,
+      "schema": "mnel-distillation-record/0.1",
+      "semantics": "retained-teacher-observation; independently-targeted; not-a-verdict",
+      "snapshot_identity": "sha256:92c3c6414174102bf9054372a336a2d91124808a490dabecb4d92857e04e1205",
+      "source_observation_identities": [
+        "sha256:92c3c6414174102bf9054372a336a2d91124808a490dabecb4d92857e04e1205"
+      ],
+      "target_role": "forge.evidence-relevance",
+      "target_status": "verified",
+      "teacher_abstained": false,
+      "teacher_architecture_identity": "sha256:0b854e10e4fc3843017c7a264620bcfb2ace844ade15820e313e2a0faf737ab4",
+      "teacher_confidence": 1.0,
+      "teacher_confidence_milli": 1000,
+      "teacher_decision": "relevant",
+      "teacher_escalation_reason": null,
+      "teacher_generation_identity": "sha256:2767857f27a108bee26d88acb05597c2233500dd81e69c89ac621d423c4917d4",
+      "teacher_model_identity": "sha256:b3c8ba2bd9672b2ea652a92d1fd81c4c2f15db76c59a4ee5ff5fb90b72d94f62",
+      "teacher_operating_envelope_identity": "sha256:7a7248d840ac9b048935ebdb6b34e5188526f4dea78d850357ed122d18d78a7e",
+      "teacher_operations": 65,
+      "teacher_provider_identity": "mnel-bounded-recurrent-specialist/0.1"
+    },
+    {
+      "authority": "diagnostic-only",
+      "context_state_identity": "sha256:c1167d46dbfd0fe5957a883da1359643df58f8b53e220a037b85f78ac7aaf4e8",
+      "decision_identity": "sha256:a062ba82f43e1c40695e2f64bae45c60eefe3b440f944788c03cb35dcb45b689",
+      "independent_target": "relevant",
+      "independent_target_identity": "sha256:1d5b239f67df7678b3c311fdd8c61b2571ae3444a6d04609f0e0121b7ce3fdc3",
+      "observation_identity": "sha256:5a74d5dbdc9affc79ed6d35421f89c85e68bf1375339b6e30dd53ecf9f62c9c6",
+      "query_features": [
+        820,
+        760,
+        700,
+        800
+      ],
+      "reasoning_iterations": 4,
+      "schema": "mnel-distillation-record/0.1",
+      "semantics": "retained-teacher-observation; independently-targeted; not-a-verdict",
+      "snapshot_identity": "sha256:326f4f543e4ff49f8e00b8bda62af7b866cdc2fb0c2b5f134c702d655031dc2f",
+      "source_observation_identities": [
+        "sha256:326f4f543e4ff49f8e00b8bda62af7b866cdc2fb0c2b5f134c702d655031dc2f"
+      ],
+      "target_role": "forge.evidence-relevance",
+      "target_status": "verified",
+      "teacher_abstained": false,
+      "teacher_architecture_identity": "sha256:0b854e10e4fc3843017c7a264620bcfb2ace844ade15820e313e2a0faf737ab4",
+      "teacher_confidence": 1.0,
+      "teacher_confidence_milli": 1000,
+      "teacher_decision": "relevant",
+      "teacher_escalation_reason": null,
+      "teacher_generation_identity": "sha256:2767857f27a108bee26d88acb05597c2233500dd81e69c89ac621d423c4917d4",
+      "teacher_model_identity": "sha256:b3c8ba2bd9672b2ea652a92d1fd81c4c2f15db76c59a4ee5ff5fb90b72d94f62",
+      "teacher_operating_envelope_identity": "sha256:7a7248d840ac9b048935ebdb6b34e5188526f4dea78d850357ed122d18d78a7e",
+      "teacher_operations": 65,
+      "teacher_provider_identity": "mnel-bounded-recurrent-specialist/0.1"
+    },
+    {
+      "authority": "diagnostic-only",
+      "context_state_identity": "sha256:c1167d46dbfd0fe5957a883da1359643df58f8b53e220a037b85f78ac7aaf4e8",
+      "decision_identity": "sha256:e1f3597047706cc17a31f67a3da254ef90849ed36364e38d9dfb6d601b273a55",
+      "independent_target": "relevant",
+      "independent_target_identity": "sha256:51d1ad63fca894801e49a275dc72922c92993dcc72ca779cdc7aa54337b4e96d",
+      "observation_identity": "sha256:4241d223e76611c9ca974fc914ebb54124e335b00cf59fd9523a7b1894a088aa",
+      "query_features": [
+        760,
+        700,
+        660,
+        720
+      ],
+      "reasoning_iterations": 4,
+      "schema": "mnel-distillation-record/0.1",
+      "semantics": "retained-teacher-observation; independently-targeted; not-a-verdict",
+      "snapshot_identity": "sha256:0fb47451ee0e775dcd217a71623974f9bf9d2187d25d6dae7fe2c1aac10cc03e",
+      "source_observation_identities": [
+        "sha256:0fb47451ee0e775dcd217a71623974f9bf9d2187d25d6dae7fe2c1aac10cc03e"
+      ],
+      "target_role": "forge.evidence-relevance",
+      "target_status": "verified",
+      "teacher_abstained": false,
+      "teacher_architecture_identity": "sha256:0b854e10e4fc3843017c7a264620bcfb2ace844ade15820e313e2a0faf737ab4",
+      "teacher_confidence": 1.0,
+      "teacher_confidence_milli": 1000,
+      "teacher_decision": "relevant",
+      "teacher_escalation_reason": null,
+      "teacher_generation_identity": "sha256:2767857f27a108bee26d88acb05597c2233500dd81e69c89ac621d423c4917d4",
+      "teacher_model_identity": "sha256:b3c8ba2bd9672b2ea652a92d1fd81c4c2f15db76c59a4ee5ff5fb90b72d94f62",
+      "teacher_operating_envelope_identity": "sha256:7a7248d840ac9b048935ebdb6b34e5188526f4dea78d850357ed122d18d78a7e",
+      "teacher_operations": 65,
+      "teacher_provider_identity": "mnel-bounded-recurrent-specialist/0.1"
+    },
+    {
+      "authority": "diagnostic-only",
+      "context_state_identity": "sha256:c1167d46dbfd0fe5957a883da1359643df58f8b53e220a037b85f78ac7aaf4e8",
+      "decision_identity": "sha256:2f22f7030d0f61016109be48f2e6174e8ca629f4e6e946018c273ae1c3d9c3bd",
+      "independent_target": "relevant",
+      "independent_target_identity": "sha256:c6efb29f4ed2fa7c23f7075771855795fe10dc027e95fe6a7e9267458551da05",
+      "observation_identity": "sha256:96d35d6368875ab858973b959bddae3d655144a0e05831096865f79bb9b86a61",
+      "query_features": [
+        700,
+        740,
+        720,
+        760
+      ],
+      "reasoning_iterations": 4,
+      "schema": "mnel-distillation-record/0.1",
+      "semantics": "retained-teacher-observation; independently-targeted; not-a-verdict",
+      "snapshot_identity": "sha256:249da5b607a1307f45f891644f43fa640c33ac64b2225faa2d572e54f354a2a9",
+      "source_observation_identities": [
+        "sha256:249da5b607a1307f45f891644f43fa640c33ac64b2225faa2d572e54f354a2a9"
+      ],
+      "target_role": "forge.evidence-relevance",
+      "target_status": "verified",
+      "teacher_abstained": false,
+      "teacher_architecture_identity": "sha256:0b854e10e4fc3843017c7a264620bcfb2ace844ade15820e313e2a0faf737ab4",
+      "teacher_confidence": 1.0,
+      "teacher_confidence_milli": 1000,
+      "teacher_decision": "relevant",
+      "teacher_escalation_reason": null,
+      "teacher_generation_identity": "sha256:2767857f27a108bee26d88acb05597c2233500dd81e69c89ac621d423c4917d4",
+      "teacher_model_identity": "sha256:b3c8ba2bd9672b2ea652a92d1fd81c4c2f15db76c59a4ee5ff5fb90b72d94f62",
+      "teacher_operating_envelope_identity": "sha256:7a7248d840ac9b048935ebdb6b34e5188526f4dea78d850357ed122d18d78a7e",
+      "teacher_operations": 65,
+      "teacher_provider_identity": "mnel-bounded-recurrent-specialist/0.1"
+    },
+    {
+      "authority": "diagnostic-only",
+      "context_state_identity": "sha256:c1167d46dbfd0fe5957a883da1359643df58f8b53e220a037b85f78ac7aaf4e8",
+      "decision_identity": "sha256:8f153ac051b34ff023eaa24a47c1a6b8ea54462e906a8a2a9133fa68945718ac",
+      "independent_target": "irrelevant",
+      "independent_target_identity": "sha256:73ecb5fa044d13e6b9d53122398033e6457c5541d3b831c9a6b5c23f8e7902ae",
+      "observation_identity": "sha256:5c4743b99fd1e79eef773d1b826a3613fb9ca5c2e75499ce30eab6816a93702d",
+      "query_features": [
+        120,
+        180,
+        160,
+        100
+      ],
+      "reasoning_iterations": 4,
+      "schema": "mnel-distillation-record/0.1",
+      "semantics": "retained-teacher-observation; independently-targeted; not-a-verdict",
+      "snapshot_identity": "sha256:57d3bb4abc308769f4df3b821187b1caab26aaa998edfbf8a2c6dc8769005d0f",
+      "source_observation_identities": [
+        "sha256:57d3bb4abc308769f4df3b821187b1caab26aaa998edfbf8a2c6dc8769005d0f"
+      ],
+      "target_role": "forge.evidence-relevance",
+      "target_status": "verified",
+      "teacher_abstained": false,
+      "teacher_architecture_identity": "sha256:0b854e10e4fc3843017c7a264620bcfb2ace844ade15820e313e2a0faf737ab4",
+      "teacher_confidence": 1.0,
+      "teacher_confidence_milli": 1000,
+      "teacher_decision": "irrelevant",
+      "teacher_escalation_reason": null,
+      "teacher_generation_identity": "sha256:2767857f27a108bee26d88acb05597c2233500dd81e69c89ac621d423c4917d4",
+      "teacher_model_identity": "sha256:b3c8ba2bd9672b2ea652a92d1fd81c4c2f15db76c59a4ee5ff5fb90b72d94f62",
+      "teacher_operating_envelope_identity": "sha256:7a7248d840ac9b048935ebdb6b34e5188526f4dea78d850357ed122d18d78a7e",
+      "teacher_operations": 65,
+      "teacher_provider_identity": "mnel-bounded-recurrent-specialist/0.1"
+    },
+    {
+      "authority": "diagnostic-only",
+      "context_state_identity": "sha256:c1167d46dbfd0fe5957a883da1359643df58f8b53e220a037b85f78ac7aaf4e8",
+      "decision_identity": "sha256:86a705551ab186e86dbb0d6ff68ac025e220ca1c30f411eecd940da3e5235799",
+      "independent_target": "irrelevant",
+      "independent_target_identity": "sha256:19b7551f9a99dfc52d0a25c7cc501e92531c7c18e225d2d295eda7dac4c3a286",
+      "observation_identity": "sha256:2ba03c5c8b3c8eba9085e24a29c0266cf7193755d5aaf336a751584dc35c0944",
+      "query_features": [
+        220,
+        120,
+        180,
+        160
+      ],
+      "reasoning_iterations": 4,
+      "schema": "mnel-distillation-record/0.1",
+      "semantics": "retained-teacher-observation; independently-targeted; not-a-verdict",
+      "snapshot_identity": "sha256:c4de69391023c32c9b669ce58a22dae6096d17219312c601839142a32dc880ba",
+      "source_observation_identities": [
+        "sha256:c4de69391023c32c9b669ce58a22dae6096d17219312c601839142a32dc880ba"
+      ],
+      "target_role": "forge.evidence-relevance",
+      "target_status": "verified",
+      "teacher_abstained": false,
+      "teacher_architecture_identity": "sha256:0b854e10e4fc3843017c7a264620bcfb2ace844ade15820e313e2a0faf737ab4",
+      "teacher_confidence": 1.0,
+      "teacher_confidence_milli": 1000,
+      "teacher_decision": "irrelevant",
+      "teacher_escalation_reason": null,
+      "teacher_generation_identity": "sha256:2767857f27a108bee26d88acb05597c2233500dd81e69c89ac621d423c4917d4",
+      "teacher_model_identity": "sha256:b3c8ba2bd9672b2ea652a92d1fd81c4c2f15db76c59a4ee5ff5fb90b72d94f62",
+      "teacher_operating_envelope_identity": "sha256:7a7248d840ac9b048935ebdb6b34e5188526f4dea78d850357ed122d18d78a7e",
+      "teacher_operations": 65,
+      "teacher_provider_identity": "mnel-bounded-recurrent-specialist/0.1"
+    },
+    {
+      "authority": "diagnostic-only",
+      "context_state_identity": "sha256:c1167d46dbfd0fe5957a883da1359643df58f8b53e220a037b85f78ac7aaf4e8",
+      "decision_identity": "sha256:0a60c9fda1f3f62543d4956674078f2527163fe50e70a3c479483dd9b03e8845",
+      "independent_target": "irrelevant",
+      "independent_target_identity": "sha256:892fe78299e3d3ee47afd90446e9d0cb43b529b9047a6dd673d9dd21f28536a9",
+      "observation_identity": "sha256:2c8142f197514ba9fb6c922ec0c22cc6d14dbf7f12e54c9c79238feb08629d11",
+      "query_features": [
+        160,
+        220,
+        120,
+        180
+      ],
+      "reasoning_iterations": 4,
+      "schema": "mnel-distillation-record/0.1",
+      "semantics": "retained-teacher-observation; independently-targeted; not-a-verdict",
+      "snapshot_identity": "sha256:31f46b4a6417a9da7c9371a660bd26d61060ae1d808b5cdb1a23bcffdfd12444",
+      "source_observation_identities": [
+        "sha256:31f46b4a6417a9da7c9371a660bd26d61060ae1d808b5cdb1a23bcffdfd12444"
+      ],
+      "target_role": "forge.evidence-relevance",
+      "target_status": "verified",
+      "teacher_abstained": false,
+      "teacher_architecture_identity": "sha256:0b854e10e4fc3843017c7a264620bcfb2ace844ade15820e313e2a0faf737ab4",
+      "teacher_confidence": 1.0,
+      "teacher_confidence_milli": 1000,
+      "teacher_decision": "irrelevant",
+      "teacher_escalation_reason": null,
+      "teacher_generation_identity": "sha256:2767857f27a108bee26d88acb05597c2233500dd81e69c89ac621d423c4917d4",
+      "teacher_model_identity": "sha256:b3c8ba2bd9672b2ea652a92d1fd81c4c2f15db76c59a4ee5ff5fb90b72d94f62",
+      "teacher_operating_envelope_identity": "sha256:7a7248d840ac9b048935ebdb6b34e5188526f4dea78d850357ed122d18d78a7e",
+      "teacher_operations": 65,
+      "teacher_provider_identity": "mnel-bounded-recurrent-specialist/0.1"
+    },
+    {
+      "authority": "diagnostic-only",
+      "context_state_identity": "sha256:c1167d46dbfd0fe5957a883da1359643df58f8b53e220a037b85f78ac7aaf4e8",
+      "decision_identity": "sha256:93d1fccef9e0bcf0f0ed6df9fa599da822c117122c443b280f518df0098d71ba",
+      "independent_target": "irrelevant",
+      "independent_target_identity": "sha256:376012d09ee04d438d27ef4af37c1a0ff9ebb247932677bed8019ecc0660e4d3",
+      "observation_identity": "sha256:d655cc21314aa9387b5e4aaf16dbdf7df996b37b3c94d26571dc5be9ccece880",
+      "query_features": [
+        260,
+        180,
+        220,
+        200
+      ],
+      "reasoning_iterations": 4,
+      "schema": "mnel-distillation-record/0.1",
+      "semantics": "retained-teacher-observation; independently-targeted; not-a-verdict",
+      "snapshot_identity": "sha256:3f57dcdc34c198a49f583ca6d5d3866d8be59f7f846c20de18092fbd136be28c",
+      "source_observation_identities": [
+        "sha256:3f57dcdc34c198a49f583ca6d5d3866d8be59f7f846c20de18092fbd136be28c"
+      ],
+      "target_role": "forge.evidence-relevance",
+      "target_status": "verified",
+      "teacher_abstained": false,
+      "teacher_architecture_identity": "sha256:0b854e10e4fc3843017c7a264620bcfb2ace844ade15820e313e2a0faf737ab4",
+      "teacher_confidence": 1.0,
+      "teacher_confidence_milli": 1000,
+      "teacher_decision": "irrelevant",
+      "teacher_escalation_reason": null,
+      "teacher_generation_identity": "sha256:2767857f27a108bee26d88acb05597c2233500dd81e69c89ac621d423c4917d4",
+      "teacher_model_identity": "sha256:b3c8ba2bd9672b2ea652a92d1fd81c4c2f15db76c59a4ee5ff5fb90b72d94f62",
+      "teacher_operating_envelope_identity": "sha256:7a7248d840ac9b048935ebdb6b34e5188526f4dea78d850357ed122d18d78a7e",
+      "teacher_operations": 65,
+      "teacher_provider_identity": "mnel-bounded-recurrent-specialist/0.1"
+    },
+    {
+      "authority": "diagnostic-only",
+      "context_state_identity": "sha256:c1167d46dbfd0fe5957a883da1359643df58f8b53e220a037b85f78ac7aaf4e8",
+      "decision_identity": "sha256:65f72fde3014fbb6e47b3d2de1c285b4d036a2c6f922b9471d13f6e569649c51",
+      "independent_target": "irrelevant",
+      "independent_target_identity": "sha256:522facd6fcec510004975b9d49af6e34b9d85596d856fdeea8717b0230df65bf",
+      "observation_identity": "sha256:945b9c4c23775285ae76e24de93f4d00908d65195ccef4d61282dd24558d7234",
+      "query_features": [
+        900,
+        820,
+        760,
+        880
+      ],
+      "reasoning_iterations": 4,
+      "schema": "mnel-distillation-record/0.1",
+      "semantics": "retained-teacher-observation; independently-targeted; not-a-verdict",
+      "snapshot_identity": "sha256:f5fcc52f63a7244b93d76cf56c895224c813b7cea4580d4ca299562855ad2867",
+      "source_observation_identities": [
+        "sha256:f5fcc52f63a7244b93d76cf56c895224c813b7cea4580d4ca299562855ad2867"
+      ],
+      "target_role": "forge.evidence-relevance",
+      "target_status": "rejected-teacher-target",
+      "teacher_abstained": false,
+      "teacher_architecture_identity": "sha256:0b854e10e4fc3843017c7a264620bcfb2ace844ade15820e313e2a0faf737ab4",
+      "teacher_confidence": 1.0,
+      "teacher_confidence_milli": 1000,
+      "teacher_decision": "relevant",
+      "teacher_escalation_reason": null,
+      "teacher_generation_identity": "sha256:2767857f27a108bee26d88acb05597c2233500dd81e69c89ac621d423c4917d4",
+      "teacher_model_identity": "sha256:b3c8ba2bd9672b2ea652a92d1fd81c4c2f15db76c59a4ee5ff5fb90b72d94f62",
+      "teacher_operating_envelope_identity": "sha256:7a7248d840ac9b048935ebdb6b34e5188526f4dea78d850357ed122d18d78a7e",
+      "teacher_operations": 65,
+      "teacher_provider_identity": "mnel-bounded-recurrent-specialist/0.1"
+    },
+    {
+      "authority": "diagnostic-only",
+      "context_state_identity": "sha256:c1167d46dbfd0fe5957a883da1359643df58f8b53e220a037b85f78ac7aaf4e8",
+      "decision_identity": "sha256:fadda7542632f09b913a84bf4b7369f72228d074b08affc0da2fdfb8ed65f0bc",
+      "independent_target": null,
+      "independent_target_identity": null,
+      "observation_identity": "sha256:96b62faf7d9c6142ec7fafdae312d1fc36331e9c039ba4a979a78b303f14bf5c",
+      "query_features": [
+        640,
+        620,
+        600,
+        580
+      ],
+      "reasoning_iterations": 4,
+      "schema": "mnel-distillation-record/0.1",
+      "semantics": "retained-teacher-observation; independently-targeted; not-a-verdict",
+      "snapshot_identity": "sha256:e9653b762c5d2d74a65d64a108f4b874add839bf5db72a77407f9527a9d69a55",
+      "source_observation_identities": [
+        "sha256:e9653b762c5d2d74a65d64a108f4b874add839bf5db72a77407f9527a9d69a55"
+      ],
+      "target_role": "forge.evidence-relevance",
+      "target_status": "unknown",
+      "teacher_abstained": true,
+      "teacher_architecture_identity": "sha256:0b854e10e4fc3843017c7a264620bcfb2ace844ade15820e313e2a0faf737ab4",
+      "teacher_confidence": 1.0,
+      "teacher_confidence_milli": 1000,
+      "teacher_decision": "ABSTAIN",
+      "teacher_escalation_reason": "out-of-distribution-distance",
+      "teacher_generation_identity": "sha256:2767857f27a108bee26d88acb05597c2233500dd81e69c89ac621d423c4917d4",
+      "teacher_model_identity": "sha256:b3c8ba2bd9672b2ea652a92d1fd81c4c2f15db76c59a4ee5ff5fb90b72d94f62",
+      "teacher_operating_envelope_identity": "sha256:7a7248d840ac9b048935ebdb6b34e5188526f4dea78d850357ed122d18d78a7e",
+      "teacher_operations": 65,
+      "teacher_provider_identity": "mnel-bounded-recurrent-specialist/0.1"
+    },
+    {
+      "authority": "diagnostic-only",
+      "context_state_identity": "sha256:c1167d46dbfd0fe5957a883da1359643df58f8b53e220a037b85f78ac7aaf4e8",
+      "decision_identity": "sha256:c923379354c042d38f128a46affefd06f45033af1c22e4015b9c24ab52c70988",
+      "independent_target": "ABSTAIN",
+      "independent_target_identity": "sha256:08f6cfdfd4a287a9a3c37c7d2eeb5e0a8099a2705506b302619b3aa061b94a39",
+      "observation_identity": "sha256:de2f232c12960a19a533502991829b113ffcc52d9fa4e81d7f432d0398f11fb8",
+      "query_features": [
+        500,
+        500,
+        500,
+        500
+      ],
+      "reasoning_iterations": 4,
+      "schema": "mnel-distillation-record/0.1",
+      "semantics": "retained-teacher-observation; independently-targeted; not-a-verdict",
+      "snapshot_identity": "sha256:71c76f1756c96604c3e74b6c494922acb6089a17e47288258c44b55eaf34cd42",
+      "source_observation_identities": [
+        "sha256:71c76f1756c96604c3e74b6c494922acb6089a17e47288258c44b55eaf34cd42"
+      ],
+      "target_role": "forge.evidence-relevance",
+      "target_status": "abstention",
+      "teacher_abstained": true,
+      "teacher_architecture_identity": "sha256:0b854e10e4fc3843017c7a264620bcfb2ace844ade15820e313e2a0faf737ab4",
+      "teacher_confidence": 1.0,
+      "teacher_confidence_milli": 1000,
+      "teacher_decision": "ABSTAIN",
+      "teacher_escalation_reason": "out-of-distribution-distance",
+      "teacher_generation_identity": "sha256:2767857f27a108bee26d88acb05597c2233500dd81e69c89ac621d423c4917d4",
+      "teacher_model_identity": "sha256:b3c8ba2bd9672b2ea652a92d1fd81c4c2f15db76c59a4ee5ff5fb90b72d94f62",
+      "teacher_operating_envelope_identity": "sha256:7a7248d840ac9b048935ebdb6b34e5188526f4dea78d850357ed122d18d78a7e",
+      "teacher_operations": 65,
+      "teacher_provider_identity": "mnel-bounded-recurrent-specialist/0.1"
+    }
+  ],
+  "schema": "mnel-distillation-record-set/0.1",
+  "semantics": "retained-teacher-observations-and-target-construction; not-a-verdict"
+}

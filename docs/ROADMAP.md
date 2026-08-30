@@ -74,6 +74,11 @@
   measurements, and diagnostic-only evidence ledgers;
 - **Implemented:** provider candidate/admission, transfer-pending, quarantine, retirement,
   and rollback records with explicit evidence checklists;
+- **Implemented:** first executable one-step distilled specialist reference for the
+  Forge evidence-relevance role, including retained recurrent teacher observations,
+  independently checked target status, a tiny reloadable affine/tanh student,
+  no-distillation control, calibrated/OOD abstention, explicit teacher fallback, and
+  measured reference comparisons. This remains diagnostic-only and experimental.
 - **Started:** broader provider portfolios and native export of Python-trained artifacts;
 - **Implemented:** a bounded Rust parser/reference inference surface for the existing
   transition-frequency artifact, with checked-in Python/Rust identity and score-equivalence
