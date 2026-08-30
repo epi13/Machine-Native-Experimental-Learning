@@ -16,14 +16,12 @@
  },
  "mncs_side": {
   "source": "mncs/source/mnel/all.mncs",
-  "source_sha256": "0e5b61440462ad287a0821ef14adf40b74ee519d9eede37fd4a0c905c328f2e0",
+  "source_sha256": "7116d4391e82d437d5e00c42307f2493181aeef1d5db77826fd7eb9db7eb68a0",
   "module": "mnel.all",
-  "language_profile": "0.8",
+  "language_profile": "0.6",
   "standard_library_bindings": [
    "mncs.core.status.v1",
-   "mncs.core.logic.v1",
-   "mncs.core.random.v1",
-   "mncs.core.numeric.v1"
+   "mncs.core.logic.v1"
   ],
   "library_path": "/home/epi13/Documents/Projects/mncs-language/library"
  },
@@ -32,10 +30,10 @@
    "backend": "mncs-research-bytecode",
    "outcome": "corpus-executed",
    "summary": {
-    "exit_code": 0,
+    "exit_code": 1,
     "cases_total": 172,
-    "cases_met": 172,
-    "experiment_status": "UNKNOWN",
+    "cases_met": 167,
+    "experiment_status": "FAIL",
     "unresolved_reasons": [
      "compilation retained required unresolved obligations"
     ]
@@ -43,20 +41,52 @@
   },
   {
    "backend": "mncs-portable-wasm-mvp",
-   "outcome": "corpus-executed",
+   "outcome": "backend-refused-out-of-envelope",
    "summary": {
-    "exit_code": 0,
-    "cases_total": 172,
-    "cases_met": 172,
-    "experiment_status": "UNKNOWN",
-    "unresolved_reasons": [
-     "compilation retained required unresolved obligations"
-    ]
-   }
+    "exit_code": 1,
+    "compilation_status": "completed_with_unresolved_obligations"
+   },
+   "refusal_diagnostics": [
+    {
+     "code": "CGN301",
+     "message": "selected SSA is outside the portable WASM MVP subset"
+    },
+    {
+     "code": "CGN302",
+     "message": "mncs:0.4:ssa:function:314a5a6299f7a1dcf5476b6ec78c0fad66f2613b88d315f8ead95dd2bf3009ee: constant does not fit in wasm i64"
+    }
+   ],
+   "interpretation": "fail-closed envelope refusal; absence of execution is not disagreement"
   }
  ],
- "comparison_status": "AGREEMENT_OVER_CORPUS",
- "disagreements": [],
+ "comparison_status": "MISMATCH_DETECTED",
+ "disagreements": [
+  {
+   "backend": "mncs-research-bytecode",
+   "case_id": "experiment-fail-verdict",
+   "failure_reason": "argument count does not match SSA inputs"
+  },
+  {
+   "backend": "mncs-research-bytecode",
+   "case_id": "experiment-pass-supported-transfer",
+   "failure_reason": "argument count does not match SSA inputs"
+  },
+  {
+   "backend": "mncs-research-bytecode",
+   "case_id": "experiment-pass-untested-transfer",
+   "failure_reason": "argument count does not match SSA inputs"
+  },
+  {
+   "backend": "mncs-research-bytecode",
+   "case_id": "experiment-rejected-plan",
+   "failure_reason": "argument count does not match SSA inputs"
+  },
+  {
+   "backend": "mncs-research-bytecode",
+   "case_id": "experiment-unknown-verdict-stays-provisional",
+   "failure_reason": "argument count does not match SSA inputs"
+  }
+ ],
  "non_claims": [
   "observed agreement is not proof of semantic equivalence",
   "the corpus covers a bounded slice of MNEL concepts only",
