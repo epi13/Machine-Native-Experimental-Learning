@@ -102,6 +102,23 @@ artifacts, retained distillation records, and measured study report. A successfu
 student call records one learned forward pass; preprocessing, calibration, OOD checks,
 and recurrent fallback are measured outside that boundary.
 
+The first MNCS-native one-step vertical slice is also checked in for the same role. It
+keeps the dataset, fixed-point training state, artifact lineage, inference gates, and
+diagnostic decision in MNCS source, then runs the stateful `train_artifact -> infer ->
+decision_code` corpus through five executable backends:
+
+```bash
+python3 tools/run_mnel_native_one_step.py \
+  --mncs-bin ../mncs-language/target/debug/mncs \
+  --library-path ../mncs-language/library
+```
+
+This is bounded semantic and cross-backend execution evidence, not a speed claim,
+conformance result, or promotion decision. The compiler may retain checked-arithmetic
+obligations as `UNKNOWN`; the runner reports that status separately from successful
+corpus execution. The Python study remains the independent reference/control surface
+while native training semantics continue to mature.
+
 ## Core rule
 
 **Investigators and learned providers may propose knowledge. They may not declare it true.**

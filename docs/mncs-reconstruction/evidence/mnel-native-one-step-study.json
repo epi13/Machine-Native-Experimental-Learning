@@ -1,0 +1,1118 @@
+{
+ "schema_version": "0.1",
+ "identity_kind": "bounded-native-one-step-study-record",
+ "study": "mnel-native-fixed-point-one-step-v1",
+ "runner_identity": "mnel-mncs-native-one-step-runner/0.1",
+ "interpretation": "bounded_native_execution_and_cross_backend_observation; not_universal_equivalence_not_conformance_not_authority",
+ "source": {
+  "path": "mncs/source/mnel/one_step.mncs",
+  "sha256": "3ac80a277a11de0c014a6fbcee97b9faf90bbab23f3a080c9639219fcd57e566",
+  "language_profile": "0.10",
+  "module": "mnel.one_step",
+  "native_semantics": {
+   "numeric_representation": "signed i32 fixed-point lanes with scale 1000",
+   "training": "bounded eight-epoch SGD-style fixed-point updates over six VERIFIED rows",
+   "retention": "eight rows retained; REJECTED_TEACHER and UNKNOWN rows are excluded from updates",
+   "inference": "deterministic lineage/schema/OOD gates followed by at most one learned forward pass",
+   "identity": "bounded u64 fingerprints for this executable slice; not cryptographic identities"
+  },
+  "authority": "DIAGNOSTIC_ONLY; native decisions carry explicit fallback_required and never invoke or replace the teacher"
+ },
+ "corpus": {
+  "path": "mncs/source/mnel/one_step-corpus.json",
+  "sha256": "79a4e89990de65ecd108276d90752c92ef7cad988b667d98cb982303b9ab5721",
+  "schema_version": "0.3",
+  "stateful_case_count": 4,
+  "cases": {
+   "relevant-in-domain": {
+    "expected_code": 1,
+    "reference_decision": "relevant"
+   },
+   "out-of-distribution-abstains": {
+    "expected_code": 0,
+    "reference_decision": "ABSTAIN"
+   },
+   "generation-mismatch-abstains": {
+    "expected_code": 0,
+    "reference_decision": "not-invoked; lineage gate"
+   },
+   "schema-mismatch-abstains": {
+    "expected_code": 0,
+    "reference_decision": "not-invoked; schema gate"
+   }
+  },
+  "bounded_state_policy": "each trace trains once, then passes the logical StudentArtifact through infer and decision_code"
+ },
+ "mncs_library": {
+  "bindings": [
+   "mncs.core.numeric.v1",
+   "mncs.core.random.v1",
+   "mncs.core.vector.v1"
+  ],
+  "library_path": "/home/epi13/Documents/Projects/.mncs-language-luna-worktree/library"
+ },
+ "backends": [
+  {
+   "outcome": "corpus-executed",
+   "exit_code": 0,
+   "compiler_status": "UNKNOWN",
+   "execution_status": "PASS",
+   "unresolved_reasons": [
+    "compilation retained required unresolved obligations"
+   ],
+   "stateful_case_count": 4,
+   "stateful_cases": [
+    {
+     "case_id": "generation-mismatch-abstains",
+     "status": "returned",
+     "final_status": true,
+     "final_expectation": true,
+     "step_expectations": true,
+     "final_decision_code": 0,
+     "transition_statuses": [
+      {
+       "step_id": "train",
+       "status": "returned",
+       "steps": 16683
+      },
+      {
+       "step_id": "infer",
+       "status": "returned",
+       "steps": 36
+      },
+      {
+       "step_id": "decision-code",
+       "status": "returned",
+       "steps": 2
+      }
+     ],
+     "decision": {
+      "authority": "mncs:0.2:finite-variant:mnel.one_step::Authority::DIAGNOSTIC_ONLY",
+      "request_identity": 8003,
+      "source_observation_identity": 9003,
+      "teacher_generation_identity": 2001,
+      "student_model_identity": 3921297049927934859,
+      "artifact_identity": 51492650535509655,
+      "calibration_identity": 6960,
+      "decision_code": 0,
+      "confidence_milli": 0,
+      "abstained": true,
+      "out_of_distribution": false,
+      "fallback_required": true,
+      "learned_forward_passes": 0,
+      "preprocessing_operations": 5,
+      "inference_operations": 0
+     },
+     "failure": null
+    },
+    {
+     "case_id": "out-of-distribution-abstains",
+     "status": "returned",
+     "final_status": true,
+     "final_expectation": true,
+     "step_expectations": true,
+     "final_decision_code": 0,
+     "transition_statuses": [
+      {
+       "step_id": "train",
+       "status": "returned",
+       "steps": 16683
+      },
+      {
+       "step_id": "infer",
+       "status": "returned",
+       "steps": 95
+      },
+      {
+       "step_id": "decision-code",
+       "status": "returned",
+       "steps": 2
+      }
+     ],
+     "decision": {
+      "authority": "mncs:0.2:finite-variant:mnel.one_step::Authority::DIAGNOSTIC_ONLY",
+      "request_identity": 8002,
+      "source_observation_identity": 9002,
+      "teacher_generation_identity": 2001,
+      "student_model_identity": 3921297049927934859,
+      "artifact_identity": 51492650535509655,
+      "calibration_identity": 6960,
+      "decision_code": 0,
+      "confidence_milli": 0,
+      "abstained": true,
+      "out_of_distribution": true,
+      "fallback_required": true,
+      "learned_forward_passes": 0,
+      "preprocessing_operations": 5,
+      "inference_operations": 0
+     },
+     "failure": null
+    },
+    {
+     "case_id": "relevant-in-domain",
+     "status": "returned",
+     "final_status": true,
+     "final_expectation": true,
+     "step_expectations": true,
+     "final_decision_code": 1,
+     "transition_statuses": [
+      {
+       "step_id": "train",
+       "status": "returned",
+       "steps": 16683
+      },
+      {
+       "step_id": "infer",
+       "status": "returned",
+       "steps": 218
+      },
+      {
+       "step_id": "decision-code",
+       "status": "returned",
+       "steps": 2
+      }
+     ],
+     "decision": {
+      "authority": "mncs:0.2:finite-variant:mnel.one_step::Authority::DIAGNOSTIC_ONLY",
+      "request_identity": 8001,
+      "source_observation_identity": 9001,
+      "teacher_generation_identity": 2001,
+      "student_model_identity": 3921297049927934859,
+      "artifact_identity": 51492650535509655,
+      "calibration_identity": 6960,
+      "decision_code": 1,
+      "confidence_milli": 281,
+      "abstained": false,
+      "out_of_distribution": false,
+      "fallback_required": false,
+      "learned_forward_passes": 1,
+      "preprocessing_operations": 5,
+      "inference_operations": 21
+     },
+     "failure": null
+    },
+    {
+     "case_id": "schema-mismatch-abstains",
+     "status": "returned",
+     "final_status": true,
+     "final_expectation": true,
+     "step_expectations": true,
+     "final_decision_code": 0,
+     "transition_statuses": [
+      {
+       "step_id": "train",
+       "status": "returned",
+       "steps": 16683
+      },
+      {
+       "step_id": "infer",
+       "status": "returned",
+       "steps": 26
+      },
+      {
+       "step_id": "decision-code",
+       "status": "returned",
+       "steps": 2
+      }
+     ],
+     "decision": {
+      "authority": "mncs:0.2:finite-variant:mnel.one_step::Authority::DIAGNOSTIC_ONLY",
+      "request_identity": 8004,
+      "source_observation_identity": 9004,
+      "teacher_generation_identity": 2001,
+      "student_model_identity": 3921297049927934859,
+      "artifact_identity": 51492650535509655,
+      "calibration_identity": 6960,
+      "decision_code": 0,
+      "confidence_milli": 0,
+      "abstained": true,
+      "out_of_distribution": false,
+      "fallback_required": true,
+      "learned_forward_passes": 0,
+      "preprocessing_operations": 5,
+      "inference_operations": 0
+     },
+     "failure": null
+    }
+   ],
+   "all_expectations_met": true,
+   "artifact_identity": "mncs:compiler:backend-artifact:86c46f2f6a4bae0b28a45c32b73cd99ea466888c22cedf5cbbe18be494f1be89",
+   "backend_identity": "mncs:compiler:backend:1f24243c2c15f1826cd129742e8217e09fab7a2911123043814f5c7ae5f16910",
+   "backend": "mncs-research-bytecode"
+  },
+  {
+   "outcome": "corpus-executed",
+   "exit_code": 0,
+   "compiler_status": "UNKNOWN",
+   "execution_status": "PASS",
+   "unresolved_reasons": [
+    "compilation retained required unresolved obligations"
+   ],
+   "stateful_case_count": 4,
+   "stateful_cases": [
+    {
+     "case_id": "generation-mismatch-abstains",
+     "status": "returned",
+     "final_status": true,
+     "final_expectation": true,
+     "step_expectations": true,
+     "final_decision_code": 0,
+     "transition_statuses": [
+      {
+       "step_id": "train",
+       "status": "returned",
+       "steps": 158770
+      },
+      {
+       "step_id": "infer",
+       "status": "returned",
+       "steps": 380
+      },
+      {
+       "step_id": "decision-code",
+       "status": "returned",
+       "steps": 14
+      }
+     ],
+     "decision": {
+      "authority": "mncs:0.2:finite-variant:mnel.one_step::Authority::DIAGNOSTIC_ONLY",
+      "request_identity": 8003,
+      "source_observation_identity": 9003,
+      "teacher_generation_identity": 2001,
+      "student_model_identity": 3921297049927934859,
+      "artifact_identity": 51492650535509655,
+      "calibration_identity": 6960,
+      "decision_code": 0,
+      "confidence_milli": 0,
+      "abstained": true,
+      "out_of_distribution": false,
+      "fallback_required": true,
+      "learned_forward_passes": 0,
+      "preprocessing_operations": 5,
+      "inference_operations": 0
+     },
+     "failure": null
+    },
+    {
+     "case_id": "out-of-distribution-abstains",
+     "status": "returned",
+     "final_status": true,
+     "final_expectation": true,
+     "step_expectations": true,
+     "final_decision_code": 0,
+     "transition_statuses": [
+      {
+       "step_id": "train",
+       "status": "returned",
+       "steps": 158770
+      },
+      {
+       "step_id": "infer",
+       "status": "returned",
+       "steps": 1001
+      },
+      {
+       "step_id": "decision-code",
+       "status": "returned",
+       "steps": 14
+      }
+     ],
+     "decision": {
+      "authority": "mncs:0.2:finite-variant:mnel.one_step::Authority::DIAGNOSTIC_ONLY",
+      "request_identity": 8002,
+      "source_observation_identity": 9002,
+      "teacher_generation_identity": 2001,
+      "student_model_identity": 3921297049927934859,
+      "artifact_identity": 51492650535509655,
+      "calibration_identity": 6960,
+      "decision_code": 0,
+      "confidence_milli": 0,
+      "abstained": true,
+      "out_of_distribution": true,
+      "fallback_required": true,
+      "learned_forward_passes": 0,
+      "preprocessing_operations": 5,
+      "inference_operations": 0
+     },
+     "failure": null
+    },
+    {
+     "case_id": "relevant-in-domain",
+     "status": "returned",
+     "final_status": true,
+     "final_expectation": true,
+     "step_expectations": true,
+     "final_decision_code": 1,
+     "transition_statuses": [
+      {
+       "step_id": "train",
+       "status": "returned",
+       "steps": 158770
+      },
+      {
+       "step_id": "infer",
+       "status": "returned",
+       "steps": 2589
+      },
+      {
+       "step_id": "decision-code",
+       "status": "returned",
+       "steps": 14
+      }
+     ],
+     "decision": {
+      "authority": "mncs:0.2:finite-variant:mnel.one_step::Authority::DIAGNOSTIC_ONLY",
+      "request_identity": 8001,
+      "source_observation_identity": 9001,
+      "teacher_generation_identity": 2001,
+      "student_model_identity": 3921297049927934859,
+      "artifact_identity": 51492650535509655,
+      "calibration_identity": 6960,
+      "decision_code": 1,
+      "confidence_milli": 281,
+      "abstained": false,
+      "out_of_distribution": false,
+      "fallback_required": false,
+      "learned_forward_passes": 1,
+      "preprocessing_operations": 5,
+      "inference_operations": 21
+     },
+     "failure": null
+    },
+    {
+     "case_id": "schema-mismatch-abstains",
+     "status": "returned",
+     "final_status": true,
+     "final_expectation": true,
+     "step_expectations": true,
+     "final_decision_code": 0,
+     "transition_statuses": [
+      {
+       "step_id": "train",
+       "status": "returned",
+       "steps": 158770
+      },
+      {
+       "step_id": "infer",
+       "status": "returned",
+       "steps": 208
+      },
+      {
+       "step_id": "decision-code",
+       "status": "returned",
+       "steps": 14
+      }
+     ],
+     "decision": {
+      "authority": "mncs:0.2:finite-variant:mnel.one_step::Authority::DIAGNOSTIC_ONLY",
+      "request_identity": 8004,
+      "source_observation_identity": 9004,
+      "teacher_generation_identity": 2001,
+      "student_model_identity": 3921297049927934859,
+      "artifact_identity": 51492650535509655,
+      "calibration_identity": 6960,
+      "decision_code": 0,
+      "confidence_milli": 0,
+      "abstained": true,
+      "out_of_distribution": false,
+      "fallback_required": true,
+      "learned_forward_passes": 0,
+      "preprocessing_operations": 5,
+      "inference_operations": 0
+     },
+     "failure": null
+    }
+   ],
+   "all_expectations_met": true,
+   "artifact_identity": "mncs:compiler:backend-artifact:2032a6da1000b654480b0c4ecd43d5df4f15cdc6ff39929f9dd2ac5ea4ee0871",
+   "backend_identity": "mncs:compiler:backend:6bbc6f37c38ffa3353787ff9ea565d07db3755b42efa8a59871374123adbca15",
+   "backend": "mncs-portable-wasm-mvp"
+  },
+  {
+   "outcome": "corpus-executed",
+   "exit_code": 0,
+   "compiler_status": "UNKNOWN",
+   "execution_status": "PASS",
+   "unresolved_reasons": [
+    "compilation retained required unresolved obligations"
+   ],
+   "stateful_case_count": 4,
+   "stateful_cases": [
+    {
+     "case_id": "generation-mismatch-abstains",
+     "status": "returned",
+     "final_status": true,
+     "final_expectation": true,
+     "step_expectations": true,
+     "final_decision_code": 0,
+     "transition_statuses": [
+      {
+       "step_id": "train",
+       "status": "returned",
+       "steps": 1
+      },
+      {
+       "step_id": "infer",
+       "status": "returned",
+       "steps": 1
+      },
+      {
+       "step_id": "decision-code",
+       "status": "returned",
+       "steps": 1
+      }
+     ],
+     "decision": {
+      "authority": "mncs:0.2:finite-variant:mnel.one_step::Authority::DIAGNOSTIC_ONLY",
+      "request_identity": 8003,
+      "source_observation_identity": 9003,
+      "teacher_generation_identity": 2001,
+      "student_model_identity": 3921297049927934859,
+      "artifact_identity": 51492650535509655,
+      "calibration_identity": 6960,
+      "decision_code": 0,
+      "confidence_milli": 0,
+      "abstained": true,
+      "out_of_distribution": false,
+      "fallback_required": true,
+      "learned_forward_passes": 0,
+      "preprocessing_operations": 5,
+      "inference_operations": 0
+     },
+     "failure": null
+    },
+    {
+     "case_id": "out-of-distribution-abstains",
+     "status": "returned",
+     "final_status": true,
+     "final_expectation": true,
+     "step_expectations": true,
+     "final_decision_code": 0,
+     "transition_statuses": [
+      {
+       "step_id": "train",
+       "status": "returned",
+       "steps": 1
+      },
+      {
+       "step_id": "infer",
+       "status": "returned",
+       "steps": 1
+      },
+      {
+       "step_id": "decision-code",
+       "status": "returned",
+       "steps": 1
+      }
+     ],
+     "decision": {
+      "authority": "mncs:0.2:finite-variant:mnel.one_step::Authority::DIAGNOSTIC_ONLY",
+      "request_identity": 8002,
+      "source_observation_identity": 9002,
+      "teacher_generation_identity": 2001,
+      "student_model_identity": 3921297049927934859,
+      "artifact_identity": 51492650535509655,
+      "calibration_identity": 6960,
+      "decision_code": 0,
+      "confidence_milli": 0,
+      "abstained": true,
+      "out_of_distribution": true,
+      "fallback_required": true,
+      "learned_forward_passes": 0,
+      "preprocessing_operations": 5,
+      "inference_operations": 0
+     },
+     "failure": null
+    },
+    {
+     "case_id": "relevant-in-domain",
+     "status": "returned",
+     "final_status": true,
+     "final_expectation": true,
+     "step_expectations": true,
+     "final_decision_code": 1,
+     "transition_statuses": [
+      {
+       "step_id": "train",
+       "status": "returned",
+       "steps": 1
+      },
+      {
+       "step_id": "infer",
+       "status": "returned",
+       "steps": 1
+      },
+      {
+       "step_id": "decision-code",
+       "status": "returned",
+       "steps": 1
+      }
+     ],
+     "decision": {
+      "authority": "mncs:0.2:finite-variant:mnel.one_step::Authority::DIAGNOSTIC_ONLY",
+      "request_identity": 8001,
+      "source_observation_identity": 9001,
+      "teacher_generation_identity": 2001,
+      "student_model_identity": 3921297049927934859,
+      "artifact_identity": 51492650535509655,
+      "calibration_identity": 6960,
+      "decision_code": 1,
+      "confidence_milli": 281,
+      "abstained": false,
+      "out_of_distribution": false,
+      "fallback_required": false,
+      "learned_forward_passes": 1,
+      "preprocessing_operations": 5,
+      "inference_operations": 21
+     },
+     "failure": null
+    },
+    {
+     "case_id": "schema-mismatch-abstains",
+     "status": "returned",
+     "final_status": true,
+     "final_expectation": true,
+     "step_expectations": true,
+     "final_decision_code": 0,
+     "transition_statuses": [
+      {
+       "step_id": "train",
+       "status": "returned",
+       "steps": 1
+      },
+      {
+       "step_id": "infer",
+       "status": "returned",
+       "steps": 1
+      },
+      {
+       "step_id": "decision-code",
+       "status": "returned",
+       "steps": 1
+      }
+     ],
+     "decision": {
+      "authority": "mncs:0.2:finite-variant:mnel.one_step::Authority::DIAGNOSTIC_ONLY",
+      "request_identity": 8004,
+      "source_observation_identity": 9004,
+      "teacher_generation_identity": 2001,
+      "student_model_identity": 3921297049927934859,
+      "artifact_identity": 51492650535509655,
+      "calibration_identity": 6960,
+      "decision_code": 0,
+      "confidence_milli": 0,
+      "abstained": true,
+      "out_of_distribution": false,
+      "fallback_required": true,
+      "learned_forward_passes": 0,
+      "preprocessing_operations": 5,
+      "inference_operations": 0
+     },
+     "failure": null
+    }
+   ],
+   "all_expectations_met": true,
+   "artifact_identity": "mncs:compiler:backend-artifact:0cf5ffc4aa9f8d8503f7ccb2743dff84666f7970fd89f24c84e8ecd24afa241e",
+   "backend_identity": "mncs:compiler:backend:d5b637f6ffd784fe2035ce44397f2a6e16aaef0f054c37d21f6da95ea25ba959",
+   "backend": "mncs-llvm-ir"
+  },
+  {
+   "outcome": "corpus-executed",
+   "exit_code": 0,
+   "compiler_status": "UNKNOWN",
+   "execution_status": "PASS",
+   "unresolved_reasons": [
+    "compilation retained required unresolved obligations"
+   ],
+   "stateful_case_count": 4,
+   "stateful_cases": [
+    {
+     "case_id": "generation-mismatch-abstains",
+     "status": "returned",
+     "final_status": true,
+     "final_expectation": true,
+     "step_expectations": true,
+     "final_decision_code": 0,
+     "transition_statuses": [
+      {
+       "step_id": "train",
+       "status": "returned",
+       "steps": 1
+      },
+      {
+       "step_id": "infer",
+       "status": "returned",
+       "steps": 1
+      },
+      {
+       "step_id": "decision-code",
+       "status": "returned",
+       "steps": 1
+      }
+     ],
+     "decision": {
+      "authority": "mncs:0.2:finite-variant:mnel.one_step::Authority::DIAGNOSTIC_ONLY",
+      "request_identity": 8003,
+      "source_observation_identity": 9003,
+      "teacher_generation_identity": 2001,
+      "student_model_identity": 3921297049927934859,
+      "artifact_identity": 51492650535509655,
+      "calibration_identity": 6960,
+      "decision_code": 0,
+      "confidence_milli": 0,
+      "abstained": true,
+      "out_of_distribution": false,
+      "fallback_required": true,
+      "learned_forward_passes": 0,
+      "preprocessing_operations": 5,
+      "inference_operations": 0
+     },
+     "failure": null
+    },
+    {
+     "case_id": "out-of-distribution-abstains",
+     "status": "returned",
+     "final_status": true,
+     "final_expectation": true,
+     "step_expectations": true,
+     "final_decision_code": 0,
+     "transition_statuses": [
+      {
+       "step_id": "train",
+       "status": "returned",
+       "steps": 1
+      },
+      {
+       "step_id": "infer",
+       "status": "returned",
+       "steps": 1
+      },
+      {
+       "step_id": "decision-code",
+       "status": "returned",
+       "steps": 1
+      }
+     ],
+     "decision": {
+      "authority": "mncs:0.2:finite-variant:mnel.one_step::Authority::DIAGNOSTIC_ONLY",
+      "request_identity": 8002,
+      "source_observation_identity": 9002,
+      "teacher_generation_identity": 2001,
+      "student_model_identity": 3921297049927934859,
+      "artifact_identity": 51492650535509655,
+      "calibration_identity": 6960,
+      "decision_code": 0,
+      "confidence_milli": 0,
+      "abstained": true,
+      "out_of_distribution": true,
+      "fallback_required": true,
+      "learned_forward_passes": 0,
+      "preprocessing_operations": 5,
+      "inference_operations": 0
+     },
+     "failure": null
+    },
+    {
+     "case_id": "relevant-in-domain",
+     "status": "returned",
+     "final_status": true,
+     "final_expectation": true,
+     "step_expectations": true,
+     "final_decision_code": 1,
+     "transition_statuses": [
+      {
+       "step_id": "train",
+       "status": "returned",
+       "steps": 1
+      },
+      {
+       "step_id": "infer",
+       "status": "returned",
+       "steps": 1
+      },
+      {
+       "step_id": "decision-code",
+       "status": "returned",
+       "steps": 1
+      }
+     ],
+     "decision": {
+      "authority": "mncs:0.2:finite-variant:mnel.one_step::Authority::DIAGNOSTIC_ONLY",
+      "request_identity": 8001,
+      "source_observation_identity": 9001,
+      "teacher_generation_identity": 2001,
+      "student_model_identity": 3921297049927934859,
+      "artifact_identity": 51492650535509655,
+      "calibration_identity": 6960,
+      "decision_code": 1,
+      "confidence_milli": 281,
+      "abstained": false,
+      "out_of_distribution": false,
+      "fallback_required": false,
+      "learned_forward_passes": 1,
+      "preprocessing_operations": 5,
+      "inference_operations": 21
+     },
+     "failure": null
+    },
+    {
+     "case_id": "schema-mismatch-abstains",
+     "status": "returned",
+     "final_status": true,
+     "final_expectation": true,
+     "step_expectations": true,
+     "final_decision_code": 0,
+     "transition_statuses": [
+      {
+       "step_id": "train",
+       "status": "returned",
+       "steps": 1
+      },
+      {
+       "step_id": "infer",
+       "status": "returned",
+       "steps": 1
+      },
+      {
+       "step_id": "decision-code",
+       "status": "returned",
+       "steps": 1
+      }
+     ],
+     "decision": {
+      "authority": "mncs:0.2:finite-variant:mnel.one_step::Authority::DIAGNOSTIC_ONLY",
+      "request_identity": 8004,
+      "source_observation_identity": 9004,
+      "teacher_generation_identity": 2001,
+      "student_model_identity": 3921297049927934859,
+      "artifact_identity": 51492650535509655,
+      "calibration_identity": 6960,
+      "decision_code": 0,
+      "confidence_milli": 0,
+      "abstained": true,
+      "out_of_distribution": false,
+      "fallback_required": true,
+      "learned_forward_passes": 0,
+      "preprocessing_operations": 5,
+      "inference_operations": 0
+     },
+     "failure": null
+    }
+   ],
+   "all_expectations_met": true,
+   "artifact_identity": "mncs:compiler:backend-artifact:b7232d80e3da8400cc49915eb0437905595f8fd89af89a0fb673f8dc222c9f23",
+   "backend_identity": "mncs:compiler:backend:6729634558f628eaf7c8319dd94c2fba334202259d6c10fd8b98adff25d93b1d",
+   "backend": "mncs-c11"
+  },
+  {
+   "outcome": "corpus-executed",
+   "exit_code": 0,
+   "compiler_status": "UNKNOWN",
+   "execution_status": "PASS",
+   "unresolved_reasons": [
+    "compilation retained required unresolved obligations"
+   ],
+   "stateful_case_count": 4,
+   "stateful_cases": [
+    {
+     "case_id": "generation-mismatch-abstains",
+     "status": "returned",
+     "final_status": true,
+     "final_expectation": true,
+     "step_expectations": true,
+     "final_decision_code": 0,
+     "transition_statuses": [
+      {
+       "step_id": "train",
+       "status": "returned",
+       "steps": 1
+      },
+      {
+       "step_id": "infer",
+       "status": "returned",
+       "steps": 1
+      },
+      {
+       "step_id": "decision-code",
+       "status": "returned",
+       "steps": 1
+      }
+     ],
+     "decision": {
+      "authority": "mncs:0.2:finite-variant:mnel.one_step::Authority::DIAGNOSTIC_ONLY",
+      "request_identity": 8003,
+      "source_observation_identity": 9003,
+      "teacher_generation_identity": 2001,
+      "student_model_identity": 3921297049927934859,
+      "artifact_identity": 51492650535509655,
+      "calibration_identity": 6960,
+      "decision_code": 0,
+      "confidence_milli": 0,
+      "abstained": true,
+      "out_of_distribution": false,
+      "fallback_required": true,
+      "learned_forward_passes": 0,
+      "preprocessing_operations": 5,
+      "inference_operations": 0
+     },
+     "failure": null
+    },
+    {
+     "case_id": "out-of-distribution-abstains",
+     "status": "returned",
+     "final_status": true,
+     "final_expectation": true,
+     "step_expectations": true,
+     "final_decision_code": 0,
+     "transition_statuses": [
+      {
+       "step_id": "train",
+       "status": "returned",
+       "steps": 1
+      },
+      {
+       "step_id": "infer",
+       "status": "returned",
+       "steps": 1
+      },
+      {
+       "step_id": "decision-code",
+       "status": "returned",
+       "steps": 1
+      }
+     ],
+     "decision": {
+      "authority": "mncs:0.2:finite-variant:mnel.one_step::Authority::DIAGNOSTIC_ONLY",
+      "request_identity": 8002,
+      "source_observation_identity": 9002,
+      "teacher_generation_identity": 2001,
+      "student_model_identity": 3921297049927934859,
+      "artifact_identity": 51492650535509655,
+      "calibration_identity": 6960,
+      "decision_code": 0,
+      "confidence_milli": 0,
+      "abstained": true,
+      "out_of_distribution": true,
+      "fallback_required": true,
+      "learned_forward_passes": 0,
+      "preprocessing_operations": 5,
+      "inference_operations": 0
+     },
+     "failure": null
+    },
+    {
+     "case_id": "relevant-in-domain",
+     "status": "returned",
+     "final_status": true,
+     "final_expectation": true,
+     "step_expectations": true,
+     "final_decision_code": 1,
+     "transition_statuses": [
+      {
+       "step_id": "train",
+       "status": "returned",
+       "steps": 1
+      },
+      {
+       "step_id": "infer",
+       "status": "returned",
+       "steps": 1
+      },
+      {
+       "step_id": "decision-code",
+       "status": "returned",
+       "steps": 1
+      }
+     ],
+     "decision": {
+      "authority": "mncs:0.2:finite-variant:mnel.one_step::Authority::DIAGNOSTIC_ONLY",
+      "request_identity": 8001,
+      "source_observation_identity": 9001,
+      "teacher_generation_identity": 2001,
+      "student_model_identity": 3921297049927934859,
+      "artifact_identity": 51492650535509655,
+      "calibration_identity": 6960,
+      "decision_code": 1,
+      "confidence_milli": 281,
+      "abstained": false,
+      "out_of_distribution": false,
+      "fallback_required": false,
+      "learned_forward_passes": 1,
+      "preprocessing_operations": 5,
+      "inference_operations": 21
+     },
+     "failure": null
+    },
+    {
+     "case_id": "schema-mismatch-abstains",
+     "status": "returned",
+     "final_status": true,
+     "final_expectation": true,
+     "step_expectations": true,
+     "final_decision_code": 0,
+     "transition_statuses": [
+      {
+       "step_id": "train",
+       "status": "returned",
+       "steps": 1
+      },
+      {
+       "step_id": "infer",
+       "status": "returned",
+       "steps": 1
+      },
+      {
+       "step_id": "decision-code",
+       "status": "returned",
+       "steps": 1
+      }
+     ],
+     "decision": {
+      "authority": "mncs:0.2:finite-variant:mnel.one_step::Authority::DIAGNOSTIC_ONLY",
+      "request_identity": 8004,
+      "source_observation_identity": 9004,
+      "teacher_generation_identity": 2001,
+      "student_model_identity": 3921297049927934859,
+      "artifact_identity": 51492650535509655,
+      "calibration_identity": 6960,
+      "decision_code": 0,
+      "confidence_milli": 0,
+      "abstained": true,
+      "out_of_distribution": false,
+      "fallback_required": true,
+      "learned_forward_passes": 0,
+      "preprocessing_operations": 5,
+      "inference_operations": 0
+     },
+     "failure": null
+    }
+   ],
+   "all_expectations_met": true,
+   "artifact_identity": "mncs:compiler:backend-artifact:5a4fa80b7547341c5c2cf9bddf8823cd3249641f26579345522e5fcc078bbb66",
+   "backend_identity": "mncs:compiler:backend:66c533f17f70af6eb9d1dac49fafd4fdeb42288354dfd7297c6c71a9c01a8c10",
+   "backend": "mncs-cranelift"
+  }
+ ],
+ "native_reference_comparison": {
+  "relevant-in-domain": {
+   "native_decision_code": 1,
+   "reference_decision": "relevant",
+   "comparison_scope": "bounded decision-code mapping"
+  },
+  "out-of-distribution-abstains": {
+   "native_decision_code": 0,
+   "reference_decision": "ABSTAIN",
+   "comparison_scope": "bounded decision-code mapping"
+  },
+  "generation-mismatch-abstains": {
+   "native_decision_code": 0,
+   "reference_decision": "not-invoked; lineage gate",
+   "comparison_scope": "native deterministic gate precedes teacher"
+  },
+  "schema-mismatch-abstains": {
+   "native_decision_code": 0,
+   "reference_decision": "not-invoked; schema gate",
+   "comparison_scope": "native deterministic gate precedes teacher"
+  }
+ },
+ "cross_backend_agreement": {
+  "status": "AGREEMENT_OVER_DECLARED_STATEFUL_CORPUS",
+  "final_decision_codes": {
+   "mncs-research-bytecode": {
+    "generation-mismatch-abstains": 0,
+    "out-of-distribution-abstains": 0,
+    "relevant-in-domain": 1,
+    "schema-mismatch-abstains": 0
+   },
+   "mncs-portable-wasm-mvp": {
+    "generation-mismatch-abstains": 0,
+    "out-of-distribution-abstains": 0,
+    "relevant-in-domain": 1,
+    "schema-mismatch-abstains": 0
+   },
+   "mncs-llvm-ir": {
+    "generation-mismatch-abstains": 0,
+    "out-of-distribution-abstains": 0,
+    "relevant-in-domain": 1,
+    "schema-mismatch-abstains": 0
+   },
+   "mncs-c11": {
+    "generation-mismatch-abstains": 0,
+    "out-of-distribution-abstains": 0,
+    "relevant-in-domain": 1,
+    "schema-mismatch-abstains": 0
+   },
+   "mncs-cranelift": {
+    "generation-mismatch-abstains": 0,
+    "out-of-distribution-abstains": 0,
+    "relevant-in-domain": 1,
+    "schema-mismatch-abstains": 0
+   }
+  }
+ },
+ "python_reference": {
+  "teacher": {
+   "provider_identity": "mnel-bounded-recurrent-specialist/0.1",
+   "model_identity": "sha256:b3c8ba2bd9672b2ea652a92d1fd81c4c2f15db76c59a4ee5ff5fb90b72d94f62",
+   "generation_identity": "sha256:2767857f27a108bee26d88acb05597c2233500dd81e69c89ac621d423c4917d4",
+   "architecture_identity": "sha256:0b854e10e4fc3843017c7a264620bcfb2ace844ade15820e313e2a0faf737ab4",
+   "decisions": [
+    "relevant",
+    "relevant",
+    "irrelevant",
+    "irrelevant",
+    "ABSTAIN",
+    "ABSTAIN"
+   ],
+   "abstentions": 2
+  },
+  "python_one_step_control": {
+   "model_identity": "sha256:594e8d48126db906160faad7f6b4410b68c35517793a62fd3722b10fee7908cd",
+   "calibration_identity": "sha256:ab176b702e7f76ce0c003b9a48f678fffc1a730e0a02358fb019802d13940535",
+   "decisions": [
+    "relevant",
+    "relevant",
+    "irrelevant",
+    "irrelevant",
+    "ABSTAIN",
+    "ABSTAIN"
+   ],
+   "abstentions": 2,
+   "learned_forward_passes": [
+    1,
+    1,
+    1,
+    1,
+    0,
+    0
+   ],
+   "inference_operations": [
+    32,
+    32,
+    32,
+    32,
+    0,
+    0
+   ]
+  },
+  "holdout_rows": [
+   "relevant",
+   "relevant",
+   "irrelevant",
+   "irrelevant",
+   "ABSTAIN",
+   "ABSTAIN"
+  ]
+ },
+ "cost_and_performance_boundary": {
+  "native_student": "preprocessing_operations and inference_operations are explicit fields in StudentDecision; learned_forward_passes is 0 or 1",
+  "teacher": "teacher fallback is an outer Python control-plane action and is not called by mnel.one_step.infer",
+  "claim": "this study records bounded semantic and operation-count evidence, not wall-clock speed or a universal cost reduction"
+ },
+ "non_claims": [
+  "compiler UNKNOWN status reflects retained checked-arithmetic obligations and is not silently promoted to PASS",
+  "cross-backend agreement is finite evidence, not semantic equivalence, compiler correctness, conformance, or production authorization",
+  "native u64 fingerprints are bounded lineage fields in this slice, not cryptographic hashes",
+  "the diagnostic-only student cannot authorize, promote, or issue evaluator verdicts"
+ ]
+}

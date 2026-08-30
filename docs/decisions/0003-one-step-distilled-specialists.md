@@ -57,6 +57,23 @@ MNEL adopts one-step distilled specialists as a documented provider pattern.
    placement/residency; Harness/Control govern use and escalation. None treats student
    output as conformance, evaluator, permission, or promotion authority.
 
+## Current bounded implementation
+
+The Python teacher/student study remains the independent reference and no-distillation
+control. A first MNCS-native fixed-point slice now exercises the same architectural
+boundary: it retains six accepted observations plus rejected and `UNKNOWN` observations,
+records the teacher/model/dataset/distillation/training/checkpoint/artifact lineage, and
+executes stateful training followed by gated inference. The native source never invokes
+the teacher, emits `Authority::DIAGNOSTIC_ONLY`, and sets `fallback_required` on OOD,
+schema, and generation failures. Its four-case corpus agrees across research bytecode,
+portable WASM, LLVM, C11, and Cranelift for the declared decision codes.
+
+This evidence is intentionally bounded. The five compiler results retain `UNKNOWN`
+status for unresolved checked-arithmetic obligations, and the execution agreement is
+not a conformance proof, production admission, wall-clock speed result, or permission to
+replace the teacher. Native `u64` lineage fields in this slice are bounded fingerprints,
+not cryptographic identities.
+
 ## Consequences
 
 ### Positive
@@ -92,8 +109,8 @@ Future implementations must:
 - document any claim of one-step with the exact measured boundary and excluded costs.
 
 This ADR does not add a runtime dependency, change the v1 ABI, or claim that a one-step
-student currently improves MNEL. It records where the idea belongs and the evidence
-required before implementation or promotion.
+student currently improves MNEL. The bounded native slice is diagnostic pressure and
+evidence for the migration path, not implementation or promotion closure.
 
 See [MNEL architecture](../ARCHITECTURE.md), [learned micro-provider registry](../LEARNED_MICRO_PROVIDERS.md),
 and [MNCS-native training pipeline](../MNCS_NATIVE_TRAINING_PIPELINE.md).

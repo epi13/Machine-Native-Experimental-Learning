@@ -79,6 +79,12 @@
   independently checked target status, a tiny reloadable affine/tanh student,
   no-distillation control, calibrated/OOD abstention, explicit teacher fallback, and
   measured reference comparisons. This remains diagnostic-only and experimental.
+- **Implemented:** first MNCS-native fixed-point one-step vertical slice for the same
+  role, with retained `VERIFIED`/`REJECTED_TEACHER`/`UNKNOWN` observations, bounded
+  training state, artifact lineage, schema/generation/OOD gates, explicit fallback, and
+  stateful train-to-infer corpus evidence across five executable backends. Compiler
+  `UNKNOWN` obligations and diagnostic-only authority remain explicit; no speed or
+  conformance claim is made.
 - **Started:** broader provider portfolios and native export of Python-trained artifacts;
 - **Implemented:** a bounded Rust parser/reference inference surface for the existing
   transition-frequency artifact, with checked-in Python/Rust identity and score-equivalence
@@ -96,6 +102,10 @@
   measurements;
 - **Started:** energy measurements; an optional reader records trusted joules when supplied,
   otherwise the study records unavailable rather than estimating;
+- **Implemented (bounded pressure fixtures):** shared MNCS-layer fixes for domain-separated
+  random stream splitting, unsigned constant preservation, bare finite composite decoding,
+  and Cranelift declared calls wider than six scalar parameters. These are finite backend
+  regression closures, not a general training-runtime completion.
 - non-Rust native exception studies with benchmark and threat-review identities;
 - hidden-transfer admission, quarantine, retirement, and rollback workflows;
 - optional small proposer-model distillation from verified traces, including one-step

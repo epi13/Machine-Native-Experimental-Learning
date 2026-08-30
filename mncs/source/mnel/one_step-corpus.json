@@ -1,0 +1,252 @@
+{
+  "schema_version": "0.3",
+  "name": "mnel-native-one-step-v1",
+  "cases": [],
+  "stateful_cases": [
+    {
+      "id": "relevant-in-domain",
+      "steps": [
+        {
+          "id": "train",
+          "target": { "module": "mnel.one_step", "function": "train_artifact" },
+          "arguments": [],
+          "step_budget": 5000000,
+          "expected_status": "returned",
+          "observe_returned": false
+        },
+        {
+          "id": "infer",
+          "target": { "module": "mnel.one_step", "function": "infer" },
+          "arguments": [
+            { "previous_result": { "step_id": "train", "result_index": 0 } },
+            {
+              "literal": {
+                "record": {
+                  "type_identity": "mncs:0.2:record-type:mnel.one_step::InferenceInput::context_observation_count%3Ai32%3Bfeatures%3AFeatureVector%3Brequest_identity%3Au64%3Bsource_observation_identity%3Au64%3Btarget_role_identity%3Au64%3Bteacher_generation_identity%3Au64%3B",
+                  "name": "InferenceInput",
+                  "fields": [
+                    ["context_observation_count", { "integer": { "value": 1, "type": { "bits": 32, "signed": true } } }],
+                    ["features", { "record": {
+                      "type_identity": "mncs:0.2:record-type:mnel.one_step::FeatureVector::a%3Ai32%3Bb%3Ai32%3Bc%3Ai32%3Bd%3Ai32%3Bschema_identity%3Au64%3B",
+                      "name": "FeatureVector",
+                      "fields": [
+                        ["a", { "integer": { "value": 900, "type": { "bits": 32, "signed": true } } }],
+                        ["b", { "integer": { "value": 820, "type": { "bits": 32, "signed": true } } }],
+                        ["c", { "integer": { "value": 760, "type": { "bits": 32, "signed": true } } }],
+                        ["d", { "integer": { "value": 880, "type": { "bits": 32, "signed": true } } }],
+                        ["schema_identity", { "integer": { "value": 1001, "type": { "bits": 64, "signed": false } } }]
+                      ]
+                    } }],
+                    ["request_identity", { "integer": { "value": 8001, "type": { "bits": 64, "signed": false } } }],
+                    ["source_observation_identity", { "integer": { "value": 9001, "type": { "bits": 64, "signed": false } } }],
+                    ["target_role_identity", { "integer": { "value": 7001, "type": { "bits": 64, "signed": false } } }],
+                    ["teacher_generation_identity", { "integer": { "value": 2001, "type": { "bits": 64, "signed": false } } }]
+                  ]
+                }
+              }
+            }
+          ],
+          "step_budget": 500000,
+          "expected_status": "returned",
+          "observe_returned": true
+        },
+        {
+          "id": "decision-code",
+          "target": { "module": "mnel.one_step", "function": "decision_code" },
+          "arguments": [{ "previous_result": { "step_id": "infer", "result_index": 0 } }],
+          "step_budget": 10000,
+          "expected": [{ "integer": { "value": 1, "type": { "bits": 32, "signed": true } } }],
+          "expected_status": "returned",
+          "observe_returned": true
+        }
+      ],
+      "maximum_calls": 3,
+      "maximum_total_steps": 5500000,
+      "expected_final": [{ "integer": { "value": 1, "type": { "bits": 32, "signed": true } } }],
+      "expected_final_status": "returned"
+    },
+    {
+      "id": "out-of-distribution-abstains",
+      "steps": [
+        {
+          "id": "train",
+          "target": { "module": "mnel.one_step", "function": "train_artifact" },
+          "arguments": [],
+          "step_budget": 5000000,
+          "expected_status": "returned"
+        },
+        {
+          "id": "infer",
+          "target": { "module": "mnel.one_step", "function": "infer" },
+          "arguments": [
+            { "previous_result": { "step_id": "train", "result_index": 0 } },
+            {
+              "literal": {
+                "record": {
+                  "type_identity": "mncs:0.2:record-type:mnel.one_step::InferenceInput::context_observation_count%3Ai32%3Bfeatures%3AFeatureVector%3Brequest_identity%3Au64%3Bsource_observation_identity%3Au64%3Btarget_role_identity%3Au64%3Bteacher_generation_identity%3Au64%3B",
+                  "name": "InferenceInput",
+                  "fields": [
+                    ["context_observation_count", { "integer": { "value": 1, "type": { "bits": 32, "signed": true } } }],
+                    ["features", { "record": {
+                      "type_identity": "mncs:0.2:record-type:mnel.one_step::FeatureVector::a%3Ai32%3Bb%3Ai32%3Bc%3Ai32%3Bd%3Ai32%3Bschema_identity%3Au64%3B",
+                      "name": "FeatureVector",
+                      "fields": [
+                        ["a", { "integer": { "value": 1000, "type": { "bits": 32, "signed": true } } }],
+                        ["b", { "integer": { "value": -1000, "type": { "bits": 32, "signed": true } } }],
+                        ["c", { "integer": { "value": 1000, "type": { "bits": 32, "signed": true } } }],
+                        ["d", { "integer": { "value": -1000, "type": { "bits": 32, "signed": true } } }],
+                        ["schema_identity", { "integer": { "value": 1001, "type": { "bits": 64, "signed": false } } }]
+                      ]
+                    } }],
+                    ["request_identity", { "integer": { "value": 8002, "type": { "bits": 64, "signed": false } } }],
+                    ["source_observation_identity", { "integer": { "value": 9002, "type": { "bits": 64, "signed": false } } }],
+                    ["target_role_identity", { "integer": { "value": 7001, "type": { "bits": 64, "signed": false } } }],
+                    ["teacher_generation_identity", { "integer": { "value": 2001, "type": { "bits": 64, "signed": false } } }]
+                  ]
+                }
+              }
+            }
+          ],
+          "step_budget": 500000,
+          "expected_status": "returned",
+          "observe_returned": true
+        },
+        {
+          "id": "decision-code",
+          "target": { "module": "mnel.one_step", "function": "decision_code" },
+          "arguments": [{ "previous_result": { "step_id": "infer", "result_index": 0 } }],
+          "step_budget": 10000,
+          "expected": [{ "integer": { "value": 0, "type": { "bits": 32, "signed": true } } }],
+          "expected_status": "returned",
+          "observe_returned": true
+        }
+      ],
+      "maximum_calls": 3,
+      "maximum_total_steps": 5500000,
+      "expected_final": [{ "integer": { "value": 0, "type": { "bits": 32, "signed": true } } }],
+      "expected_final_status": "returned"
+    },
+    {
+      "id": "generation-mismatch-abstains",
+      "steps": [
+        {
+          "id": "train",
+          "target": { "module": "mnel.one_step", "function": "train_artifact" },
+          "arguments": [],
+          "step_budget": 5000000,
+          "expected_status": "returned"
+        },
+        {
+          "id": "infer",
+          "target": { "module": "mnel.one_step", "function": "infer" },
+          "arguments": [
+            { "previous_result": { "step_id": "train", "result_index": 0 } },
+            {
+              "literal": {
+                "record": {
+                  "type_identity": "mncs:0.2:record-type:mnel.one_step::InferenceInput::context_observation_count%3Ai32%3Bfeatures%3AFeatureVector%3Brequest_identity%3Au64%3Bsource_observation_identity%3Au64%3Btarget_role_identity%3Au64%3Bteacher_generation_identity%3Au64%3B",
+                  "name": "InferenceInput",
+                  "fields": [
+                    ["context_observation_count", { "integer": { "value": 1, "type": { "bits": 32, "signed": true } } }],
+                    ["features", { "record": {
+                      "type_identity": "mncs:0.2:record-type:mnel.one_step::FeatureVector::a%3Ai32%3Bb%3Ai32%3Bc%3Ai32%3Bd%3Ai32%3Bschema_identity%3Au64%3B",
+                      "name": "FeatureVector",
+                      "fields": [
+                        ["a", { "integer": { "value": 900, "type": { "bits": 32, "signed": true } } }],
+                        ["b", { "integer": { "value": 820, "type": { "bits": 32, "signed": true } } }],
+                        ["c", { "integer": { "value": 760, "type": { "bits": 32, "signed": true } } }],
+                        ["d", { "integer": { "value": 880, "type": { "bits": 32, "signed": true } } }],
+                        ["schema_identity", { "integer": { "value": 1001, "type": { "bits": 64, "signed": false } } }]
+                      ]
+                    } }],
+                    ["request_identity", { "integer": { "value": 8003, "type": { "bits": 64, "signed": false } } }],
+                    ["source_observation_identity", { "integer": { "value": 9003, "type": { "bits": 64, "signed": false } } }],
+                    ["target_role_identity", { "integer": { "value": 7001, "type": { "bits": 64, "signed": false } } }],
+                    ["teacher_generation_identity", { "integer": { "value": 9999, "type": { "bits": 64, "signed": false } } }]
+                  ]
+                }
+              }
+            }
+          ],
+          "step_budget": 500000,
+          "expected_status": "returned",
+          "observe_returned": true
+        },
+        {
+          "id": "decision-code",
+          "target": { "module": "mnel.one_step", "function": "decision_code" },
+          "arguments": [{ "previous_result": { "step_id": "infer", "result_index": 0 } }],
+          "step_budget": 10000,
+          "expected": [{ "integer": { "value": 0, "type": { "bits": 32, "signed": true } } }],
+          "expected_status": "returned",
+          "observe_returned": true
+        }
+      ],
+      "maximum_calls": 3,
+      "maximum_total_steps": 5500000,
+      "expected_final": [{ "integer": { "value": 0, "type": { "bits": 32, "signed": true } } }],
+      "expected_final_status": "returned"
+    },
+    {
+      "id": "schema-mismatch-abstains",
+      "steps": [
+        {
+          "id": "train",
+          "target": { "module": "mnel.one_step", "function": "train_artifact" },
+          "arguments": [],
+          "step_budget": 5000000,
+          "expected_status": "returned"
+        },
+        {
+          "id": "infer",
+          "target": { "module": "mnel.one_step", "function": "infer" },
+          "arguments": [
+            { "previous_result": { "step_id": "train", "result_index": 0 } },
+            {
+              "literal": {
+                "record": {
+                  "type_identity": "mncs:0.2:record-type:mnel.one_step::InferenceInput::context_observation_count%3Ai32%3Bfeatures%3AFeatureVector%3Brequest_identity%3Au64%3Bsource_observation_identity%3Au64%3Btarget_role_identity%3Au64%3Bteacher_generation_identity%3Au64%3B",
+                  "name": "InferenceInput",
+                  "fields": [
+                    ["context_observation_count", { "integer": { "value": 1, "type": { "bits": 32, "signed": true } } }],
+                    ["features", { "record": {
+                      "type_identity": "mncs:0.2:record-type:mnel.one_step::FeatureVector::a%3Ai32%3Bb%3Ai32%3Bc%3Ai32%3Bd%3Ai32%3Bschema_identity%3Au64%3B",
+                      "name": "FeatureVector",
+                      "fields": [
+                        ["a", { "integer": { "value": 900, "type": { "bits": 32, "signed": true } } }],
+                        ["b", { "integer": { "value": 820, "type": { "bits": 32, "signed": true } } }],
+                        ["c", { "integer": { "value": 760, "type": { "bits": 32, "signed": true } } }],
+                        ["d", { "integer": { "value": 880, "type": { "bits": 32, "signed": true } } }],
+                        ["schema_identity", { "integer": { "value": 9999, "type": { "bits": 64, "signed": false } } }]
+                      ]
+                    } }],
+                    ["request_identity", { "integer": { "value": 8004, "type": { "bits": 64, "signed": false } } }],
+                    ["source_observation_identity", { "integer": { "value": 9004, "type": { "bits": 64, "signed": false } } }],
+                    ["target_role_identity", { "integer": { "value": 7001, "type": { "bits": 64, "signed": false } } }],
+                    ["teacher_generation_identity", { "integer": { "value": 2001, "type": { "bits": 64, "signed": false } } }]
+                  ]
+                }
+              }
+            }
+          ],
+          "step_budget": 500000,
+          "expected_status": "returned",
+          "observe_returned": true
+        },
+        {
+          "id": "decision-code",
+          "target": { "module": "mnel.one_step", "function": "decision_code" },
+          "arguments": [{ "previous_result": { "step_id": "infer", "result_index": 0 } }],
+          "step_budget": 10000,
+          "expected": [{ "integer": { "value": 0, "type": { "bits": 32, "signed": true } } }],
+          "expected_status": "returned",
+          "observe_returned": true
+        }
+      ],
+      "maximum_calls": 3,
+      "maximum_total_steps": 5500000,
+      "expected_final": [{ "integer": { "value": 0, "type": { "bits": 32, "signed": true } } }],
+      "expected_final_status": "returned"
+    }
+  ]
+}

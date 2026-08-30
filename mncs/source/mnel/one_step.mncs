@@ -1,0 +1,551 @@
+mncs 0.10;
+
+// MNCS-native one-step specialist vertical slice.
+//
+// This is a semantic model object, not a line-by-line Python translation. It
+// uses bounded fixed-point integer arithmetic so every executable backend has
+// the same declared domain. The student is a two-hidden-unit affine model
+// with a hard-tanh activation, deterministic seeded initialization, bounded
+// state transitions for training, and explicit diagnostic routing metadata.
+// It never emits a verifier verdict or promotion authority.
+module mnel.one_step;
+
+use mncs.core.numeric.v1;
+use mncs.core.random.v1;
+use mncs.core.vector.v1;
+
+enum TargetStatus { VERIFIED, REJECTED_TEACHER, UNKNOWN, ABSTENTION }
+enum Authority { DIAGNOSTIC_ONLY }
+
+record FeatureVector {
+    schema_identity: u64,
+    a: i32,
+    b: i32,
+    c: i32,
+    d: i32,
+}
+
+record TrainingExample {
+    observation_identity: u64,
+    features: FeatureVector,
+    target: i32,
+    status: TargetStatus,
+    teacher_confidence: i32,
+}
+
+record TrainingDataset {
+    source_identity: u64,
+    teacher_generation_identity: u64,
+    teacher_model_identity: u64,
+    feature_schema_identity: u64,
+    examples: [TrainingExample; 8],
+}
+
+record TrainingConfig {
+    seed: u64,
+    epochs: i64,
+    learning_rate: i32,
+    training_code_identity: u64,
+    maximum_epochs: i64,
+}
+
+record ModelState {
+    h0_w0: i32,
+    h0_w1: i32,
+    h0_w2: i32,
+    h0_w3: i32,
+    h0_bias: i32,
+    h1_w0: i32,
+    h1_w1: i32,
+    h1_w2: i32,
+    h1_w3: i32,
+    h1_bias: i32,
+    out0_h0: i32,
+    out0_h1: i32,
+    out0_bias: i32,
+    out1_h0: i32,
+    out1_h1: i32,
+    out1_bias: i32,
+}
+
+record CalibrationEnvelope {
+    minimum_confidence: i32,
+    maximum_distance: i32,
+    calibration_identity: u64,
+}
+
+record StudentArtifact {
+    target_role_identity: u64,
+    teacher_generation_identity: u64,
+    teacher_model_identity: u64,
+    teacher_architecture_identity: u64,
+    teacher_operating_envelope_identity: u64,
+    feature_schema_identity: u64,
+    dataset_identity: u64,
+    distillation_identity: u64,
+    training_spec_identity: u64,
+    training_code_identity: u64,
+    checkpoint_identity: u64,
+    architecture_identity: u64,
+    model_identity: u64,
+    artifact_identity: u64,
+    feature_center: FeatureVector,
+    calibration: CalibrationEnvelope,
+    state: ModelState,
+    accepted_training_count: i32,
+    retained_observation_count: i32,
+    authority: Authority,
+}
+
+record InferenceInput {
+    request_identity: u64,
+    target_role_identity: u64,
+    teacher_generation_identity: u64,
+    context_observation_count: i32,
+    source_observation_identity: u64,
+    features: FeatureVector,
+}
+
+record StudentDecision {
+    request_identity: u64,
+    target_role_identity: u64,
+    teacher_generation_identity: u64,
+    student_model_identity: u64,
+    artifact_identity: u64,
+    calibration_identity: u64,
+    decision_code: i32,
+    confidence: i32,
+    abstained: bool,
+    out_of_distribution: bool,
+    fallback_required: bool,
+    learned_forward_passes: i32,
+    preprocessing_operations: i32,
+    inference_operations: i32,
+    source_observation_identity: u64,
+    authority: Authority,
+}
+
+fn feature(a: i32, b: i32, c: i32, d: i32) -> (result: FeatureVector) {
+    return FeatureVector {
+        schema_identity: 1001,
+        a: a,
+        b: b,
+        c: c,
+        d: d,
+    };
+}
+
+fn example(
+    observation_identity: u64,
+    features: FeatureVector,
+    target: i32,
+    status: TargetStatus,
+    teacher_confidence: i32
+) -> (result: TrainingExample) {
+    return TrainingExample {
+        observation_identity: observation_identity,
+        features: features,
+        target: target,
+        status: status,
+        teacher_confidence: teacher_confidence,
+    };
+}
+
+// Six independently accepted targets are eligible for training. The rejected
+// and UNKNOWN observations remain in the retained dataset but are never fed
+// to an optimizer transition.
+fn training_dataset() -> (result: TrainingDataset) {
+    let examples: [TrainingExample; 8] = [
+        example(1101, feature(900, 820, 760, 880), 1, TargetStatus.VERIFIED, 950),
+        example(1102, feature(820, 760, 700, 800), 1, TargetStatus.VERIFIED, 940),
+        example(1103, feature(760, 700, 660, 720), 1, TargetStatus.VERIFIED, 900),
+        example(1104, feature(700, 740, 720, 760), 1, TargetStatus.VERIFIED, 880),
+        example(1201, feature(120, 180, 160, 100), 0 - 1, TargetStatus.VERIFIED, 940),
+        example(1202, feature(220, 120, 180, 160), 0 - 1, TargetStatus.VERIFIED, 900),
+        example(1301, feature(900, 820, 760, 880), 0 - 1, TargetStatus.REJECTED_TEACHER, 950),
+        example(1401, feature(640, 620, 600, 580), 0, TargetStatus.UNKNOWN, 0),
+    ];
+    return TrainingDataset {
+        source_identity: 3001,
+        teacher_generation_identity: 2001,
+        teacher_model_identity: 2002,
+        feature_schema_identity: 1001,
+        examples: examples,
+    };
+}
+
+fn training_config() -> (result: TrainingConfig) {
+    return TrainingConfig {
+        seed: 17,
+        epochs: 8,
+        learning_rate: 120,
+        training_code_identity: 4001,
+        maximum_epochs: 8,
+    };
+}
+
+fn abs_i32(value: i32) -> (result: i32) {
+    if value < 0 {
+        return 0 - value;
+    }
+    return value;
+}
+
+fn class_code(score: i32) -> (result: i32) {
+    if score >= 0 {
+        return 1;
+    }
+    return 2;
+}
+
+fn min_i32(left: i32, right: i32) -> (result: i32) {
+    if left < right {
+        return left;
+    }
+    return right;
+}
+
+fn max_i32(left: i32, right: i32) -> (result: i32) {
+    if left > right {
+        return left;
+    }
+    return right;
+}
+
+fn is_verified(status: TargetStatus) -> (result: bool) {
+    return match status {
+        VERIFIED => true,
+        REJECTED_TEACHER => false,
+        UNKNOWN => false,
+        ABSTENTION => false,
+    };
+}
+
+fn is_not_verified(status: TargetStatus) -> (result: bool) {
+    if is_verified(status) {
+        return false;
+    }
+    return true;
+}
+
+// Bounded fixed-point hard-tanh, with Q=1000. This is the native nonlinear
+// activation used by both training and the one learned inference pass.
+fn hard_tanh_q(value: i32) -> (result: i32) {
+    if value < 0 - 1000 {
+        return 0 - 1000;
+    }
+    if value > 1000 {
+        return 1000;
+    }
+    return value;
+}
+
+fn dot4_q(a0: i32, a1: i32, a2: i32, a3: i32,
+    b0: i32, b1: i32, b2: i32, b3: i32) -> (result: i32) {
+    let raw: i32 = dot4_wrap(a0, a1, a2, a3, b0, b1, b2, b3);
+    return raw / 1000;
+}
+
+fn dot2_q(a0: i32, a1: i32, b0: i32, b1: i32) -> (result: i32) {
+    return ((a0 *% b0) / 1000) +% ((a1 *% b1) / 1000);
+}
+
+fn hidden0(state: ModelState, features: FeatureVector) -> (result: i32) {
+    let raw: i32 = dot4_q(
+        state.h0_w0, state.h0_w1, state.h0_w2, state.h0_w3,
+        features.a, features.b, features.c, features.d
+    ) +% state.h0_bias;
+    return hard_tanh_q(raw);
+}
+
+fn hidden1(state: ModelState, features: FeatureVector) -> (result: i32) {
+    let raw: i32 = dot4_q(
+        state.h1_w0, state.h1_w1, state.h1_w2, state.h1_w3,
+        features.a, features.b, features.c, features.d
+    ) +% state.h1_bias;
+    return hard_tanh_q(raw);
+}
+
+// The output is a bounded margin: positive means relevant, negative means
+// irrelevant. Confidence is the absolute fixed-point margin.
+fn score_q(state: ModelState, features: FeatureVector) -> (result: i32) {
+    let h0: i32 = hidden0(state, features);
+    let h1: i32 = hidden1(state, features);
+    let positive: i32 = dot2_q(state.out0_h0, state.out0_h1, h0, h1) +% state.out0_bias;
+    let negative: i32 = dot2_q(state.out1_h0, state.out1_h1, h0, h1) +% state.out1_bias;
+    return hard_tanh_q(positive -% negative);
+}
+
+fn initial_weight(seed: u64, index: u64) -> (result: i32) {
+    let stream: u64 = derive(seed, index);
+    let draw: BoundedDraw = lcg_next_bounded(stream, 101);
+    return (draw.value as i32) - 50;
+}
+
+fn initial_state(seed: u64) -> (result: ModelState) {
+    return ModelState {
+        h0_w0: initial_weight(seed, 0),
+        h0_w1: initial_weight(seed, 1),
+        h0_w2: initial_weight(seed, 2),
+        h0_w3: initial_weight(seed, 3),
+        h0_bias: initial_weight(seed, 4),
+        h1_w0: initial_weight(seed, 5),
+        h1_w1: initial_weight(seed, 6),
+        h1_w2: initial_weight(seed, 7),
+        h1_w3: initial_weight(seed, 8),
+        h1_bias: initial_weight(seed, 9),
+        out0_h0: initial_weight(seed, 10),
+        out0_h1: initial_weight(seed, 11),
+        out0_bias: initial_weight(seed, 12),
+        out1_h0: initial_weight(seed, 13),
+        out1_h1: initial_weight(seed, 14),
+        out1_bias: initial_weight(seed, 15),
+    };
+}
+
+fn update_example(state: ModelState, item: TrainingExample, learning_rate: i32)
+    -> (result: ModelState) {
+    if is_not_verified(item.status) {
+        return state;
+    }
+    let h0: i32 = hidden0(state, item.features);
+    let h1: i32 = hidden1(state, item.features);
+    let score: i32 = score_q(state, item.features);
+    let desired: i32 = item.target *% 1000;
+    let error: i32 = desired -% score;
+    let step: i32 = (error *% learning_rate) / 1000;
+    let out_delta0: i32 = (step *% h0) / 1000;
+    let out_delta1: i32 = (step *% h1) / 1000;
+    let hidden_error0: i32 = (step *% (state.out0_h0 -% state.out1_h0)) / 1000;
+    let hidden_error1: i32 = (step *% (state.out0_h1 -% state.out1_h1)) / 1000;
+    return ModelState {
+        ..state,
+        h0_w0: state.h0_w0 +% (hidden_error0 *% item.features.a) / 1000,
+        h0_w1: state.h0_w1 +% (hidden_error0 *% item.features.b) / 1000,
+        h0_w2: state.h0_w2 +% (hidden_error0 *% item.features.c) / 1000,
+        h0_w3: state.h0_w3 +% (hidden_error0 *% item.features.d) / 1000,
+        h0_bias: state.h0_bias +% hidden_error0,
+        h1_w0: state.h1_w0 +% (hidden_error1 *% item.features.a) / 1000,
+        h1_w1: state.h1_w1 +% (hidden_error1 *% item.features.b) / 1000,
+        h1_w2: state.h1_w2 +% (hidden_error1 *% item.features.c) / 1000,
+        h1_w3: state.h1_w3 +% (hidden_error1 *% item.features.d) / 1000,
+        h1_bias: state.h1_bias +% hidden_error1,
+        out0_h0: state.out0_h0 +% out_delta0,
+        out0_h1: state.out0_h1 +% out_delta1,
+        out0_bias: state.out0_bias +% step,
+        out1_h0: state.out1_h0 -% out_delta0,
+        out1_h1: state.out1_h1 -% out_delta1,
+        out1_bias: state.out1_bias -% step,
+    };
+}
+
+fn train_epoch(dataset: TrainingDataset, state: ModelState, learning_rate: i32)
+    -> (result: ModelState) {
+    let examples: [TrainingExample; 8] = dataset.examples;
+    iterate i over examples carrying current: ModelState = state {
+        next current = update_example(current, examples[i], learning_rate);
+    }
+    return current;
+}
+
+// Training is a bounded state transition. The fixed eight-epoch envelope is
+// part of this source slice's semantics; the requested and maximum epoch
+// values are retained in the training identity and must remain within it.
+fn train_state(dataset: TrainingDataset, config: TrainingConfig) -> (result: ModelState) {
+    let initial: ModelState = initial_state(config.seed);
+    iterate epochs up_to 8 carrying state: ModelState = initial {
+        let trained: ModelState = train_epoch(dataset, state, config.learning_rate);
+        next state = trained;
+    }
+    return state;
+}
+
+fn feature_center(dataset: TrainingDataset) -> (result: FeatureVector) {
+    let e: [TrainingExample; 8] = dataset.examples;
+    let count: i32 = 6;
+    let a: i32 = (e[0].features.a +% e[1].features.a +% e[2].features.a
+        +% e[3].features.a +% e[4].features.a +% e[5].features.a) / count;
+    let b: i32 = (e[0].features.b +% e[1].features.b +% e[2].features.b
+        +% e[3].features.b +% e[4].features.b +% e[5].features.b) / count;
+    let c: i32 = (e[0].features.c +% e[1].features.c +% e[2].features.c
+        +% e[3].features.c +% e[4].features.c +% e[5].features.c) / count;
+    let d: i32 = (e[0].features.d +% e[1].features.d +% e[2].features.d
+        +% e[3].features.d +% e[4].features.d +% e[5].features.d) / count;
+    return feature(a, b, c, d);
+}
+
+fn distance(features: FeatureVector, center: FeatureVector) -> (result: i32) {
+    return abs_i32(features.a -% center.a) +% abs_i32(features.b -% center.b)
+        +% abs_i32(features.c -% center.c) +% abs_i32(features.d -% center.d);
+}
+
+fn calibration_envelope(state: ModelState, center: FeatureVector)
+    -> (result: CalibrationEnvelope) {
+    let heldout0: FeatureVector = feature(780, 740, 700, 760);
+    let heldout1: FeatureVector = feature(720, 700, 680, 720);
+    let heldout2: FeatureVector = feature(160, 220, 120, 180);
+    let heldout3: FeatureVector = feature(260, 180, 220, 200);
+    let c0: i32 = abs_i32(score_q(state, heldout0));
+    let c1: i32 = abs_i32(score_q(state, heldout1));
+    let c2: i32 = abs_i32(score_q(state, heldout2));
+    let c3: i32 = abs_i32(score_q(state, heldout3));
+    let minimum: i32 = max_i32(200, min_i32(min_i32(c0, c1), min_i32(c2, c3)) -% 50);
+    let radius: i32 = max_i32(
+        max_i32(distance(heldout0, center), distance(heldout1, center)),
+        max_i32(distance(heldout2, center), distance(heldout3, center))
+    ) +% 200;
+    let minimum_identity: u64 = minimum as u64;
+    let radius_identity: u64 = radius as u64;
+    let calibration_base: u64 = 5001;
+    return CalibrationEnvelope {
+        minimum_confidence: minimum,
+        maximum_distance: radius,
+        calibration_identity: calibration_base +% minimum_identity +% radius_identity,
+    };
+}
+
+fn fold_state(state: ModelState) -> (result: u64) {
+    let a: u64 = (state.h0_w0 as u64) *% 31 +% (state.h0_w1 as u64);
+    let b: u64 = a *% 31 +% (state.h0_w2 as u64);
+    let c: u64 = b *% 31 +% (state.h0_w3 as u64);
+    let d: u64 = c *% 31 +% (state.h0_bias as u64);
+    let e: u64 = d *% 31 +% (state.h1_w0 as u64);
+    let f: u64 = e *% 31 +% (state.h1_w1 as u64);
+    let g: u64 = f *% 31 +% (state.h1_w2 as u64);
+    let h: u64 = g *% 31 +% (state.h1_w3 as u64);
+    let i: u64 = h *% 31 +% (state.h1_bias as u64);
+    let j: u64 = i *% 31 +% (state.out0_h0 as u64);
+    let k: u64 = j *% 31 +% (state.out0_h1 as u64);
+    let l: u64 = k *% 31 +% (state.out0_bias as u64);
+    let m: u64 = l *% 31 +% (state.out1_h0 as u64);
+    let n: u64 = m *% 31 +% (state.out1_h1 as u64);
+    return n *% 31 +% (state.out1_bias as u64);
+}
+
+fn artifact_fingerprint(
+    model_identity: u64,
+    dataset_identity: u64,
+    calibration_identity: u64,
+    checkpoint_identity: u64
+) -> (result: u64) {
+    return (((model_identity *% 31) +% dataset_identity) *% 31 +% calibration_identity)
+        *% 31 +% checkpoint_identity;
+}
+
+fn train_artifact() -> (result: StudentArtifact) {
+    let dataset: TrainingDataset = training_dataset();
+    let config: TrainingConfig = training_config();
+    let state: ModelState = train_state(dataset, config);
+    let center: FeatureVector = feature_center(dataset);
+    let calibration: CalibrationEnvelope = calibration_envelope(state, center);
+    let dataset_identity: u64 = dataset.source_identity *% 31 +% dataset.feature_schema_identity;
+    let distillation_identity: u64 = dataset.teacher_model_identity *% 31
+        +% dataset.teacher_generation_identity;
+    let training_spec_identity: u64 = config.training_code_identity *% 31
+        +% (config.epochs as u64) *% 31 +% (config.learning_rate as u64);
+    let checkpoint_identity: u64 = fold_state(state) *% 31 +% (config.epochs as u64);
+    let architecture_identity: u64 = 6065;
+    let model_identity: u64 = fold_state(state) *% 31 +% architecture_identity;
+    let artifact_identity: u64 = artifact_fingerprint(
+        model_identity, dataset_identity, calibration.calibration_identity, checkpoint_identity
+    );
+    return StudentArtifact {
+        target_role_identity: 7001,
+        teacher_generation_identity: dataset.teacher_generation_identity,
+        teacher_model_identity: dataset.teacher_model_identity,
+        teacher_architecture_identity: 7002,
+        teacher_operating_envelope_identity: 7003,
+        feature_schema_identity: dataset.feature_schema_identity,
+        dataset_identity: dataset_identity,
+        distillation_identity: distillation_identity,
+        training_spec_identity: training_spec_identity,
+        training_code_identity: config.training_code_identity,
+        checkpoint_identity: checkpoint_identity,
+        architecture_identity: architecture_identity,
+        model_identity: model_identity,
+        artifact_identity: artifact_identity,
+        feature_center: center,
+        calibration: calibration,
+        state: state,
+        accepted_training_count: 6,
+        retained_observation_count: 8,
+        authority: Authority.DIAGNOSTIC_ONLY,
+    };
+}
+
+fn abstain(
+    artifact: StudentArtifact,
+    input: InferenceInput,
+    confidence: i32,
+    out_of_distribution: bool,
+    learned_forward_passes: i32
+) -> (result: StudentDecision) {
+    return StudentDecision {
+        request_identity: input.request_identity,
+        target_role_identity: artifact.target_role_identity,
+        teacher_generation_identity: artifact.teacher_generation_identity,
+        student_model_identity: artifact.model_identity,
+        artifact_identity: artifact.artifact_identity,
+        calibration_identity: artifact.calibration.calibration_identity,
+        decision_code: 0,
+        confidence: confidence,
+        abstained: true,
+        out_of_distribution: out_of_distribution,
+        fallback_required: true,
+        learned_forward_passes: learned_forward_passes,
+        preprocessing_operations: 5,
+        inference_operations: 0,
+        source_observation_identity: input.source_observation_identity,
+        authority: Authority.DIAGNOSTIC_ONLY,
+    };
+}
+
+// Exactly one native learned evaluation occurs only after all deterministic
+// envelope and lineage gates pass. The teacher is not called here: the
+// fallback_required field is the explicit hand-off to the MNEL control plane.
+fn infer(artifact: StudentArtifact, input: InferenceInput) -> (result: StudentDecision) {
+    if input.features.schema_identity != artifact.feature_schema_identity {
+        return abstain(artifact, input, 0, false, 0);
+    }
+    if input.target_role_identity != artifact.target_role_identity {
+        return abstain(artifact, input, 0, false, 0);
+    }
+    if input.teacher_generation_identity != artifact.teacher_generation_identity {
+        return abstain(artifact, input, 0, false, 0);
+    }
+    if input.context_observation_count < 0 || input.context_observation_count > 16 {
+        return abstain(artifact, input, 0, false, 0);
+    }
+    let query_distance: i32 = distance(input.features, artifact.feature_center);
+    if query_distance > artifact.calibration.maximum_distance {
+        return abstain(artifact, input, 0, true, 0);
+    }
+    let score: i32 = score_q(artifact.state, input.features);
+    let confidence: i32 = abs_i32(score);
+    if confidence < artifact.calibration.minimum_confidence {
+        return abstain(artifact, input, confidence, false, 1);
+    }
+    let inference_operations: i32 = 21;
+    return StudentDecision {
+        request_identity: input.request_identity,
+        target_role_identity: artifact.target_role_identity,
+        teacher_generation_identity: artifact.teacher_generation_identity,
+        student_model_identity: artifact.model_identity,
+        artifact_identity: artifact.artifact_identity,
+        calibration_identity: artifact.calibration.calibration_identity,
+        decision_code: class_code(score),
+        confidence: confidence,
+        abstained: false,
+        out_of_distribution: false,
+        fallback_required: false,
+        learned_forward_passes: 1,
+        preprocessing_operations: 5,
+        inference_operations: inference_operations,
+        source_observation_identity: input.source_observation_identity,
+        authority: Authority.DIAGNOSTIC_ONLY,
+    };
+}
+
+fn decision_code(decision: StudentDecision) -> (result: i32) {
+    return decision.decision_code;
+}

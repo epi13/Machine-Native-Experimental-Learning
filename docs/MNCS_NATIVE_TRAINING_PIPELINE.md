@@ -287,11 +287,23 @@ MNEL
 Some components may move downward over time. For example, tensor operations may prove
 sufficiently general to belong in the standard library rather than MNEL.
 
-The first one-step distilled specialist implementation intentionally remains in MNEL's
-Python/reference-runtime layer. It uses a dependency-free bounded numerical trainer and
-identity-bound JSON artifacts while MNCS-native training representation and semantic
-closure remain future work. No new MNCS syntax, compiler behavior, backend lowering, or
-standard-library primitive is required by this reference slice.
+The first one-step distilled specialist still has a Python/reference-runtime study, but
+the repository now also contains a real bounded MNCS-native vertical slice at
+`mncs/source/mnel/one_step.mncs`. It constructs and retains eight observations (six
+`VERIFIED`, one `REJECTED_TEACHER`, and one `UNKNOWN`), updates a fixed-point i32 model
+for eight bounded epochs using six accepted rows, emits an identity-bound artifact and
+calibration envelope, and executes stateful `train_artifact -> infer -> decision_code`
+cases. The native inference path enforces schema, role, generation, context, and OOD
+gates before at most one learned forward pass; every result is explicitly
+`DIAGNOSTIC_ONLY` and carries fallback metadata.
+
+The native corpus is exercised through research bytecode, portable WASM MVP, LLVM IR,
+C11, and Cranelift. The checked-in evidence records cross-backend agreement over that
+finite corpus, the Python teacher/control comparison, compiler `UNKNOWN` status where
+checked-arithmetic obligations remain, and operation counts. It does not claim semantic
+equivalence, conformance, production suitability, or wall-clock speed. This slice is a
+semantic pressure test and a migration foothold; the Python study remains the
+independent reference/control surface while broader MNCS training closure remains open.
 
 ## Backend boundary
 
@@ -413,13 +425,21 @@ Keep existing Python/native reference trainers where necessary, but move the can
 training specification into an MNCS-consumable schema with complete identities for data,
 transforms, model configuration, optimization, evaluation, and artifacts.
 
-The external trainer becomes an adapter executing an MNCS-described run.
+The external trainer becomes an adapter executing an MNCS-described run. The native
+one-step slice has started this phase by recording dataset, teacher generation, feature
+schema, distillation, training, checkpoint, architecture, calibration, and artifact
+identities in the executable model object.
 
 ### Phase 2 — MNCS-native dataset construction and evaluation
 
 Move dataset composition, filtering, transformations, partitioning, evaluation, and hard
 promotion criteria into MNCS-facing implementations. These are high-value provenance
 surfaces and provide broadly reusable standard-library pressure.
+
+The one-step slice implements a bounded first case: dataset retention, status-aware
+training eligibility, lineage/schema gates, calibration/OOD checks, and explicit
+abstention/fallback are executable. General partitioning, evaluation suites, and
+promotion gates are not closed by this fixture.
 
 ### Phase 3 — MNCS training primitives
 
@@ -437,15 +457,28 @@ Introduce the minimum primitives necessary to express model execution and traini
 Do not assume every model requires automatic differentiation. Classical and compact
 models should use the smallest suitable mechanism.
 
+The current native specialist deliberately uses model-specific fixed-point updates and
+does not claim automatic differentiation, general tensors, or a general optimizer
+surface. It is a bounded micro-model training primitive, not a complete ML runtime.
+
 ### Phase 4 — backend lowering
 
 Lower MNCS training graphs to available CPU, accelerator, and external numerical
 backends while preserving semantic identity and execution evidence.
 
+The first slice has been replayed across five executable backends. Lower-layer fixes
+made under this pressure include domain-separated random splitting, preserved unsigned
+constant bit patterns, and a generated Cranelift host trampoline for declared calls with
+more than six scalar parameters. These close specific finite fixtures; they do not
+establish broad backend conformance.
+
 ### Phase 5 — native micro-model training
 
 Move selected MNEL micro-models completely off Python where doing so reduces dependency,
 context, memory, startup, or provenance costs without weakening correctness.
+
+The native one-step specialist is the first diagnostic-only candidate, not an admitted
+replacement for the Python teacher.
 
 Use these migrations to discover missing language and standard-library capabilities.
 
