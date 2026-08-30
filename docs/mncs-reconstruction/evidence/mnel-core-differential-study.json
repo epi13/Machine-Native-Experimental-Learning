@@ -41,16 +41,22 @@
   },
   {
    "backend": "mncs-portable-wasm-mvp",
-   "outcome": "corpus-executed",
+   "outcome": "backend-refused-out-of-envelope",
    "summary": {
     "exit_code": 1,
-    "cases_total": 172,
-    "cases_met": 167,
-    "experiment_status": "FAIL",
-    "unresolved_reasons": [
-     "compilation retained required unresolved obligations"
-    ]
-   }
+    "compilation_status": "completed_with_unresolved_obligations"
+   },
+   "refusal_diagnostics": [
+    {
+     "code": "CGN301",
+     "message": "selected SSA is outside the portable WASM MVP subset"
+    },
+    {
+     "code": "CGN302",
+     "message": "mncs:0.4:ssa:function:314a5a6299f7a1dcf5476b6ec78c0fad66f2613b88d315f8ead95dd2bf3009ee: constant does not fit in wasm i64"
+    }
+   ],
+   "interpretation": "fail-closed envelope refusal; absence of execution is not disagreement"
   }
  ],
  "comparison_status": "MISMATCH_DETECTED",
@@ -79,31 +85,6 @@
    "backend": "mncs-research-bytecode",
    "case_id": "experiment-unknown-verdict-stays-provisional",
    "failure_reason": "argument count does not match SSA inputs"
-  },
-  {
-   "backend": "mncs-portable-wasm-mvp",
-   "case_id": "experiment-fail-verdict",
-   "failure_reason": "backend request violates the language-owned value contract"
-  },
-  {
-   "backend": "mncs-portable-wasm-mvp",
-   "case_id": "experiment-pass-supported-transfer",
-   "failure_reason": "backend request violates the language-owned value contract"
-  },
-  {
-   "backend": "mncs-portable-wasm-mvp",
-   "case_id": "experiment-pass-untested-transfer",
-   "failure_reason": "backend request violates the language-owned value contract"
-  },
-  {
-   "backend": "mncs-portable-wasm-mvp",
-   "case_id": "experiment-rejected-plan",
-   "failure_reason": "backend request violates the language-owned value contract"
-  },
-  {
-   "backend": "mncs-portable-wasm-mvp",
-   "case_id": "experiment-unknown-verdict-stays-provisional",
-   "failure_reason": "backend request violates the language-owned value contract"
   }
  ],
  "non_claims": [
