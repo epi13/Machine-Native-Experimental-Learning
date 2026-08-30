@@ -52,6 +52,13 @@ conventional neural-weight training.
 > unattended model execution, protected final custody, formal
 > MNCS/MNCDS conformance, or automatic RAVEL promotion.
 
+The first one-step distillation reference is also implemented for the
+`forge.evidence-relevance` role. It records bounded recurrent teacher observations,
+independently checked fixture targets, a tiny affine/tanh student, a no-distillation
+control, explicit calibration/OOD abstention, and lineage-bound teacher fallback. The
+reference is experimental and diagnostic-only; its measurements do not show that the
+student is faster end-to-end or ready to replace the teacher.
+
 The repository also contains a dependency-aware MNCS-family integration reference:
 `mnel family-integration-reference` exposes a Forge Provider Protocol 0.1 adapter, validates
 pinned Forge/Fabric/Commons/RAVEL/Language compatibility shapes, executes a bounded local
@@ -83,6 +90,17 @@ mnel recurrent-specialist-reference --workspace examples/recurrent-specialists
 
 These artifacts are diagnostic-only and do not issue verifier results, permissions,
 trust, or promotion decisions.
+
+Run the one-step distilled specialist reference with:
+
+```bash
+mnel one-step-specialist-reference --workspace examples/one-step-specialists
+```
+
+The checked-in example contains the recurrent teacher, distilled student and control
+artifacts, retained distillation records, and measured study report. A successful
+student call records one learned forward pass; preprocessing, calibration, OOD checks,
+and recurrent fallback are measured outside that boundary.
 
 ## Core rule
 
@@ -158,6 +176,10 @@ copy their authority or silently create substitute implementations.
 - `mnel distill-reference`, a no-network held-out study that writes an evidence ledger
   and exercises controls, hidden-transfer access, strategy transfer, and a tiny
   reloadable transition-frequency learned provider. Its observations remain diagnostic.
+- `mnel one-step-specialist-reference`, a no-network study that distills the bounded
+  recurrent Forge relevance teacher into a one-pass affine/tanh student, compares a
+  classical nearest-centroid baseline and a same-architecture no-distillation control,
+  and records explicit abstention/fallback measurements.
 - `mnel provider-study-reference`, a no-network heterogeneous portfolio study that trains
   a transition-frequency provider and a structurally different tabular nearest-centroid
   provider, calibrates and reloads both, compares seeded-random and heuristic controls,

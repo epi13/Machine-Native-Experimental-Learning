@@ -53,6 +53,31 @@ A learned result is a diagnostic observation. Agreement among several models doe
 become a verifier verdict. Disagreement is preserved because the pattern of disagreement
 may be more useful than a vote.
 
+## One-step distilled specialist reference
+
+MNEL now contains an experimental one-step reference for `forge.evidence-relevance`.
+The bounded recurrent specialist is the teacher: its provider/model/generation,
+operating-envelope, context-state, query, decision, confidence, iterations, operations,
+and decision identity are retained in `mnel-distillation-record/0.1` records. A fixture
+label is accepted independently only for the checked-in deterministic reference cases;
+teacher rejections, unknown targets, and teacher abstentions remain retained but are not
+converted into positive training rows.
+
+The student is a dependency-free affine/tanh/softmax model. After bounded feature
+preparation it performs one learned forward evaluation and emits a structured diagnostic
+proposal with calibrated confidence. Low confidence, OOD distance, and incompatible
+context cause `ABSTAIN`; the runtime records that abstention before explicitly invoking
+the lineage-compatible recurrent teacher as fallback. The student cannot emit verifier,
+evaluator, conformance, permission, trust, promotion, or verdict authority.
+
+`mnel one-step-specialist-reference` compares the iterative teacher, the one-step
+student, a deterministic nearest-centroid baseline, and a same-architecture control
+trained only from direct fixture labels. It reports correctness against independent
+fixture targets, false accepts, abstentions, OOD behavior, disagreements, model/artifact
+size, operations, one-pass counts, cold/warm latency, preprocessing cost, and escalated
+end-to-end latency. The current synthetic study deliberately does not claim a speed or
+accuracy win.
+
 ## Registry contract
 
 Every declaration identifies:

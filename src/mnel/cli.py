@@ -22,6 +22,7 @@ from .learned_providers import (
     LearnedProviderQuery,
     OutputKind,
 )
+from .one_step_specialist import build_one_step_reference_artifacts
 from .provider_study import run_reference_portfolio_study
 from .recurrent_specialist import build_reference_artifacts
 
@@ -91,6 +92,11 @@ def parser() -> argparse.ArgumentParser:
         description="Train and measure the bounded recurrent specialist reference artifacts",
     )
     recurrent_reference.add_argument("--workspace", default="examples/recurrent-specialists")
+    one_step_reference = commands.add_parser(
+        "one-step-specialist-reference",
+        description="Train and measure the one-step distilled specialist reference study",
+    )
+    one_step_reference.add_argument("--workspace", default="examples/one-step-specialists")
     fabric_run = commands.add_parser(
         "fabric-run",
         description="Dispatch an operator-supplied fixed-argv plan through remote Fabric",
@@ -182,6 +188,9 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.command == "recurrent-specialist-reference":
         print(json.dumps(build_reference_artifacts(args.workspace), indent=2, sort_keys=True))
+        return 0
+    if args.command == "one-step-specialist-reference":
+        print(json.dumps(build_one_step_reference_artifacts(args.workspace), indent=2, sort_keys=True))
         return 0
     if args.command == "fabric-run":
         try:

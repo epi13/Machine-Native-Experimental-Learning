@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/epi13/Machine-Native-Experimental-Learning/schemas/mnel-distillation-dataset.schema.json",
+  "title": "MNEL source-preserving one-step distillation dataset",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "target_role", "teacher_provider_identity", "teacher_model_identity",
+    "teacher_generation_identity", "teacher_architecture_identity",
+    "teacher_operating_envelope_identity", "observations", "training_observation_identities",
+    "training_targets", "transform_identity", "authority", "semantics", "dataset_identity",
+    "distillation_identity"
+  ],
+  "properties": {
+    "schema": {"const": "mnel-distillation-dataset/0.1"},
+    "target_role": {"type": "string", "minLength": 1},
+    "teacher_provider_identity": {"type": "string", "minLength": 1},
+    "teacher_model_identity": {"$ref": "#/$defs/identity"},
+    "teacher_generation_identity": {"$ref": "#/$defs/identity"},
+    "teacher_architecture_identity": {"$ref": "#/$defs/identity"},
+    "teacher_operating_envelope_identity": {"$ref": "#/$defs/identity"},
+    "observations": {"type": "array", "minItems": 1, "maxItems": 128, "items": {"type": "object"}},
+    "training_observation_identities": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/identity"}},
+    "training_targets": {"type": "array", "minItems": 1, "items": {"type": "object"}},
+    "transform_identity": {"$ref": "#/$defs/identity"},
+    "authority": {"const": "diagnostic-only"},
+    "semantics": {"const": "source-preserving-distillation-dataset; verified-target-filtered; not-a-verdict"},
+    "dataset_identity": {"$ref": "#/$defs/identity"},
+    "distillation_identity": {"$ref": "#/$defs/identity"}
+  },
+  "$defs": {"identity": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}}
+}

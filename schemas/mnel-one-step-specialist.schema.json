@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/epi13/Machine-Native-Experimental-Learning/schemas/mnel-one-step-specialist.schema.json",
+  "title": "MNEL one-step distilled specialist artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "provider_id", "provider_abi", "target_role",
+    "teacher_provider_identity", "teacher_model_identity", "teacher_generation_identity",
+    "teacher_architecture_identity", "teacher_operating_envelope_identity",
+    "architecture_identity", "architecture", "training_code_identity",
+    "training_dataset_identity", "distillation_identity", "training_spec_identity",
+    "checkpoint_identity", "calibration_identity", "operating_envelope", "class_labels",
+    "input_weights", "hidden_bias", "output_weights", "output_bias", "feature_center",
+    "training_record_ids", "source_observation_identities", "authority", "semantics",
+    "model_identity", "artifact_identity"
+  ],
+  "properties": {
+    "schema": {"const": "mnel-one-step-specialist-artifact/0.1"},
+    "provider_id": {"const": "mnel-one-step-distilled-specialist/0.1"},
+    "provider_abi": {"const": "mnel-specialist-provider-abi/0.1"},
+    "target_role": {"type": "string", "minLength": 1},
+    "teacher_provider_identity": {"type": "string", "minLength": 1},
+    "teacher_model_identity": {"$ref": "#/$defs/identity"},
+    "teacher_generation_identity": {"$ref": "#/$defs/identity"},
+    "teacher_architecture_identity": {"$ref": "#/$defs/identity"},
+    "teacher_operating_envelope_identity": {"$ref": "#/$defs/identity"},
+    "architecture_identity": {"$ref": "#/$defs/identity"},
+    "architecture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "input_dimensions", "hidden_width", "output_dimensions", "learned_forward_passes", "context_state", "reasoning_state"],
+      "properties": {
+        "kind": {"const": "tiny-affine-tanh"},
+        "input_dimensions": {"const": 4},
+        "hidden_width": {"const": 4},
+        "output_dimensions": {"type": "integer", "minimum": 2, "maximum": 8},
+        "learned_forward_passes": {"const": 1},
+        "context_state": {"const": "persistent-derived-summary"},
+        "reasoning_state": {"const": "none-after-preparation"}
+      }
+    },
+    "training_code_identity": {"$ref": "#/$defs/identity"},
+    "training_dataset_identity": {"$ref": "#/$defs/identity"},
+    "distillation_identity": {"$ref": "#/$defs/identity"},
+    "training_spec_identity": {"$ref": "#/$defs/identity"},
+    "checkpoint_identity": {"$ref": "#/$defs/identity"},
+    "calibration_identity": {"$ref": "#/$defs/identity"},
+    "operating_envelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["minimum_confidence", "maximum_distance", "maximum_query_abs", "maximum_context_observations", "envelope_identity"],
+      "properties": {
+        "minimum_confidence": {"type": "integer", "minimum": 0, "maximum": 1000},
+        "maximum_distance": {"type": "integer", "minimum": 1},
+        "maximum_query_abs": {"type": "integer", "minimum": 1, "maximum": 1000},
+        "maximum_context_observations": {"type": "integer", "minimum": 1, "maximum": 32},
+        "envelope_identity": {"$ref": "#/$defs/identity"}
+      }
+    },
+    "class_labels": {"type": "array", "minItems": 2, "maxItems": 8, "items": {"type": "string", "minLength": 1}},
+    "input_weights": {"$ref": "#/$defs/matrix4x4"},
+    "hidden_bias": {"$ref": "#/$defs/vector4"},
+    "output_weights": {"type": "array", "minItems": 2, "maxItems": 8, "items": {"$ref": "#/$defs/vector4"}},
+    "output_bias": {"type": "array", "minItems": 2, "maxItems": 8, "items": {"type": "number"}},
+    "feature_center": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"type": "integer", "minimum": -1000, "maximum": 1000}},
+    "training_record_ids": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/identity"}},
+    "source_observation_identities": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/identity"}},
+    "authority": {"const": "diagnostic-only"},
+    "semantics": {"const": "identity-bound-one-step-learned-specialist; diagnostic-only; not-a-verdict"},
+    "model_identity": {"$ref": "#/$defs/identity"},
+    "artifact_identity": {"$ref": "#/$defs/identity"}
+  },
+  "$defs": {
+    "identity": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "vector4": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"type": "number"}},
+    "matrix4x4": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"$ref": "#/$defs/vector4"}}
+  }
+}
