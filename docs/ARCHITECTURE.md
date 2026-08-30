@@ -71,6 +71,36 @@ admitted provider reusable, while its placement policy may select CPU, full CUDA
 sequential CPU offload. The latter keeps weights in system RAM and temporarily executes
 modules on CUDA; it does not reload a provider for each query. Placement decisions are
 resource-accounted and diagnostic, never evaluator decisions.
+#### One-step distilled specialists
+
+A one-step distilled specialist is a training and deployment pattern for a learned
+micro-provider, not a new authority plane or evaluator. A bounded iterative teacher—such
+as a larger model, a multi-pass analyzer, or an expensive optimizer—may produce candidate
+traces for a narrow question. After those traces are independently checked, a compact
+student can learn:
+
+```text
+identity-bound snapshot + query + constraints
+                         |
+                         v
+       one learned forward pass
+                         |
+                         v
+structured proposal / diagnostic score + confidence + abstention
+```
+
+"One step" bounds learned inference after snapshot construction; it does not remove
+deterministic preprocessing, policy validation, Forge probes, or escalation. It is
+appropriate when a rich input representation strongly constrains the answer. The
+iterative path remains the fallback for novelty, ambiguity, long-horizon work, or
+abstention.
+
+The teacher supplies candidate training behavior, not truth. MNEL records teacher,
+student, distillation, feature, calibration, artifact, and evaluation identities, and
+measures end-to-end snapshot cost, cold/warm latency, useful downstream probes, transfer,
+and abstention. The student remains diagnostic-only until a separately governed consumer
+admits it; it cannot issue evaluator results, conformance, promotion, or permissions.
+
 
 ### Bounded Forge-oriented diagnostic lifecycle
 
