@@ -5,6 +5,7 @@ __pycache__/
 build/
 target/
 workspace/
+.joern-agent/
 dist/
 .pytest_cache/
 .ruff_cache/
