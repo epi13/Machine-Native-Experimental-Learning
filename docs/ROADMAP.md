@@ -93,7 +93,9 @@
   otherwise the study records unavailable rather than estimating;
 - non-Rust native exception studies with benchmark and threat-review identities;
 - hidden-transfer admission, quarantine, retirement, and rollback workflows;
-- optional small proposer-model distillation from verified traces.
+- optional small proposer-model distillation from verified traces, including one-step
+  students measured against iterative teachers, deterministic baselines, and explicit
+  abstention/escalation paths.
 
 ## 0.5 — MNCS Fabric execution
 

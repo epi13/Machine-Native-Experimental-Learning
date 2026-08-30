@@ -124,6 +124,47 @@ A learned ranking router may later order already-compatible declarations, but it
 expand authority, access hidden partitions, bypass cost ceilings, or invoke an
 undeclared provider.
 
+## One-step/distilled specialists
+
+One-step distillation is a provider pattern that compresses a bounded iterative procedure
+into one learned forward pass over a prepared, identity-bound representation. The
+iterative procedure may be a general-model interaction, a multi-pass analyzer, a search
+or optimization loop, or another expensive teacher. The student is useful when the
+snapshot, query, and constraints already narrow the valid answer space.
+
+The pattern is:
+
+```text
+teacher: rich snapshot + bounded question
+           -> iterative candidate trace
+           -> independent checks / useful labels
+student: rich snapshot + bounded question + constraints
+           -> one forward pass
+           -> structured proposal, score, or next-probe ranking
+           -> calibrated confidence or ABSTAIN
+```
+
+The one-pass boundary applies to learned inference after feature and snapshot
+construction. It does not remove deterministic normalization, schema and policy checks,
+Forge verification, or escalation. A student must retain the iterative or general-model
+path as a fallback for novelty, ambiguity, long-horizon work, and out-of-distribution
+inputs.
+
+This is not a new architecture family in the catalog. It is a deployment and training
+pattern that can apply to a transition predictor, graph model, sequence model, anomaly
+detector, pair model, tabular model, or bounded router. The teacher's output is a
+candidate training target, not an authority claim; teacher traces must retain their
+identities and any independent evaluator or witness evidence. The student's declaration
+and observation must additionally identify the teacher/procedure, distillation transform,
+target interpretation, fallback, calibration, and abstention policy.
+
+Admission should compare the student with the iterative teacher, a deterministic or
+classical baseline, and a no-distillation control under equal budgets. It should report
+end-to-end snapshot construction separately from one-pass inference, along with cold and
+warm latency, useful confirmed Forge probes, calibration, abstention, out-of-distribution
+behavior, hidden transfer, and false accepts. A lower forward-pass latency is not a
+system-level win if representation construction, escalation, or verification erases it.
+
 ## Deterministic matching and diversity selection
 
 A query declares one or more uncertainty classes and may constrain artifact types,

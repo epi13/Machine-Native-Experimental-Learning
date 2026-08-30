@@ -337,6 +337,42 @@ mnel.train
 That creates an opportunity for resident micro-models whose training and execution are
 both lightweight, reproducible, and deeply integrated with MNCS evidence.
 
+### Distillation and one-step inference
+
+For a narrow MNEL specialist, distillation may turn an expensive iterative teacher into a
+single learned forward pass:
+
+```text
+teacher: identity-bound evidence + bounded question
+           -> multi-step reasoning, analysis, search, or optimization
+           -> candidate trace
+student: same declared input envelope
+           -> one learned forward pass
+           -> structured output + calibration + abstention
+```
+
+This is an execution property of the student, not a claim that the student has recovered
+the teacher's reasoning or that one pass is sufficient for every input. Snapshot
+construction, feature extraction, normalization, schema validation, deterministic policy,
+Forge probes, and escalation remain separate operations.
+
+An MNCS-owned training graph should represent the distillation boundary explicitly:
+
+- teacher model or procedure identity and version;
+- eligible teacher traces and source observation identities;
+- target construction and distillation-transform identity;
+- student architecture, objective, initialization, and resource envelope;
+- calibration, abstention threshold, fallback, and escalation policy;
+- independent evaluation, hidden-transfer, and no-distillation control identities;
+- checkpoint, quantization, packaging, and final artifact identities; and
+- lineage edges connecting the deployed student to its source evidence.
+
+Teacher outputs are candidate targets, not automatically true labels. Independent witnesses,
+evaluators, and hard gates retain their existing authority. MNEL owns the provider's
+declaration, study, diagnostic observation, and routing/escalation contract; MNCS should
+eventually own the canonical training semantics and lineage for the distillation itself.
+Until then, an external trainer may execute an MNCS-described run as a backend adapter.
+
 ## Language stress-test value
 
 Building this pipeline should be treated as a deliberate stress test for `mncs-language`
